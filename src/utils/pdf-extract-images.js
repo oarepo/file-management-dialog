@@ -193,7 +193,7 @@ export default async function extractPdfImages(pdfBytes) {
         imageType: image.type,
       };
       // images.push(imageObj);
-      self.postMessage(imageObj);
+      self.postMessage(imageObj, [imageObj.imageData.buffer]);
     }
   }
 
