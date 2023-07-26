@@ -4,10 +4,7 @@ import react from '@vitejs/plugin-react'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  optimizeDeps: {
-    needsInterop: ["pdf-img-convert"]
+  worker: {
+    format: "es",
   },
-  // worker: {
-  //   format: "es",
-  // },
 })

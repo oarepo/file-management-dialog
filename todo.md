@@ -26,3 +26,15 @@ Implement React file-input based component, that:
     - https://www.npmjs.com/package/pdf-img-convert
     - https://www.npmjs.com/package/pdf-extractor
 3. What's the metadata of a image? (caption, page, size, type, name, ...)
+
+
+Bugs:
+Computer-organization-and-design.pdf:
+```
+Uncaught (in promise) TypeError: Cannot read properties of undefined (reading '0')
+    at pdf-extract-images.js:146:49
+    at new Promise (<anonymous>)
+    at savePng (pdf-extract-images.js:106:5)
+    at Module.extractPdfImages (pdf-extract-images.js:189:27)
+    at async self.onmessage (extract-images-worker.js?type=classic&worker_file:6:3)
+```

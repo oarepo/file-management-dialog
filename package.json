@@ -15,7 +15,9 @@
     "pdf-lib": "^1.17.1",
     "pngjs": "^7.0.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "semantic-ui-css": "^2.5.0",
+    "semantic-ui-react": "^2.1.4"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",

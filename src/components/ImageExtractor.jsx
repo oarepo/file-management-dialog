@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { Button, Image, Input } from "semantic-ui-react";
 
 const ImageExtractor = () => {
   const isProcessing = useRef(false);
@@ -58,9 +59,9 @@ const ImageExtractor = () => {
 
   return (
     <>
-      <input type="file" onChange={handleFileChange} />
+      <Input type="file" onChange={handleFileChange} />
       <div>{file && `${file.name} - ${file.type}`}</div>
-      <button onClick={handleUploadClick}>Upload</button>
+      <Button onClick={handleUploadClick}>Upload</Button>
       <div
         style={{
           display: "grid",
@@ -69,16 +70,8 @@ const ImageExtractor = () => {
         }}
       >
         {images.map((imageSrc) => {
-          // const imageSrc = URL.createObjectURL(
-          //   new Blob([image.imageData], { type: `image/${image.imageType}` })
-          // );
-          // const onLoad = (img) => {
-          //   if (!img) return;
-          //   img.onload = () => URL.revokeObjectURL(imageSrc);
-          //   if (img.complete) URL.revokeObjectURL(imageSrc);
-          // };
           return (
-            <img
+            <Image
               src={imageSrc}
               key={imageSrc}
               width="50%"
@@ -87,9 +80,9 @@ const ImageExtractor = () => {
           );
         })}
       </div>
-      <button value={clickCount} onClick={() => setClickCount(clickCount + 1)}>
+      <Button value={clickCount} onClick={() => setClickCount(clickCount + 1)}>
         {clickCount}
-      </button>
+      </Button>
     </>
   );
 };
