@@ -1,5 +1,14 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Button, Card, Input, Label, Icon } from "semantic-ui-react";
+import {
+  Button,
+  Card,
+  Input,
+  Label,
+  Icon,
+  Container,
+  Grid,
+  Divider,
+} from "semantic-ui-react";
 import ImageCard from "./ImageCard";
 
 const ImageExtractor = () => {
@@ -7,7 +16,6 @@ const ImageExtractor = () => {
 
   const [file, setFile] = useState(null);
   const [images, setImages] = useState([]);
-  const [clickCount, setClickCount] = useState(0);
 
   const extractImageWorker = useMemo(
     () =>
@@ -76,38 +84,52 @@ const ImageExtractor = () => {
   return (
     <>
       {/* <label htmlFor="file-upload">PDF UPLOAD</label> */}
-      <Input
-        type="file"
-        accept=".pdf, .jpg, .jpeg, .png, .tiff"
-        multiple
-        name="file-upload"
-        label={
-          <Label basic>
-            <Icon name="file pdf" /> File Upload (.png, .jpg, .jpeg, .png,
-            .tiff)
-          </Label>
-        }
-        onChange={handleFileChange}
-      />
-      <div>{file && `${file.name} - ${file.type}`}</div>
-      <Button primary onClick={handleUploadClick}>
-        Upload
-      </Button>
-      <Card.Group centered textAlign="center" doubling>
-        {images.map((image) => {
-          return (
-            <ImageCard image={image} setImages={setImages} key={image.src} />
-          );
-        })}
-      </Card.Group>
-      <br />
-      <Button
-        primary
-        value={clickCount}
-        onClick={() => setClickCount(clickCount + 1)}
-      >
-        {clickCount}
-      </Button>
+      <Grid verticalAlign="middle" style={{ height: "100vh" }}>
+        <Grid.Column textAlign="center">
+          <Grid.Row>
+            <Input
+              type="file"
+              accept=".pdf, .jpg, .jpeg, .png, .tiff"
+              multiple
+              name="file-upload"
+              label={
+                <Label basic>
+                  <Icon name="file pdf" /> File Upload (.pdf, .jpg, .jpeg, .png,
+                  .tiff)
+                </Label>
+              }
+              onChange={handleFileChange}
+            />
+          </Grid.Row>
+          {file && (
+            <>
+              <Divider hidden />
+              <Grid.Row>{`${file.name} - ${file.type}`}</Grid.Row>
+            </>
+          )}
+          <Grid.Row>
+            <Divider hidden />
+            <Button primary onClick={handleUploadClick}>
+              Upload
+            </Button>
+          </Grid.Row>
+        </Grid.Column>
+      </Grid>
+      {images && images.length > 0 && (
+        <Container fluid>
+          <Card.Group centered textAlign="center" doubling>
+            {images.map((image) => {
+              return (
+                <ImageCard
+                  image={image}
+                  setImages={setImages}
+                  key={image.src}
+                />
+              );
+            })}
+          </Card.Group>
+        </Container>
+      )}
     </>
   );
 };
