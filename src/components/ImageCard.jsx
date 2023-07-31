@@ -1,22 +1,38 @@
 import { Card, Image, Input, Label, Icon } from "semantic-ui-react";
 import PropTypes from "prop-types";
 
+// If the image is the only one selected, then unselect it and do not star it
+// If there's no image selected, then select it and star it
 const ImageCard = ({ image, setImages, ...props }) => {
   const handleImageSelect = () => {
-    setImages((images) =>
-      images.map((img) => {
+    setImages((images) => {
+      const selectedImages = images.filter((img) => img.isSelected);
+      if (selectedImages.length === 1 && selectedImages[0].src === image.src) {
+        return images.map((img) => {
+          if (img.src === image.src) {
+            return { ...img, isSelected: !img.isSelected, isStarred: false };
+          }
+          return img;
+        });
+      }
+      return images.map((img) => {
         if (img.src === image.src) {
-          return { ...img, isSelected: !img.isSelected };
+          return {
+            ...img,
+            isSelected: !img.isSelected,
+            isStarred: selectedImages.length === 0 ? true : false,
+          };
         }
         return img;
-      })
-    );
+      });
+    });
   };
 
   // Check if the image there is only one image starred
   // If this is the only one starred, then do not unstar it
   // If another image is starred, then unstar the previous one and star this one
   // If no image is starred, then star it
+  // If this image is not yet selected, then select it as well
   const handleImageStar = () => {
     setImages((images) => {
       const starredImages = images.filter((img) => img.isStarred);
@@ -25,7 +41,7 @@ const ImageCard = ({ image, setImages, ...props }) => {
       }
       return images.map((img) => {
         if (img.src === image.src) {
-          return { ...img, isStarred: !img.isStarred };
+          return { ...img, isStarred: !img.isStarred, isSelected: true };
         }
         return { ...img, isStarred: false };
       });
@@ -55,7 +71,15 @@ const ImageCard = ({ image, setImages, ...props }) => {
               size="large"
               corner="left"
               color={image.isSelected ? "green" : null}
-              icon={<Icon name={image.isSelected ? "check square outline" : "square outline"} size="big" link />}
+              icon={
+                <Icon
+                  name={
+                    image.isSelected ? "check square outline" : "square outline"
+                  }
+                  size="big"
+                  link
+                />
+              }
               onClick={handleImageSelect}
             />
             <Label
@@ -63,7 +87,13 @@ const ImageCard = ({ image, setImages, ...props }) => {
               size="large"
               corner="right"
               color={image.isStarred ? "yellow" : null}
-              icon={<Icon name={image.isStarred ? "star" : "star outline"} size="big" link />}
+              icon={
+                <Icon
+                  name={image.isStarred ? "star" : "star outline"}
+                  size="big"
+                  link
+                />
+              }
               onClick={handleImageStar}
             />
           </Label.Group>
@@ -71,7 +101,11 @@ const ImageCard = ({ image, setImages, ...props }) => {
         src={image.src}
       />
       <Card.Content>
-        <Input fluid placeholder="Image Caption" onChange={handleCaptionChange} />
+        <Input
+          fluid
+          placeholder="Image Caption"
+          onChange={handleCaptionChange}
+        />
       </Card.Content>
     </Card>
   );

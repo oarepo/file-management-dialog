@@ -38,7 +38,11 @@ const ImageExtractor = () => {
         };
         setImages((images) => [
           ...images,
-          { ...imageObj, isStarred: images.length === 0 ? true : false },
+          {
+            ...imageObj,
+            isSelected: images.length === 0 ? true : false,
+            isStarred: images.length === 0 ? true : false,
+          },
         ]);
       };
     } else {
