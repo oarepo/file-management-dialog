@@ -30,7 +30,16 @@ const ImageExtractor = () => {
             type: `image/${event.data.imageType}`,
           })
         );
-        setImages((images) => [...images, imageSrc]);
+        const imageObj = {
+          src: imageSrc,
+          caption: "",
+          isSelected: false,
+          isStarred: false,
+        };
+        setImages((images) => [
+          ...images,
+          { ...imageObj, isStarred: images.length === 0 ? true : false },
+        ]);
       };
     } else {
       console.log("Web Worker is not supported");
@@ -53,7 +62,7 @@ const ImageExtractor = () => {
       extractImageWorker.postMessage(data, [data]);
       isProcessing.current = true;
       // Revoke and Set
-      images.forEach((imageSrc) => URL.revokeObjectURL(imageSrc));
+      images.forEach((image) => URL.revokeObjectURL(image.src));
       setImages([]);
     } else {
       console.log("Web Worker is not supported");
@@ -81,8 +90,10 @@ const ImageExtractor = () => {
         Upload
       </Button>
       <Card.Group centered textAlign="center" doubling>
-        {images.map((imageSrc) => {
-          return <ImageCard src={imageSrc} key={imageSrc} />;
+        {images.map((image) => {
+          return (
+            <ImageCard image={image} setImages={setImages} key={image.src} />
+          );
         })}
       </Card.Group>
       <br />
