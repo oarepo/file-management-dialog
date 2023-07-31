@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Button, Image, Input } from "semantic-ui-react";
+import { Button, Card, Input, Label, Icon } from "semantic-ui-react";
+import ImageCard from "./ImageCard";
 
 const ImageExtractor = () => {
   const isProcessing = useRef(false);
@@ -25,7 +26,9 @@ const ImageExtractor = () => {
         }
         console.log(event.data);
         const imageSrc = URL.createObjectURL(
-          new Blob([event.data.imageData], { type: `image/${event.data.imageType}` })
+          new Blob([event.data.imageData], {
+            type: `image/${event.data.imageType}`,
+          })
         );
         setImages((images) => [...images, imageSrc]);
       };
@@ -59,28 +62,35 @@ const ImageExtractor = () => {
 
   return (
     <>
-      <Input type="file" onChange={handleFileChange} />
+      {/* <label htmlFor="file-upload">PDF UPLOAD</label> */}
+      <Input
+        type="file"
+        accept=".pdf, .jpg, .jpeg, .png, .tiff"
+        multiple
+        name="file-upload"
+        label={
+          <Label basic>
+            <Icon name="file pdf" /> File Upload (.png, .jpg, .jpeg, .png,
+            .tiff)
+          </Label>
+        }
+        onChange={handleFileChange}
+      />
       <div>{file && `${file.name} - ${file.type}`}</div>
-      <Button onClick={handleUploadClick}>Upload</Button>
-      <div
-        style={{
-          display: "grid",
-          gridColumnGap: "10px",
-          gridRowGap: "10px",
-        }}
-      >
+      <Button primary onClick={handleUploadClick}>
+        Upload
+      </Button>
+      <Card.Group centered textAlign="center" doubling>
         {images.map((imageSrc) => {
-          return (
-            <Image
-              src={imageSrc}
-              key={imageSrc}
-              width="50%"
-              style={{ display: "inline-block" }}
-            />
-          );
+          return <ImageCard src={imageSrc} key={imageSrc} />;
         })}
-      </div>
-      <Button value={clickCount} onClick={() => setClickCount(clickCount + 1)}>
+      </Card.Group>
+      <br />
+      <Button
+        primary
+        value={clickCount}
+        onClick={() => setClickCount(clickCount + 1)}
+      >
         {clickCount}
       </Button>
     </>
