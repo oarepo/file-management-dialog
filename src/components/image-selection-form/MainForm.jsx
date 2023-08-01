@@ -1,20 +1,22 @@
-import { useState, useCallback } from "react";
-import ImageExtractor from "./ImageExtractor";
+import { useState } from "react";
+import FileSelectDialog from "./FileSelectDialog";
 import ImageSelection from "./ImageSelection";
 
 const MainForm = () => {
   const [step, setStep] = useState(1);
   const [images, setImages] = useState([]);
 
-  const nextStep = useCallback(() => setStep(step + 1), [step]);
-  const prevStep = () => setStep(step - 1);
-
-  
+  const nextStep = () => setStep(step + 1);
+  const prevStep = () => {
+    setStep(step - 1);
+    images.forEach((image) => URL.revokeObjectURL(image.src));
+    setImages([]);
+  };
 
   switch (step) {
     case 1:
       return (
-        <ImageExtractor
+        <FileSelectDialog
           images={images}
           setImages={setImages}
           nextStep={nextStep}

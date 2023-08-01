@@ -186,7 +186,12 @@ export default async function extractPdfImages(pdfBytes) {
       if (image.type === "jpg") {
         imageData = image.data;
       } else {
-        imageData = await savePng(image);
+        try {
+          imageData = await savePng(image);
+        } catch (e) {
+          console.error(e);
+          continue;
+        }
       }
       const imageObj = {
         imageData: imageData,

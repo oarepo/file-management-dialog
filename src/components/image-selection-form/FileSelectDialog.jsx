@@ -4,7 +4,7 @@ import useWorker from "../../utils/useWorker";
 import useRefContext from "../../utils/useRefContext";
 import PropTypes from "prop-types";
 
-const ImageExtractor = ({ images, setImages, nextStep }) => {
+const FileSelectDialog = ({ images, setImages, nextStep }) => {
   const extractImageWorker = useWorker();
   const isProcessing = useRefContext();
 
@@ -15,6 +15,10 @@ const ImageExtractor = ({ images, setImages, nextStep }) => {
       extractImageWorker.onmessage = (event) => {
         if (event.data === "done") {
           isProcessing.current = false;
+          return;
+        } else if (event.data === "error") {
+          isProcessing.current = false;
+          alert("There was an error when finding images.");
           return;
         }
         console.log(event.data);
@@ -39,18 +43,66 @@ const ImageExtractor = ({ images, setImages, nextStep }) => {
         ]);
         nextStep();
       };
+      // Handle errors (never fires)
+      extractImageWorker.onerror = (event) => {
+        isProcessing.current = false;
+        alert("Error: " + event.message);
+      };
     } else {
       console.log("Web Worker is not supported");
     }
   }, [extractImageWorker, setImages, nextStep, isProcessing]);
 
   const handleFileChange = (e) => {
+    // Revoke and Set
+    if (images && images.length > 0) {
+      images.forEach((image) => URL.revokeObjectURL(image.src));
+      setImages([]);
+    }
+    // Handle (one) .pdf and multiple images (jpg, jpeg, png, tiff) only
     if (e.target.files.length === 0) return;
-    setFile(e.target.files[0]);
+    else if (e.target.files.length === 1) {
+      const file = e.target.files[0];
+      if (file.type !== "application/pdf" && !file.type.startsWith("image/")) {
+        alert("File is not a pdf or image, please try again.");
+        return;
+      }
+    } else {
+      for (let i = 0; i < e.target.files.length; i++) {
+        if (!e.target.files[i].type.startsWith("image/")) {
+          alert("Multiple files must be images, please try again.");
+          return;
+        }
+      }
+    }
+    // Set .pdf or images
+    const file = e.target.files[0];
+    if (file.type === "application/pdf") {
+      setFile(e.target.files[0]);
+    } else {
+      const newImages = [];
+      for (let i = 0; i < e.target.files.length; i++) {
+        const imageSrc = URL.createObjectURL(e.target.files[i]);
+        newImages.push({
+          src: imageSrc,
+          caption: "",
+          isSelected: false,
+          isStarred: false,
+        });
+      }
+      setImages(newImages);
+    }
   };
 
   const handleUploadClick = async () => {
-    if (!file) return;
+    if (!file) {
+      if (images.length === 0) {
+        alert("No file selected.");
+      } else {
+        nextStep();
+      }
+      return;
+    }
     if (window.Worker) {
       if (isProcessing.current) {
         console.log("Still processing previous file.");
@@ -102,7 +154,7 @@ const ImageExtractor = ({ images, setImages, nextStep }) => {
   );
 };
 
-ImageExtractor.propTypes = {
+FileSelectDialog.propTypes = {
   images: PropTypes.arrayOf(
     PropTypes.shape({
       src: PropTypes.string.isRequired,
@@ -115,4 +167,4 @@ ImageExtractor.propTypes = {
   nextStep: PropTypes.func.isRequired,
 };
 
-export default ImageExtractor;
+export default FileSelectDialog;
