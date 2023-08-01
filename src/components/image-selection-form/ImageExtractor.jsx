@@ -1,19 +1,14 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useState, useEffect } from "react";
 import { Button, Input, Label, Icon, Grid, Divider } from "semantic-ui-react";
+import useWorker from "../../utils/useWorker";
+import useRefContext from "../../utils/useRefContext";
 import PropTypes from "prop-types";
 
 const ImageExtractor = ({ images, setImages, nextStep }) => {
-  const isProcessing = useRef(false);
+  const extractImageWorker = useWorker();
+  const isProcessing = useRefContext();
 
   const [file, setFile] = useState(null);
-
-  const extractImageWorker = useMemo(
-    () =>
-      new Worker(
-        new URL("/src/workers/extract-images-worker.js", import.meta.url)
-      ),
-    []
-  );
 
   useEffect(() => {
     if (window.Worker) {
@@ -47,7 +42,7 @@ const ImageExtractor = ({ images, setImages, nextStep }) => {
     } else {
       console.log("Web Worker is not supported");
     }
-  }, [extractImageWorker, setImages, nextStep]);
+  }, [extractImageWorker, setImages, nextStep, isProcessing]);
 
   const handleFileChange = (e) => {
     if (e.target.files.length === 0) return;

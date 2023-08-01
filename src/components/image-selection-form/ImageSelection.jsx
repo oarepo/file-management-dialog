@@ -7,7 +7,7 @@ const ImageSelection = ({ images, setImages, prevStep }) => {
   // Upload selected images to server
   // Only upload images that are selected and only if there are selected images
   const upload = () => {
-    console.log("upload");
+    alert("Upload");
   };
 
   const getSelectedImagesLength = () => {
