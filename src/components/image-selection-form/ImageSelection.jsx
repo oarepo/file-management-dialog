@@ -3,6 +3,17 @@ import PropTypes from "prop-types";
 import ImageCard from "./ImageCard";
 
 const ImageSelection = ({ images, setImages, prevStep }) => {
+  // TODO: Implement upload
+  // Upload selected images to server
+  // Only upload images that are selected and only if there are selected images
+  const upload = () => {
+    console.log("upload");
+  };
+
+  const getSelectedImagesLength = () => {
+    return images.filter((image) => image.isSelected).length;
+  };
+
   return (
     images &&
     images.length > 0 && (
@@ -23,6 +34,7 @@ const ImageSelection = ({ images, setImages, prevStep }) => {
           </Segment>
           <Segment>
             <Button onClick={prevStep}>Back</Button>
+            <Button onClick={upload}>Upload {getSelectedImagesLength()} images</Button>
           </Segment>
         </Segment.Group>
       </Grid.Column>

@@ -1,0 +1,2873 @@
+{
+    "hits": {
+        "hits": [
+            {
+                "revision_id": 1,
+                "metadata": {
+                    "dateAvailable": "Jan 1, 2001",
+                    "accessibility": "Fulltext is available at the institute of the Academy of Sciences.",
+                    "systemIdentifiers": [
+                        {
+                            "scheme": "nusl",
+                            "identifier": "http://www.nusl.cz/ntk/nusl-34848"
+                        },
+                        {
+                            "scheme": "originalRecordOAI",
+                            "identifier": "oai:asep.lib.cas.cz:CavUnEpca/0410593"
+                        },
+                        {
+                            "scheme": "catalogueSysNo",
+                            "identifier": "0410593"
+                        },
+                        {
+                            "scheme": "nuslOAI",
+                            "identifier": "oai:invenio.nusl.cz:34848"
+                        }
+                    ],
+                    "abstract": [
+                        {
+                            "value": "The contribution deals with a stochastic process which cumulates random increments at random moments. We derive its martingale - compensator decomposition and then we propose the estimator of characteristics of distribution of increments. An application deals with the process of growing damage of a technical device leading to a break of device when cumulated damage exceeds a certain level. We also discuss the problem of prediction of the cumulative process behaviour.",
+                            "lang": "en"
+                        }
+                    ],
+                    "objectIdentifiers": [
+                        {
+                            "scheme": "Handle",
+                            "identifier": "11104/0130682",
+                            "url": "https://hdl.handle.net/11104/0130682"
+                        }
+                    ],
+                    "collection": "ustav_teorie_informace_a_automatizace",
+                    "originalRecord": "http://hdl.handle.net/11104/0130682",
+                    "accessRights": {
+                        "type": "access-rights",
+                        "@v": "b291749a-5356-4cb7-b33f-ea10979a0347::1",
+                        "title": "metadata only access",
+                        "id": "c_14cb"
+                    },
+                    "resourceType": {
+                        "type": "resource-types",
+                        "@v": "10406f79-65da-4ea4-8134-ffe6975a2658::1",
+                        "title": "Conference paper",
+                        "id": "paper"
+                    },
+                    "title": "Statistical models and analysis of cumulated damage processes",
+                    "languages": [
+                        {
+                            "type": "languages",
+                            "@v": "dbaf2715-390f-4bb2-a18d-ef4bdafb705f::1",
+                            "title": "English",
+                            "id": "en"
+                        }
+                    ],
+                    "relatedItems": [
+                        {
+                            "itemTitle": "ROBUST'2000. Sborn\u00edk prac\u00ed jeden\u00e1ct\u00e9 letn\u00ed \u0161koly J\u010cMF"
+                        }
+                    ],
+                    "creators": [
+                        {
+                            "nameType": "nr_metadata.documentsPersonal",
+                            "fullName": "Volf, Petr"
+                        }
+                    ],
+                    "fundingReferences": [
+                        {
+                            "funder": {
+                                "type": "funders",
+                                "@v": "afcd4bb8-bd64-4bcc-95f0-dafac91d2fc9::1",
+                                "title": "Czech Science Foundation",
+                                "id": "GA0"
+                            },
+                            "projectID": "GA402/98/0742"
+                        },
+                        {
+                            "funder": {
+                                "type": "funders",
+                                "@v": "ccf320bd-1ae5-4cd7-895b-0e56eea12d67::1",
+                                "title": "Ministry of Education, Youth and Sports of the Czech Republic",
+                                "id": "MSM"
+                            },
+                            "projectID": "VS97084"
+                        }
+                    ]
+                },
+                "created": "Jun 13, 2023, 4:46:53 PM",
+                "links": {
+                    "self": "dqtnv-4nr48"
+                },
+                "updated": "Jun 13, 2023, 4:46:53 PM",
+                "id": "dqtnv-4nr48"
+            },
+            {
+                "revision_id": 1,
+                "metadata": {
+                    "dateAvailable": "Jan 1, 2001",
+                    "accessibility": "Fulltext is available at the institute of the Academy of Sciences.",
+                    "systemIdentifiers": [
+                        {
+                            "scheme": "nusl",
+                            "identifier": "http://www.nusl.cz/ntk/nusl-34847"
+                        },
+                        {
+                            "scheme": "originalRecordOAI",
+                            "identifier": "oai:asep.lib.cas.cz:CavUnEpca/0410592"
+                        },
+                        {
+                            "scheme": "catalogueSysNo",
+                            "identifier": "0410592"
+                        },
+                        {
+                            "scheme": "nuslOAI",
+                            "identifier": "oai:invenio.nusl.cz:34847"
+                        }
+                    ],
+                    "objectIdentifiers": [
+                        {
+                            "scheme": "Handle",
+                            "identifier": "11104/0130681",
+                            "url": "https://hdl.handle.net/11104/0130681"
+                        }
+                    ],
+                    "collection": "ustav_teorie_informace_a_automatizace",
+                    "contributors": [
+                        {
+                            "fullName": "Vajda, Igor",
+                            "nameType": "nr_metadata.documentsPersonal"
+                        }
+                    ],
+                    "series": [
+                        {
+                            "seriesVolume": "2017",
+                            "seriesTitle": "Research Report"
+                        }
+                    ],
+                    "originalRecord": "http://hdl.handle.net/11104/0130681",
+                    "accessRights": {
+                        "type": "access-rights",
+                        "@v": "b291749a-5356-4cb7-b33f-ea10979a0347::1",
+                        "title": "metadata only access",
+                        "id": "c_14cb"
+                    },
+                    "resourceType": {
+                        "type": "resource-types",
+                        "@v": "8c77bcd5-fd52-46b6-b97f-d2c5cd7d80df::1",
+                        "title": "Research report",
+                        "id": "research"
+                    },
+                    "title": "First Order Theory of M-estimators in General Models with Independent Observations",
+                    "languages": [
+                        {
+                            "type": "languages",
+                            "@v": "dbaf2715-390f-4bb2-a18d-ef4bdafb705f::1",
+                            "title": "English",
+                            "id": "en"
+                        }
+                    ],
+                    "creators": [
+                        {
+                            "nameType": "nr_metadata.documentsPersonal",
+                            "fullName": "Liese, F."
+                        }
+                    ],
+                    "fundingReferences": [
+                        {
+                            "funder": {
+                                "type": "funders",
+                                "@v": "bdb9c1d9-e890-4b53-a912-159f6bc151bc::1",
+                                "title": "Czech Academy of Sciences",
+                                "id": "AV0"
+                            },
+                            "projectID": "IAA1075101"
+                        }
+                    ]
+                },
+                "created": "Jun 13, 2023, 4:46:53 PM",
+                "links": {
+                    "self": "c56qs-4b528"
+                },
+                "updated": "Jun 13, 2023, 4:46:53 PM",
+                "id": "c56qs-4b528"
+            },
+            {
+                "revision_id": 1,
+                "metadata": {
+                    "dateAvailable": "Jan 1, 2001",
+                    "accessibility": "Fulltext is available at the institute of the Academy of Sciences.",
+                    "systemIdentifiers": [
+                        {
+                            "scheme": "nusl",
+                            "identifier": "http://www.nusl.cz/ntk/nusl-34846"
+                        },
+                        {
+                            "scheme": "originalRecordOAI",
+                            "identifier": "oai:asep.lib.cas.cz:CavUnEpca/0410588"
+                        },
+                        {
+                            "scheme": "catalogueSysNo",
+                            "identifier": "0410588"
+                        },
+                        {
+                            "scheme": "nuslOAI",
+                            "identifier": "oai:invenio.nusl.cz:34846"
+                        }
+                    ],
+                    "abstract": [
+                        {
+                            "value": "A new approach to regression analysis is discussed. A list of modern requirements on estimating method is given and explained on examples. An attention is paid to so nontraditional topics as reliability of algorithm etc.",
+                            "lang": "en"
+                        }
+                    ],
+                    "objectIdentifiers": [
+                        {
+                            "scheme": "Handle",
+                            "identifier": "11104/0130677",
+                            "url": "https://hdl.handle.net/11104/0130677"
+                        }
+                    ],
+                    "subjects": [
+                        {
+                            "subject": {
+                                "value": "robust estimators",
+                                "lang": "en"
+                            },
+                            "subjectScheme": "keyword"
+                        },
+                        {
+                            "subject": {
+                                "value": "new paradigm of estimation",
+                                "lang": "en"
+                            },
+                            "subjectScheme": "keyword"
+                        },
+                        {
+                            "subject": {
+                                "value": "high breakdown point",
+                                "lang": "en"
+                            },
+                            "subjectScheme": "keyword"
+                        }
+                    ],
+                    "collection": "ustav_teorie_informace_a_automatizace",
+                    "originalRecord": "http://hdl.handle.net/11104/0130677",
+                    "accessRights": {
+                        "type": "access-rights",
+                        "@v": "b291749a-5356-4cb7-b33f-ea10979a0347::1",
+                        "title": "metadata only access",
+                        "id": "c_14cb"
+                    },
+                    "resourceType": {
+                        "type": "resource-types",
+                        "@v": "10406f79-65da-4ea4-8134-ffe6975a2658::1",
+                        "title": "Conference paper",
+                        "id": "paper"
+                    },
+                    "title": "A new paradigm of point estimation",
+                    "languages": [
+                        {
+                            "type": "languages",
+                            "@v": "dbaf2715-390f-4bb2-a18d-ef4bdafb705f::1",
+                            "title": "English",
+                            "id": "en"
+                        }
+                    ],
+                    "relatedItems": [
+                        {
+                            "itemTitle": "Anal\u00fdza dat 2000/II. Modern\u00ed statistick\u00e9 metody"
+                        }
+                    ],
+                    "creators": [
+                        {
+                            "nameType": "nr_metadata.documentsPersonal",
+                            "fullName": "V\u00ed\u0161ek, Jan \u00c1mos"
+                        }
+                    ]
+                },
+                "created": "Jun 13, 2023, 4:46:53 PM",
+                "links": {
+                    "self": "v9a26-km298"
+                },
+                "updated": "Jun 13, 2023, 4:46:53 PM",
+                "id": "v9a26-km298"
+            },
+            {
+                "revision_id": 1,
+                "metadata": {
+                    "dateAvailable": "Jan 1, 2001",
+                    "accessibility": "Fulltext is available at the institute of the Academy of Sciences.",
+                    "systemIdentifiers": [
+                        {
+                            "scheme": "nusl",
+                            "identifier": "http://www.nusl.cz/ntk/nusl-34845"
+                        },
+                        {
+                            "scheme": "originalRecordOAI",
+                            "identifier": "oai:asep.lib.cas.cz:CavUnEpca/0410569"
+                        },
+                        {
+                            "scheme": "catalogueSysNo",
+                            "identifier": "0410569"
+                        },
+                        {
+                            "scheme": "nuslOAI",
+                            "identifier": "oai:invenio.nusl.cz:34845"
+                        }
+                    ],
+                    "abstract": [
+                        {
+                            "value": "V tomto \u010dl\u00e1nku jsou vysv\u011btleny z\u00e1kladn\u00ed pojmy registrace obraz\u016f a je uveden p\u0159ehled hlavn\u00edch typ\u016f registra\u010dn\u00edch metod.",
+                            "lang": "cs"
+                        },
+                        {
+                            "value": "The basic terminology of the image registration is explained and the overview of the main registration methods is given in our article.",
+                            "lang": "en"
+                        }
+                    ],
+                    "objectIdentifiers": [
+                        {
+                            "scheme": "Handle",
+                            "identifier": "11104/0130658",
+                            "url": "https://hdl.handle.net/11104/0130658"
+                        }
+                    ],
+                    "subjects": [
+                        {
+                            "subject": {
+                                "value": "image registration",
+                                "lang": "en"
+                            },
+                            "subjectScheme": "keyword"
+                        },
+                        {
+                            "subject": {
+                                "value": "registration methods",
+                                "lang": "en"
+                            },
+                            "subjectScheme": "keyword"
+                        }
+                    ],
+                    "collection": "ustav_teorie_informace_a_automatizace",
+                    "contributors": [
+                        {
+                            "fullName": "Zitov\u00e1, Barbara",
+                            "nameType": "nr_metadata.documentsPersonal"
+                        }
+                    ],
+                    "originalRecord": "http://hdl.handle.net/11104/0130658",
+                    "accessRights": {
+                        "type": "access-rights",
+                        "@v": "b291749a-5356-4cb7-b33f-ea10979a0347::1",
+                        "title": "metadata only access",
+                        "id": "c_14cb"
+                    },
+                    "resourceType": {
+                        "type": "resource-types",
+                        "@v": "10406f79-65da-4ea4-8134-ffe6975a2658::1",
+                        "title": "Conference paper",
+                        "id": "paper"
+                    },
+                    "additionalTitles": [
+                        {
+                            "titleType": "nr_metadata.documentstranslatedTitle",
+                            "title": {
+                                "value": "Image registration: now to analyze more images oK the object",
+                                "lang": "en"
+                            }
+                        }
+                    ],
+                    "title": "Registrace obraz\u016f aneb jak vyu\u017e\u00edt v\u00edce r\u016fzn\u00fdch sn\u00edmk\u016f t\u00e9ho\u017e objektu",
+                    "languages": [
+                        {
+                            "type": "languages",
+                            "@v": "fa39c387-836d-4ba8-80fb-ea721f788e03::1",
+                            "title": "Czech",
+                            "id": "cs"
+                        }
+                    ],
+                    "relatedItems": [
+                        {
+                            "itemTitle": "Digit\u00e1ln\u00ed zobrazov\u00e1n\u00ed v biologii a medic\u00edn\u011b 2001"
+                        }
+                    ],
+                    "creators": [
+                        {
+                            "nameType": "nr_metadata.documentsPersonal",
+                            "fullName": "Flusser, Jan"
+                        }
+                    ],
+                    "fundingReferences": [
+                        {
+                            "funder": {
+                                "type": "funders",
+                                "@v": "afcd4bb8-bd64-4bcc-95f0-dafac91d2fc9::1",
+                                "title": "Czech Science Foundation",
+                                "id": "GA0"
+                            },
+                            "projectID": "GA102/01/P065"
+                        }
+                    ]
+                },
+                "created": "Jun 13, 2023, 4:46:53 PM",
+                "links": {
+                    "self": "0ffkw-ztk58"
+                },
+                "updated": "Jun 13, 2023, 4:46:53 PM",
+                "id": "0ffkw-ztk58"
+            },
+            {
+                "revision_id": 1,
+                "metadata": {
+                    "dateAvailable": "Jan 1, 2001",
+                    "accessibility": "Fulltext is available at the institute of the Academy of Sciences.",
+                    "systemIdentifiers": [
+                        {
+                            "scheme": "nusl",
+                            "identifier": "http://www.nusl.cz/ntk/nusl-34844"
+                        },
+                        {
+                            "scheme": "originalRecordOAI",
+                            "identifier": "oai:asep.lib.cas.cz:CavUnEpca/0410567"
+                        },
+                        {
+                            "scheme": "catalogueSysNo",
+                            "identifier": "0410567"
+                        },
+                        {
+                            "scheme": "nuslOAI",
+                            "identifier": "oai:invenio.nusl.cz:34844"
+                        }
+                    ],
+                    "abstract": [
+                        {
+                            "value": "P\u0159i zkoum\u00e1n\u00ed spolehlivosti v\u00fdrobk\u016f \u010di za\u0159\u00edzen\u00ed se zab\u00fdv\u00e1me procesy postupn\u00e9ho opot\u0159eben\u00ed a r\u016fstu po\u0161kozen\u00ed. Sledujeme \u0159adu ud\u00e1lost\u00ed, bu\u010f na za\u0159\u00edzen\u00ed p\u016fsob\u00edc\u00ed (\"\u0161oky\", zm\u011bny zat\u00ed\u017een\u00ed, ale i teploty), nebo \u0159adu d\u00edl\u010d\u00edch poruch a oprav, co\u02d9tak\u00e9 vypov\u00edd\u00e1 o zm\u011bn\u00e1ch stavu za\u0159\u00edzen\u00ed. Pro tyto p\u0159\u00edpady se hod\u00ed modely posloupnost\u00ed ud\u00e1lost\u00ed, nap\u0159. Poisson\u016fv proces, s n\u00e1hodn\u00fdmi p\u0159\u00edr\u016fstky a jejich kumulac\u00ed. Budeme se zab\u00fdvat metodami statistick\u00e9 anal\u00fdzy a p\u0159\u00edklady t\u011bchto proces\u016f.",
+                            "lang": "cs"
+                        },
+                        {
+                            "value": "We deal with the reliability analysis of technical devices and consider the processes of gradually growing damage caused by random shocks or other events. The cumulation of damage modeled via the random cumulative processes, generalization of Poisson process with random increments. The methods of statistical analysis and an example are presented.",
+                            "lang": "en"
+                        }
+                    ],
+                    "objectIdentifiers": [
+                        {
+                            "scheme": "Handle",
+                            "identifier": "11104/0130656",
+                            "url": "https://hdl.handle.net/11104/0130656"
+                        }
+                    ],
+                    "subjects": [
+                        {
+                            "subject": {
+                                "value": "mathematical statistics",
+                                "lang": "en"
+                            },
+                            "subjectScheme": "keyword"
+                        },
+                        {
+                            "subject": {
+                                "value": "reliability",
+                                "lang": "en"
+                            },
+                            "subjectScheme": "keyword"
+                        },
+                        {
+                            "subject": {
+                                "value": "random point-process",
+                                "lang": "en"
+                            },
+                            "subjectScheme": "keyword"
+                        }
+                    ],
+                    "collection": "ustav_teorie_informace_a_automatizace",
+                    "originalRecord": "http://hdl.handle.net/11104/0130656",
+                    "accessRights": {
+                        "type": "access-rights",
+                        "@v": "b291749a-5356-4cb7-b33f-ea10979a0347::1",
+                        "title": "metadata only access",
+                        "id": "c_14cb"
+                    },
+                    "resourceType": {
+                        "type": "resource-types",
+                        "@v": "10406f79-65da-4ea4-8134-ffe6975a2658::1",
+                        "title": "Conference paper",
+                        "id": "paper"
+                    },
+                    "additionalTitles": [
+                        {
+                            "titleType": "nr_metadata.documentstranslatedTitle",
+                            "title": {
+                                "value": "Statistical models and analysis of growing damage processes",
+                                "lang": "en"
+                            }
+                        }
+                    ],
+                    "title": "Statistick\u00e9 modely a anal\u00fdza proces\u016f nar\u016fstaj\u00edc\u00edho po\u0161kozen\u00ed",
+                    "languages": [
+                        {
+                            "type": "languages",
+                            "@v": "fa39c387-836d-4ba8-80fb-ea721f788e03::1",
+                            "title": "Czech",
+                            "id": "cs"
+                        }
+                    ],
+                    "relatedItems": [
+                        {
+                            "itemTitle": "Anal\u00fdza dat 2000/II. Modern\u00ed statistick\u00e9 metody. Sborn\u00edk p\u0159edn\u00e1\u0161ek"
+                        }
+                    ],
+                    "creators": [
+                        {
+                            "nameType": "nr_metadata.documentsPersonal",
+                            "fullName": "Volf, Petr"
+                        }
+                    ]
+                },
+                "created": "Jun 13, 2023, 4:46:53 PM",
+                "links": {
+                    "self": "gj5s0-8b437"
+                },
+                "updated": "Jun 13, 2023, 4:46:53 PM",
+                "id": "gj5s0-8b437"
+            },
+            {
+                "revision_id": 1,
+                "metadata": {
+                    "dateAvailable": "Jan 1, 2001",
+                    "accessibility": "Fulltext is available at the institute of the Academy of Sciences.",
+                    "systemIdentifiers": [
+                        {
+                            "scheme": "nusl",
+                            "identifier": "http://www.nusl.cz/ntk/nusl-34841"
+                        },
+                        {
+                            "scheme": "originalRecordOAI",
+                            "identifier": "oai:asep.lib.cas.cz:CavUnEpca/0410554"
+                        },
+                        {
+                            "scheme": "catalogueSysNo",
+                            "identifier": "0410554"
+                        },
+                        {
+                            "scheme": "nuslOAI",
+                            "identifier": "oai:invenio.nusl.cz:34841"
+                        }
+                    ],
+                    "objectIdentifiers": [
+                        {
+                            "scheme": "Handle",
+                            "identifier": "11104/0130643",
+                            "url": "https://hdl.handle.net/11104/0130643"
+                        }
+                    ],
+                    "collection": "ustav_teorie_informace_a_automatizace",
+                    "contributors": [
+                        {
+                            "fullName": "Chester, E. I.",
+                            "nameType": "nr_metadata.documentsPersonal"
+                        },
+                        {
+                            "fullName": "Softley, Ch.",
+                            "nameType": "nr_metadata.documentsPersonal"
+                        },
+                        {
+                            "fullName": "Kadlec, Ji\u0159\u00ed",
+                            "nameType": "nr_metadata.documentsPersonal"
+                        }
+                    ],
+                    "series": [
+                        {
+                            "seriesVolume": "2012",
+                            "seriesTitle": "Research Report"
+                        }
+                    ],
+                    "originalRecord": "http://hdl.handle.net/11104/0130643",
+                    "accessRights": {
+                        "type": "access-rights",
+                        "@v": "b291749a-5356-4cb7-b33f-ea10979a0347::1",
+                        "title": "metadata only access",
+                        "id": "c_14cb"
+                    },
+                    "resourceType": {
+                        "type": "resource-types",
+                        "@v": "8c77bcd5-fd52-46b6-b97f-d2c5cd7d80df::1",
+                        "title": "Research report",
+                        "id": "research"
+                    },
+                    "title": "Arithmetic on the European Logarithmic Microprocessor",
+                    "languages": [
+                        {
+                            "type": "languages",
+                            "@v": "dbaf2715-390f-4bb2-a18d-ef4bdafb705f::1",
+                            "title": "English",
+                            "id": "en"
+                        }
+                    ],
+                    "creators": [
+                        {
+                            "nameType": "nr_metadata.documentsPersonal",
+                            "fullName": "Coleman, J. N."
+                        }
+                    ],
+                    "fundingReferences": [
+                        {
+                            "funder": {
+                                "type": "funders",
+                                "@v": "d6152570-9a88-40f4-b4c2-0f6fac3b59b7::1",
+                                "title": "Ministry of Labour and Social Affairs of the Czech Republic",
+                                "id": "MPS"
+                            },
+                            "projectID": "HSLA 33544"
+                        }
+                    ]
+                },
+                "created": "Jun 13, 2023, 4:46:53 PM",
+                "links": {
+                    "self": "tq1tn-vmh87"
+                },
+                "updated": "Jun 13, 2023, 4:46:53 PM",
+                "id": "tq1tn-vmh87"
+            },
+            {
+                "revision_id": 1,
+                "metadata": {
+                    "dateAvailable": "Jan 1, 2001",
+                    "accessibility": "Fulltext is available at the institute of the Academy of Sciences.",
+                    "systemIdentifiers": [
+                        {
+                            "scheme": "nusl",
+                            "identifier": "http://www.nusl.cz/ntk/nusl-34840"
+                        },
+                        {
+                            "scheme": "originalRecordOAI",
+                            "identifier": "oai:asep.lib.cas.cz:CavUnEpca/0410553"
+                        },
+                        {
+                            "scheme": "catalogueSysNo",
+                            "identifier": "0410553"
+                        },
+                        {
+                            "scheme": "nuslOAI",
+                            "identifier": "oai:invenio.nusl.cz:34840"
+                        }
+                    ],
+                    "objectIdentifiers": [
+                        {
+                            "scheme": "Handle",
+                            "identifier": "11104/0130642",
+                            "url": "https://hdl.handle.net/11104/0130642"
+                        }
+                    ],
+                    "subjects": [
+                        {
+                            "valueURI": "http://psh.ntkcz.cz/skos/PSH6876",
+                            "subject": {
+                                "value": "syntaktick\u00e9 vztahy",
+                                "lang": "cs"
+                            },
+                            "subjectScheme": "PSH"
+                        },
+                        {
+                            "valueURI": "http://psh.ntkcz.cz/skos/PSH6876",
+                            "subject": {
+                                "value": "syntactic relations",
+                                "lang": "en"
+                            },
+                            "subjectScheme": "PSH"
+                        },
+                        {
+                            "valueURI": "http://psh.ntkcz.cz/skos/PSH11942",
+                            "subject": {
+                                "value": "v\u011bdeck\u00e9 instituce",
+                                "lang": "cs"
+                            },
+                            "subjectScheme": "PSH"
+                        },
+                        {
+                            "valueURI": "http://psh.ntkcz.cz/skos/PSH11942",
+                            "subject": {
+                                "value": "scientific institutions",
+                                "lang": "en"
+                            },
+                            "subjectScheme": "PSH"
+                        }
+                    ],
+                    "collection": "ustav_teorie_informace_a_automatizace",
+                    "series": [
+                        {
+                            "seriesVolume": "2014",
+                            "seriesTitle": "Research Report"
+                        }
+                    ],
+                    "originalRecord": "http://hdl.handle.net/11104/0130642",
+                    "accessRights": {
+                        "type": "access-rights",
+                        "@v": "b291749a-5356-4cb7-b33f-ea10979a0347::1",
+                        "title": "metadata only access",
+                        "id": "c_14cb"
+                    },
+                    "resourceType": {
+                        "type": "resource-types",
+                        "@v": "8c77bcd5-fd52-46b6-b97f-d2c5cd7d80df::1",
+                        "title": "Research report",
+                        "id": "research"
+                    },
+                    "title": "Determination of the Problems of Participation in IST for the NAS",
+                    "languages": [
+                        {
+                            "type": "languages",
+                            "@v": "dbaf2715-390f-4bb2-a18d-ef4bdafb705f::1",
+                            "title": "English",
+                            "id": "en"
+                        }
+                    ],
+                    "creators": [
+                        {
+                            "nameType": "nr_metadata.documentsPersonal",
+                            "fullName": "Kadlecov\u00e1, Milada"
+                        }
+                    ]
+                },
+                "created": "Jun 13, 2023, 4:46:52 PM",
+                "links": {
+                    "self": "0mqgr-thp47"
+                },
+                "updated": "Jun 13, 2023, 4:46:52 PM",
+                "id": "0mqgr-thp47"
+            },
+            {
+                "revision_id": 1,
+                "metadata": {
+                    "dateAvailable": "Jan 1, 2001",
+                    "accessibility": "Fulltext is available at the institute of the Academy of Sciences.",
+                    "systemIdentifiers": [
+                        {
+                            "scheme": "nusl",
+                            "identifier": "http://www.nusl.cz/ntk/nusl-34839"
+                        },
+                        {
+                            "scheme": "originalRecordOAI",
+                            "identifier": "oai:asep.lib.cas.cz:CavUnEpca/0410543"
+                        },
+                        {
+                            "scheme": "catalogueSysNo",
+                            "identifier": "0410543"
+                        },
+                        {
+                            "scheme": "nuslOAI",
+                            "identifier": "oai:invenio.nusl.cz:34839"
+                        }
+                    ],
+                    "objectIdentifiers": [
+                        {
+                            "scheme": "Handle",
+                            "identifier": "11104/0130632",
+                            "url": "https://hdl.handle.net/11104/0130632"
+                        }
+                    ],
+                    "collection": "ustav_teorie_informace_a_automatizace",
+                    "contributors": [
+                        {
+                            "fullName": "K\u0159epela, J.",
+                            "nameType": "nr_metadata.documentsPersonal"
+                        }
+                    ],
+                    "series": [
+                        {
+                            "seriesVolume": "2009",
+                            "seriesTitle": "Research Report"
+                        }
+                    ],
+                    "originalRecord": "http://hdl.handle.net/11104/0130632",
+                    "accessRights": {
+                        "type": "access-rights",
+                        "@v": "b291749a-5356-4cb7-b33f-ea10979a0347::1",
+                        "title": "metadata only access",
+                        "id": "c_14cb"
+                    },
+                    "resourceType": {
+                        "type": "resource-types",
+                        "@v": "8c77bcd5-fd52-46b6-b97f-d2c5cd7d80df::1",
+                        "title": "Research report",
+                        "id": "research"
+                    },
+                    "title": "Koeficienty zp\u016fsobilosti a v\u00fdkonnosti v p\u0159\u00edpad\u011b roz\u0161\u00ed\u0159en\u00fdch regula\u010dn\u00edch mez\u00ed",
+                    "languages": [
+                        {
+                            "type": "languages",
+                            "@v": "fa39c387-836d-4ba8-80fb-ea721f788e03::1",
+                            "title": "Czech",
+                            "id": "cs"
+                        }
+                    ],
+                    "creators": [
+                        {
+                            "nameType": "nr_metadata.documentsPersonal",
+                            "fullName": "Mich\u00e1lek, Ji\u0159\u00ed"
+                        }
+                    ]
+                },
+                "created": "Jun 13, 2023, 4:46:52 PM",
+                "links": {
+                    "self": "c386h-rj289"
+                },
+                "updated": "Jun 13, 2023, 4:46:52 PM",
+                "id": "c386h-rj289"
+            },
+            {
+                "revision_id": 1,
+                "metadata": {
+                    "dateAvailable": "Jan 1, 2001",
+                    "accessibility": "Fulltext is available at the institute of the Academy of Sciences.",
+                    "systemIdentifiers": [
+                        {
+                            "scheme": "nusl",
+                            "identifier": "http://www.nusl.cz/ntk/nusl-34838"
+                        },
+                        {
+                            "scheme": "originalRecordOAI",
+                            "identifier": "oai:asep.lib.cas.cz:CavUnEpca/0410534"
+                        },
+                        {
+                            "scheme": "catalogueSysNo",
+                            "identifier": "0410534"
+                        },
+                        {
+                            "scheme": "nuslOAI",
+                            "identifier": "oai:invenio.nusl.cz:34838"
+                        }
+                    ],
+                    "objectIdentifiers": [
+                        {
+                            "scheme": "Handle",
+                            "identifier": "11104/0130623",
+                            "url": "https://hdl.handle.net/11104/0130623"
+                        }
+                    ],
+                    "subjects": [
+                        {
+                            "valueURI": "http://psh.ntkcz.cz/skos/PSH7979",
+                            "subject": {
+                                "value": "obecnosti",
+                                "lang": "cs"
+                            },
+                            "subjectScheme": "PSH"
+                        },
+                        {
+                            "valueURI": "http://psh.ntkcz.cz/skos/PSH7979",
+                            "subject": {
+                                "value": "generalities",
+                                "lang": "en"
+                            },
+                            "subjectScheme": "PSH"
+                        },
+                        {
+                            "valueURI": "http://psh.ntkcz.cz/skos/PSH11942",
+                            "subject": {
+                                "value": "v\u011bdeck\u00e9 instituce",
+                                "lang": "cs"
+                            },
+                            "subjectScheme": "PSH"
+                        },
+                        {
+                            "valueURI": "http://psh.ntkcz.cz/skos/PSH11942",
+                            "subject": {
+                                "value": "scientific institutions",
+                                "lang": "en"
+                            },
+                            "subjectScheme": "PSH"
+                        }
+                    ],
+                    "collection": "ustav_teorie_informace_a_automatizace",
+                    "contributors": [
+                        {
+                            "fullName": "Str\u00e1dal, V\u00edt",
+                            "nameType": "nr_metadata.documentsPersonal"
+                        }
+                    ],
+                    "series": [
+                        {
+                            "seriesVolume": "2011",
+                            "seriesTitle": "Research Report"
+                        }
+                    ],
+                    "originalRecord": "http://hdl.handle.net/11104/0130623",
+                    "accessRights": {
+                        "type": "access-rights",
+                        "@v": "b291749a-5356-4cb7-b33f-ea10979a0347::1",
+                        "title": "metadata only access",
+                        "id": "c_14cb"
+                    },
+                    "resourceType": {
+                        "type": "resource-types",
+                        "@v": "8c77bcd5-fd52-46b6-b97f-d2c5cd7d80df::1",
+                        "title": "Research report",
+                        "id": "research"
+                    },
+                    "title": "LOGAT - Prelimitary Results",
+                    "languages": [
+                        {
+                            "type": "languages",
+                            "@v": "dbaf2715-390f-4bb2-a18d-ef4bdafb705f::1",
+                            "title": "English",
+                            "id": "en"
+                        }
+                    ],
+                    "creators": [
+                        {
+                            "nameType": "nr_metadata.documentsPersonal",
+                            "fullName": "Matou\u0161ek, Rudolf"
+                        }
+                    ],
+                    "fundingReferences": [
+                        {
+                            "funder": {
+                                "type": "funders",
+                                "@v": "d6152570-9a88-40f4-b4c2-0f6fac3b59b7::1",
+                                "title": "Ministry of Labour and Social Affairs of the Czech Republic",
+                                "id": "MPS"
+                            },
+                            "projectID": "HSLA 33544"
+                        }
+                    ]
+                },
+                "created": "Jun 13, 2023, 4:46:52 PM",
+                "links": {
+                    "self": "475jb-98133"
+                },
+                "updated": "Jun 13, 2023, 4:46:52 PM",
+                "id": "475jb-98133"
+            },
+            {
+                "revision_id": 1,
+                "metadata": {
+                    "dateAvailable": "Jan 1, 2001",
+                    "accessibility": "Fulltext is available at the institute of the Academy of Sciences.",
+                    "systemIdentifiers": [
+                        {
+                            "scheme": "nusl",
+                            "identifier": "http://www.nusl.cz/ntk/nusl-34837"
+                        },
+                        {
+                            "scheme": "originalRecordOAI",
+                            "identifier": "oai:asep.lib.cas.cz:CavUnEpca/0410532"
+                        },
+                        {
+                            "scheme": "catalogueSysNo",
+                            "identifier": "0410532"
+                        },
+                        {
+                            "scheme": "nuslOAI",
+                            "identifier": "oai:invenio.nusl.cz:34837"
+                        }
+                    ],
+                    "objectIdentifiers": [
+                        {
+                            "scheme": "Handle",
+                            "identifier": "11104/0130621",
+                            "url": "https://hdl.handle.net/11104/0130621"
+                        }
+                    ],
+                    "collection": "ustav_teorie_informace_a_automatizace",
+                    "contributors": [
+                        {
+                            "fullName": "Bouckaert, R. R.",
+                            "nameType": "nr_metadata.documentsPersonal"
+                        },
+                        {
+                            "fullName": "Studen\u00fd, Milan",
+                            "nameType": "nr_metadata.documentsPersonal"
+                        }
+                    ],
+                    "series": [
+                        {
+                            "seriesVolume": "2010",
+                            "seriesTitle": "Research Report"
+                        }
+                    ],
+                    "originalRecord": "http://hdl.handle.net/11104/0130621",
+                    "accessRights": {
+                        "type": "access-rights",
+                        "@v": "b291749a-5356-4cb7-b33f-ea10979a0347::1",
+                        "title": "metadata only access",
+                        "id": "c_14cb"
+                    },
+                    "resourceType": {
+                        "type": "resource-types",
+                        "@v": "8c77bcd5-fd52-46b6-b97f-d2c5cd7d80df::1",
+                        "title": "Research report",
+                        "id": "research"
+                    },
+                    "title": "On the Inclusion Problem",
+                    "languages": [
+                        {
+                            "type": "languages",
+                            "@v": "dbaf2715-390f-4bb2-a18d-ef4bdafb705f::1",
+                            "title": "English",
+                            "id": "en"
+                        }
+                    ],
+                    "creators": [
+                        {
+                            "nameType": "nr_metadata.documentsPersonal",
+                            "fullName": "Ko\u010dka, T."
+                        }
+                    ],
+                    "fundingReferences": [
+                        {
+                            "funder": {
+                                "type": "funders",
+                                "@v": "afcd4bb8-bd64-4bcc-95f0-dafac91d2fc9::1",
+                                "title": "Czech Science Foundation",
+                                "id": "GA0"
+                            },
+                            "projectID": "GA201/01/1482"
+                        },
+                        {
+                            "funder": {
+                                "type": "funders",
+                                "@v": "ccf320bd-1ae5-4cd7-895b-0e56eea12d67::1",
+                                "title": "Ministry of Education, Youth and Sports of the Czech Republic",
+                                "id": "MSM"
+                            },
+                            "projectID": "VS96008"
+                        }
+                    ]
+                },
+                "created": "Jun 13, 2023, 4:46:52 PM",
+                "links": {
+                    "self": "gdfjn-spn28"
+                },
+                "updated": "Jun 13, 2023, 4:46:52 PM",
+                "id": "gdfjn-spn28"
+            }
+        ],
+        "total": 30198
+    },
+    "aggregations": {
+        "metadata_thesis_dateDefended": {
+            "buckets": [
+                {
+                    "key": "2008-06-10T00:00:00.000Z",
+                    "doc_count": 253,
+                    "label": "Jun 10, 2008",
+                    "is_selected": false
+                },
+                {
+                    "key": "2010-06-14T00:00:00.000Z",
+                    "doc_count": 220,
+                    "label": "Jun 14, 2010",
+                    "is_selected": false
+                },
+                {
+                    "key": "2010-06-15T00:00:00.000Z",
+                    "doc_count": 218,
+                    "label": "Jun 15, 2010",
+                    "is_selected": false
+                },
+                {
+                    "key": "2009-06-23T00:00:00.000Z",
+                    "doc_count": 192,
+                    "label": "Jun 23, 2009",
+                    "is_selected": false
+                },
+                {
+                    "key": "2010-06-16T00:00:00.000Z",
+                    "doc_count": 178,
+                    "label": "Jun 16, 2010",
+                    "is_selected": false
+                },
+                {
+                    "key": "2010-06-22T00:00:00.000Z",
+                    "doc_count": 174,
+                    "label": "Jun 22, 2010",
+                    "is_selected": false
+                },
+                {
+                    "key": "2010-06-09T00:00:00.000Z",
+                    "doc_count": 161,
+                    "label": "Jun 9, 2010",
+                    "is_selected": false
+                },
+                {
+                    "key": "2010-06-21T00:00:00.000Z",
+                    "doc_count": 160,
+                    "label": "Jun 21, 2010",
+                    "is_selected": false
+                },
+                {
+                    "key": "2009-06-03T00:00:00.000Z",
+                    "doc_count": 158,
+                    "label": "Jun 3, 2009",
+                    "is_selected": false
+                },
+                {
+                    "key": "2009-06-10T00:00:00.000Z",
+                    "doc_count": 153,
+                    "label": "Jun 10, 2009",
+                    "is_selected": false
+                }
+            ],
+            "label": "Date defended"
+        },
+        "metadata_thesis_defended": {
+            "buckets": [],
+            "label": "Defended?"
+        },
+        "metadata_thesis_degreeGrantors": {
+            "buckets": [
+                {
+                    "key": "vse",
+                    "doc_count": 16148,
+                    "label": "University of Economics, Prague",
+                    "is_selected": false
+                },
+                {
+                    "key": "cvut",
+                    "doc_count": 1,
+                    "label": "Czech Technical University in Prague",
+                    "is_selected": false
+                },
+                {
+                    "key": "cvut-fakulta-stavebni",
+                    "doc_count": 1,
+                    "label": "en",
+                    "is_selected": false
+                }
+            ],
+            "label": "Degree grantor"
+        },
+        "metadata_thesis_studyFields": {
+            "buckets": [
+                {
+                    "key": "Ekonomika a management",
+                    "doc_count": 4915,
+                    "label": "Ekonomika a management",
+                    "is_selected": false
+                },
+                {
+                    "key": "Mezin\u00e1rodn\u00ed ekonomick\u00e9 vztahy",
+                    "doc_count": 4433,
+                    "label": "Mezin\u00e1rodn\u00ed ekonomick\u00e9 vztahy",
+                    "is_selected": false
+                },
+                {
+                    "key": "Podnikov\u00e1 ekonomika a management",
+                    "doc_count": 3679,
+                    "label": "Podnikov\u00e1 ekonomika a management",
+                    "is_selected": false
+                },
+                {
+                    "key": "Mezin\u00e1rodn\u00ed obchod",
+                    "doc_count": 3267,
+                    "label": "Mezin\u00e1rodn\u00ed obchod",
+                    "is_selected": false
+                },
+                {
+                    "key": "Hospod\u00e1\u0159sk\u00e1 politika a spr\u00e1va",
+                    "doc_count": 1938,
+                    "label": "Hospod\u00e1\u0159sk\u00e1 politika a spr\u00e1va",
+                    "is_selected": false
+                },
+                {
+                    "key": "Finance a\u00a0\u00fa\u010detnictv\u00ed",
+                    "doc_count": 1834,
+                    "label": "Finance a\u00a0\u00fa\u010detnictv\u00ed",
+                    "is_selected": false
+                },
+                {
+                    "key": "Aplikovan\u00e1 informatika",
+                    "doc_count": 1699,
+                    "label": "Aplikovan\u00e1 informatika",
+                    "is_selected": false
+                },
+                {
+                    "key": "Management",
+                    "doc_count": 1127,
+                    "label": "Management",
+                    "is_selected": false
+                },
+                {
+                    "key": "\u00da\u010detnictv\u00ed a finan\u010dn\u00ed \u0159\u00edzen\u00ed podniku",
+                    "doc_count": 1086,
+                    "label": "\u00da\u010detnictv\u00ed a finan\u010dn\u00ed \u0159\u00edzen\u00ed podniku",
+                    "is_selected": false
+                },
+                {
+                    "key": "Informatika",
+                    "doc_count": 1048,
+                    "label": "Informatika",
+                    "is_selected": false
+                }
+            ],
+            "label": "Study fields"
+        },
+        "metadata_collection": {
+            "buckets": [
+                {
+                    "key": "Vysok\u00e1 \u0161kola ekonomick\u00e1 v Praze",
+                    "doc_count": 16148,
+                    "label": "Vysok\u00e1 \u0161kola ekonomick\u00e1 v Praze",
+                    "is_selected": false
+                },
+                {
+                    "key": "ustav_termomechaniky",
+                    "doc_count": 1474,
+                    "label": "ustav_termomechaniky",
+                    "is_selected": false
+                },
+                {
+                    "key": "ustav_informatiky",
+                    "doc_count": 816,
+                    "label": "ustav_informatiky",
+                    "is_selected": false
+                },
+                {
+                    "key": "sociologicky_ustav",
+                    "doc_count": 659,
+                    "label": "sociologicky_ustav",
+                    "is_selected": false
+                },
+                {
+                    "key": "ustav_teorie_informace_a_automatizace",
+                    "doc_count": 640,
+                    "label": "ustav_teorie_informace_a_automatizace",
+                    "is_selected": false
+                },
+                {
+                    "key": "ustav_geoniky",
+                    "doc_count": 526,
+                    "label": "ustav_geoniky",
+                    "is_selected": false
+                },
+                {
+                    "key": "ustav_teoreticke_a_aplikovane_mechaniky",
+                    "doc_count": 519,
+                    "label": "ustav_teoreticke_a_aplikovane_mechaniky",
+                    "is_selected": false
+                },
+                {
+                    "key": "ustav_chemickych_procesu",
+                    "doc_count": 494,
+                    "label": "ustav_chemickych_procesu",
+                    "is_selected": false
+                },
+                {
+                    "key": "ustav_fotoniky_a_elektroniky",
+                    "doc_count": 486,
+                    "label": "ustav_fotoniky_a_elektroniky",
+                    "is_selected": false
+                },
+                {
+                    "key": "ustav_fyziky_materialu",
+                    "doc_count": 483,
+                    "label": "ustav_fyziky_materialu",
+                    "is_selected": false
+                }
+            ],
+            "label": "Collection"
+        },
+        "metadata_additionalTitles_title_lang": {
+            "buckets": [],
+            "label": ""
+        },
+        "metadata_additionalTitles_title_cs_keyword": {
+            "buckets": [],
+            "label": ""
+        },
+        "metadata_additionalTitles_title_en_keyword": {
+            "buckets": [],
+            "label": ""
+        },
+        "metadata_additionalTitles_title_value_keyword": {
+            "buckets": [],
+            "label": ""
+        },
+        "metadata_additionalTitles_titleType": {
+            "buckets": [
+                {
+                    "key": "translatedTitle",
+                    "doc_count": 16663,
+                    "label": "translatedTitle",
+                    "is_selected": false
+                },
+                {
+                    "key": "subtitle",
+                    "doc_count": 1,
+                    "label": "subtitle",
+                    "is_selected": false
+                }
+            ],
+            "label": "Title type"
+        },
+        "metadata_creators_affiliations": {
+            "buckets": [],
+            "label": "metadata/creators/affiliations.label"
+        },
+        "metadata_creators_nameType": {
+            "buckets": [
+                {
+                    "key": "Personal",
+                    "doc_count": 30155,
+                    "label": "Personal",
+                    "is_selected": false
+                }
+            ],
+            "label": "Type"
+        },
+        "metadata_creators_fullName": {
+            "buckets": [
+                {
+                    "key": "\u010cervenka, Jan",
+                    "doc_count": 130,
+                    "label": "\u010cervenka, Jan",
+                    "is_selected": false
+                },
+                {
+                    "key": "Kun\u0161t\u00e1t, Daniel",
+                    "doc_count": 83,
+                    "label": "Kun\u0161t\u00e1t, Daniel",
+                    "is_selected": false
+                },
+                {
+                    "key": "Rezkov\u00e1, Milu\u0161e",
+                    "doc_count": 72,
+                    "label": "Rezkov\u00e1, Milu\u0161e",
+                    "is_selected": false
+                },
+                {
+                    "key": "Hor\u00e1kov\u00e1, Nad\u011b\u017eda",
+                    "doc_count": 67,
+                    "label": "Hor\u00e1kov\u00e1, Nad\u011b\u017eda",
+                    "is_selected": false
+                },
+                {
+                    "key": "Spurn\u00fd, Franti\u0161ek",
+                    "doc_count": 66,
+                    "label": "Spurn\u00fd, Franti\u0161ek",
+                    "is_selected": false
+                },
+                {
+                    "key": "Jon\u00e1\u0161, Pavel",
+                    "doc_count": 65,
+                    "label": "Jon\u00e1\u0161, Pavel",
+                    "is_selected": false
+                },
+                {
+                    "key": "Luk\u0161an, Ladislav",
+                    "doc_count": 64,
+                    "label": "Luk\u0161an, Ladislav",
+                    "is_selected": false
+                },
+                {
+                    "key": "Glasov\u00e1, Alice",
+                    "doc_count": 60,
+                    "label": "Glasov\u00e1, Alice",
+                    "is_selected": false
+                },
+                {
+                    "key": "Lusk, Stanislav",
+                    "doc_count": 60,
+                    "label": "Lusk, Stanislav",
+                    "is_selected": false
+                },
+                {
+                    "key": "Hor\u00e1\u010dek, Jarom\u00edr",
+                    "doc_count": 49,
+                    "label": "Hor\u00e1\u010dek, Jarom\u00edr",
+                    "is_selected": false
+                }
+            ],
+            "label": "Author name"
+        },
+        "metadata_creators_authorityIdentifiers_identifier": {
+            "buckets": [],
+            "label": "metadata/creators/authorityIdentifiers/identifier.label"
+        },
+        "metadata_creators_authorityIdentifiers_scheme": {
+            "buckets": [],
+            "label": "metadata/creators/authorityIdentifiers/scheme.label"
+        },
+        "metadata_contributors_role": {
+            "buckets": [
+                {
+                    "key": "advisor",
+                    "doc_count": 16149,
+                    "label": "advisor",
+                    "is_selected": false
+                },
+                {
+                    "key": "referee",
+                    "doc_count": 14210,
+                    "label": "referee",
+                    "is_selected": false
+                }
+            ],
+            "label": "Contributor's role"
+        },
+        "metadata_contributors_fullName": {
+            "buckets": [
+                {
+                    "key": "Tau\u0161er, Josef",
+                    "doc_count": 239,
+                    "label": "Tau\u0161er, Josef",
+                    "is_selected": false
+                },
+                {
+                    "key": "Boukal, Petr",
+                    "doc_count": 204,
+                    "label": "Boukal, Petr",
+                    "is_selected": false
+                },
+                {
+                    "key": "Gullov\u00e1, So\u0148a",
+                    "doc_count": 188,
+                    "label": "Gullov\u00e1, So\u0148a",
+                    "is_selected": false
+                },
+                {
+                    "key": "Filipov\u00e1, Alena",
+                    "doc_count": 187,
+                    "label": "Filipov\u00e1, Alena",
+                    "is_selected": false
+                },
+                {
+                    "key": "Abrh\u00e1m, Josef",
+                    "doc_count": 177,
+                    "label": "Abrh\u00e1m, Josef",
+                    "is_selected": false
+                },
+                {
+                    "key": "Zeman, Ji\u0159\u00ed",
+                    "doc_count": 167,
+                    "label": "Zeman, Ji\u0159\u00ed",
+                    "is_selected": false
+                },
+                {
+                    "key": "Nov\u00e1\u010dek, Jan",
+                    "doc_count": 153,
+                    "label": "Nov\u00e1\u010dek, Jan",
+                    "is_selected": false
+                },
+                {
+                    "key": "\u0160ik\u00fd\u0159, Martin",
+                    "doc_count": 152,
+                    "label": "\u0160ik\u00fd\u0159, Martin",
+                    "is_selected": false
+                },
+                {
+                    "key": "Koudelka, Jan",
+                    "doc_count": 141,
+                    "label": "Koudelka, Jan",
+                    "is_selected": false
+                },
+                {
+                    "key": "Bi\u010d, Josef",
+                    "doc_count": 136,
+                    "label": "Bi\u010d, Josef",
+                    "is_selected": false
+                }
+            ],
+            "label": "Contributor name"
+        },
+        "metadata_contributors_affiliations": {
+            "buckets": [],
+            "label": "metadata/contributors/affiliations.label"
+        },
+        "metadata_contributors_nameType": {
+            "buckets": [
+                {
+                    "key": "Personal",
+                    "doc_count": 24202,
+                    "label": "Personal",
+                    "is_selected": false
+                }
+            ],
+            "label": "Type"
+        },
+        "metadata_contributors_authorityIdentifiers_identifier": {
+            "buckets": [],
+            "label": "metadata/contributors/authorityIdentifiers/identifier.label"
+        },
+        "metadata_contributors_authorityIdentifiers_scheme": {
+            "buckets": [],
+            "label": "metadata/contributors/authorityIdentifiers/scheme.label"
+        },
+        "metadata_resourceType": {
+            "buckets": [
+                {
+                    "key": "paper",
+                    "doc_count": 10966,
+                    "label": "Conference paper",
+                    "is_selected": false
+                },
+                {
+                    "key": "bachelor",
+                    "doc_count": 8947,
+                    "label": "Bachelor thesis",
+                    "is_selected": false
+                },
+                {
+                    "key": "master",
+                    "doc_count": 7090,
+                    "label": "Master thesis",
+                    "is_selected": false
+                },
+                {
+                    "key": "research",
+                    "doc_count": 2615,
+                    "label": "Research report",
+                    "is_selected": false
+                },
+                {
+                    "key": "proceeding",
+                    "doc_count": 461,
+                    "label": "Conference proceeding",
+                    "is_selected": false
+                },
+                {
+                    "key": "doctoral",
+                    "doc_count": 112,
+                    "label": "Doctoral thesis",
+                    "is_selected": false
+                },
+                {
+                    "key": "article",
+                    "doc_count": 7,
+                    "label": "Article",
+                    "is_selected": false
+                }
+            ],
+            "label": "Resource type"
+        },
+        "metadata_dateAvailable": {
+            "buckets": [
+                {
+                    "key": "2004-01-01T00:00:00.000Z",
+                    "doc_count": 1464,
+                    "label": "Jan 1, 2004",
+                    "is_selected": false
+                },
+                {
+                    "key": "2001-01-01T00:00:00.000Z",
+                    "doc_count": 1285,
+                    "label": "Jan 1, 2001",
+                    "is_selected": false
+                },
+                {
+                    "key": "2003-01-01T00:00:00.000Z",
+                    "doc_count": 1230,
+                    "label": "Jan 1, 2003",
+                    "is_selected": false
+                },
+                {
+                    "key": "2002-01-01T00:00:00.000Z",
+                    "doc_count": 1187,
+                    "label": "Jan 1, 2002",
+                    "is_selected": false
+                },
+                {
+                    "key": "2005-01-01T00:00:00.000Z",
+                    "doc_count": 1162,
+                    "label": "Jan 1, 2005",
+                    "is_selected": false
+                },
+                {
+                    "key": "1999-01-01T00:00:00.000Z",
+                    "doc_count": 1149,
+                    "label": "Jan 1, 1999",
+                    "is_selected": false
+                },
+                {
+                    "key": "2000-01-01T00:00:00.000Z",
+                    "doc_count": 1145,
+                    "label": "Jan 1, 2000",
+                    "is_selected": false
+                },
+                {
+                    "key": "1998-01-01T00:00:00.000Z",
+                    "doc_count": 1050,
+                    "label": "Jan 1, 1998",
+                    "is_selected": false
+                },
+                {
+                    "key": "1995-01-01T00:00:00.000Z",
+                    "doc_count": 1037,
+                    "label": "Jan 1, 1995",
+                    "is_selected": false
+                },
+                {
+                    "key": "1994-01-01T00:00:00.000Z",
+                    "doc_count": 951,
+                    "label": "Jan 1, 1994",
+                    "is_selected": false
+                }
+            ],
+            "label": "Date available"
+        },
+        "metadata_dateModified": {
+            "buckets": [
+                {
+                    "key": "2012-04-30T00:00:00.000Z",
+                    "doc_count": 15435,
+                    "label": "Apr 30, 2012",
+                    "is_selected": false
+                },
+                {
+                    "key": "2009-07-15T00:00:00.000Z",
+                    "doc_count": 686,
+                    "label": "Jul 15, 2009",
+                    "is_selected": false
+                },
+                {
+                    "key": "2014-07-07T00:00:00.000Z",
+                    "doc_count": 14,
+                    "label": "Jul 7, 2014",
+                    "is_selected": false
+                },
+                {
+                    "key": "2013-06-07T00:00:00.000Z",
+                    "doc_count": 9,
+                    "label": "Jun 7, 2013",
+                    "is_selected": false
+                },
+                {
+                    "key": "2013-06-11T00:00:00.000Z",
+                    "doc_count": 2,
+                    "label": "Jun 11, 2013",
+                    "is_selected": false
+                },
+                {
+                    "key": "2012-07-26T00:00:00.000Z",
+                    "doc_count": 1,
+                    "label": "Jul 26, 2012",
+                    "is_selected": false
+                },
+                {
+                    "key": "2016-09-21T00:00:00.000Z",
+                    "doc_count": 1,
+                    "label": "Sep 21, 2016",
+                    "is_selected": false
+                }
+            ],
+            "label": "Date modified"
+        },
+        "metadata_subjects_subjectScheme": {
+            "buckets": [
+                {
+                    "key": "keyword",
+                    "doc_count": 20786,
+                    "label": "keyword",
+                    "is_selected": false
+                },
+                {
+                    "key": "PSH",
+                    "doc_count": 7402,
+                    "label": "PSH",
+                    "is_selected": false
+                }
+            ],
+            "label": "Subject scheme"
+        },
+        "metadata_subjects_subject_lang": {
+            "buckets": [],
+            "label": ""
+        },
+        "metadata_subjects_subject_cs_keyword": {
+            "buckets": [],
+            "label": ""
+        },
+        "metadata_subjects_subject_en_keyword": {
+            "buckets": [],
+            "label": ""
+        },
+        "metadata_subjects_subject_value_keyword": {
+            "buckets": [],
+            "label": ""
+        },
+        "metadata_subjects_valueURI": {
+            "buckets": [
+                {
+                    "key": "http://psh.ntkcz.cz/skos/PSH11953",
+                    "doc_count": 370,
+                    "label": "http://psh.ntkcz.cz/skos/PSH11953",
+                    "is_selected": false
+                },
+                {
+                    "key": "http://psh.ntkcz.cz/skos/PSH13813",
+                    "doc_count": 311,
+                    "label": "http://psh.ntkcz.cz/skos/PSH13813",
+                    "is_selected": false
+                },
+                {
+                    "key": "http://psh.ntkcz.cz/skos/PSH9187",
+                    "doc_count": 288,
+                    "label": "http://psh.ntkcz.cz/skos/PSH9187",
+                    "is_selected": false
+                },
+                {
+                    "key": "http://psh.ntkcz.cz/skos/PSH8092",
+                    "doc_count": 153,
+                    "label": "http://psh.ntkcz.cz/skos/PSH8092",
+                    "is_selected": false
+                },
+                {
+                    "key": "http://psh.ntkcz.cz/skos/PSH1261",
+                    "doc_count": 151,
+                    "label": "http://psh.ntkcz.cz/skos/PSH1261",
+                    "is_selected": false
+                },
+                {
+                    "key": "http://psh.ntkcz.cz/skos/PSH8378",
+                    "doc_count": 151,
+                    "label": "http://psh.ntkcz.cz/skos/PSH8378",
+                    "is_selected": false
+                },
+                {
+                    "key": "http://psh.ntkcz.cz/skos/PSH1221",
+                    "doc_count": 123,
+                    "label": "http://psh.ntkcz.cz/skos/PSH1221",
+                    "is_selected": false
+                },
+                {
+                    "key": "http://psh.ntkcz.cz/skos/PSH1222",
+                    "doc_count": 117,
+                    "label": "http://psh.ntkcz.cz/skos/PSH1222",
+                    "is_selected": false
+                },
+                {
+                    "key": "http://psh.ntkcz.cz/skos/PSH8027",
+                    "doc_count": 109,
+                    "label": "http://psh.ntkcz.cz/skos/PSH8027",
+                    "is_selected": false
+                },
+                {
+                    "key": "http://psh.ntkcz.cz/skos/PSH11428",
+                    "doc_count": 101,
+                    "label": "http://psh.ntkcz.cz/skos/PSH11428",
+                    "is_selected": false
+                }
+            ],
+            "label": "Subject definition URI"
+        },
+        "metadata_subjects_classificationCode": {
+            "buckets": [],
+            "label": "metadata/subjects/classificationCode.label"
+        },
+        "metadata_subjectCategories": {
+            "buckets": [],
+            "label": "Subject categories"
+        },
+        "metadata_languages": {
+            "buckets": [
+                {
+                    "key": "cs",
+                    "doc_count": 22598,
+                    "label": "Czech",
+                    "is_selected": false
+                },
+                {
+                    "key": "en",
+                    "doc_count": 6430,
+                    "label": "English",
+                    "is_selected": false
+                },
+                {
+                    "key": "sk",
+                    "doc_count": 1197,
+                    "label": "Slovak",
+                    "is_selected": false
+                },
+                {
+                    "key": "de",
+                    "doc_count": 36,
+                    "label": "German",
+                    "is_selected": false
+                },
+                {
+                    "key": "fr",
+                    "doc_count": 8,
+                    "label": "French",
+                    "is_selected": false
+                },
+                {
+                    "key": "pl",
+                    "doc_count": 5,
+                    "label": "Polish",
+                    "is_selected": false
+                },
+                {
+                    "key": "ru",
+                    "doc_count": 5,
+                    "label": "Russian",
+                    "is_selected": false
+                },
+                {
+                    "key": "es",
+                    "doc_count": 4,
+                    "label": "Spanish",
+                    "is_selected": false
+                },
+                {
+                    "key": "el",
+                    "doc_count": 2,
+                    "label": "Greek",
+                    "is_selected": false
+                }
+            ],
+            "label": "Language"
+        },
+        "metadata_abstract_lang": {
+            "buckets": [],
+            "label": ""
+        },
+        "metadata_abstract_cs_keyword": {
+            "buckets": [],
+            "label": ""
+        },
+        "metadata_abstract_en_keyword": {
+            "buckets": [],
+            "label": ""
+        },
+        "metadata_abstract_value_keyword": {
+            "buckets": [],
+            "label": ""
+        },
+        "metadata_methods_lang": {
+            "buckets": [],
+            "label": ""
+        },
+        "metadata_methods_cs_keyword": {
+            "buckets": [],
+            "label": ""
+        },
+        "metadata_methods_en_keyword": {
+            "buckets": [],
+            "label": ""
+        },
+        "metadata_methods_value_keyword": {
+            "buckets": [],
+            "label": ""
+        },
+        "metadata_technicalInfo_lang": {
+            "buckets": [],
+            "label": ""
+        },
+        "metadata_technicalInfo_cs_keyword": {
+            "buckets": [],
+            "label": ""
+        },
+        "metadata_technicalInfo_en_keyword": {
+            "buckets": [],
+            "label": ""
+        },
+        "metadata_technicalInfo_value_keyword": {
+            "buckets": [],
+            "label": ""
+        },
+        "metadata_rights": {
+            "buckets": [
+                {
+                    "key": "3-BY-ND-CZ",
+                    "doc_count": 8,
+                    "label": "Creative Commons Attribution-NoDerivs 3.0 Czech Republic License",
+                    "is_selected": false
+                }
+            ],
+            "label": "License"
+        },
+        "metadata_accessRights": {
+            "buckets": [
+                {
+                    "key": "c_abf2",
+                    "doc_count": 16369,
+                    "label": "open access",
+                    "is_selected": false
+                },
+                {
+                    "key": "c_14cb",
+                    "doc_count": 13620,
+                    "label": "metadata only access",
+                    "is_selected": false
+                },
+                {
+                    "key": "c_16ec",
+                    "doc_count": 11,
+                    "label": "restricted access",
+                    "is_selected": false
+                }
+            ],
+            "label": "Access rights"
+        },
+        "metadata_relatedItems_itemCreators_affiliations": {
+            "buckets": [],
+            "label": "Affiliation"
+        },
+        "metadata_relatedItems_itemCreators_nameType": {
+            "buckets": [],
+            "label": "Type"
+        },
+        "metadata_relatedItems_itemCreators_fullName": {
+            "buckets": [],
+            "label": "Author name"
+        },
+        "metadata_relatedItems_itemCreators_authorityIdentifiers_identifier": {
+            "buckets": [],
+            "label": "metadata/relatedItems/itemCreators/authorityIdentifiers/identifier.label"
+        },
+        "metadata_relatedItems_itemCreators_authorityIdentifiers_scheme": {
+            "buckets": [],
+            "label": "metadata/relatedItems/itemCreators/authorityIdentifiers/scheme.label"
+        },
+        "metadata_relatedItems_itemContributors_role": {
+            "buckets": [],
+            "label": "Contributor's role"
+        },
+        "metadata_relatedItems_itemContributors_affiliations": {
+            "buckets": [],
+            "label": "Affiliation"
+        },
+        "metadata_relatedItems_itemContributors_nameType": {
+            "buckets": [],
+            "label": "Type"
+        },
+        "metadata_relatedItems_itemContributors_fullName": {
+            "buckets": [],
+            "label": "Author name"
+        },
+        "metadata_relatedItems_itemContributors_authorityIdentifiers_identifier": {
+            "buckets": [],
+            "label": "metadata/relatedItems/itemContributors/authorityIdentifiers/identifier.label"
+        },
+        "metadata_relatedItems_itemContributors_authorityIdentifiers_scheme": {
+            "buckets": [],
+            "label": "metadata/relatedItems/itemContributors/authorityIdentifiers/scheme.label"
+        },
+        "metadata_relatedItems_itemPIDs_identifier": {
+            "buckets": [
+                {
+                    "key": "978-80-86059-40-2",
+                    "doc_count": 59,
+                    "label": "978-80-86059-40-2",
+                    "is_selected": false
+                },
+                {
+                    "key": "978-80-85918-64-9",
+                    "doc_count": 55,
+                    "label": "978-80-85918-64-9",
+                    "is_selected": false
+                },
+                {
+                    "key": "978-80-85918-88-5",
+                    "doc_count": 47,
+                    "label": "978-80-85918-88-5",
+                    "is_selected": false
+                },
+                {
+                    "key": "978-80-86246-18-5",
+                    "doc_count": 45,
+                    "label": "978-80-86246-18-5",
+                    "is_selected": false
+                },
+                {
+                    "key": "978-80-214-2109-7",
+                    "doc_count": 43,
+                    "label": "978-80-214-2109-7",
+                    "is_selected": false
+                },
+                {
+                    "key": "978-80-85918-93-9",
+                    "doc_count": 41,
+                    "label": "978-80-85918-93-9",
+                    "is_selected": false
+                },
+                {
+                    "key": "1211-412X",
+                    "doc_count": 36,
+                    "label": "1211-412X",
+                    "is_selected": false
+                },
+                {
+                    "key": "978-80-86241-25-8",
+                    "doc_count": 31,
+                    "label": "978-80-86241-25-8",
+                    "is_selected": false
+                },
+                {
+                    "key": "978-80-01-01344-1",
+                    "doc_count": 29,
+                    "label": "978-80-01-01344-1",
+                    "is_selected": false
+                },
+                {
+                    "key": "978-80-214-2633-7",
+                    "doc_count": 29,
+                    "label": "978-80-214-2633-7",
+                    "is_selected": false
+                }
+            ],
+            "label": "Object identifier"
+        },
+        "metadata_relatedItems_itemPIDs_scheme": {
+            "buckets": [
+                {
+                    "key": "ISBN",
+                    "doc_count": 5550,
+                    "label": "ISBN",
+                    "is_selected": false
+                },
+                {
+                    "key": "ISSN",
+                    "doc_count": 269,
+                    "label": "ISSN",
+                    "is_selected": false
+                }
+            ],
+            "label": "Identifier type"
+        },
+        "metadata_relatedItems_itemURL": {
+            "buckets": [],
+            "label": "URL"
+        },
+        "metadata_relatedItems_itemYear": {
+            "buckets": [],
+            "label": "Year"
+        },
+        "metadata_relatedItems_itemVolume": {
+            "buckets": [],
+            "label": "Volume"
+        },
+        "metadata_relatedItems_itemIssue": {
+            "buckets": [],
+            "label": "Issue"
+        },
+        "metadata_relatedItems_itemStartPage": {
+            "buckets": [],
+            "label": "Start page"
+        },
+        "metadata_relatedItems_itemEndPage": {
+            "buckets": [],
+            "label": "End page"
+        },
+        "metadata_relatedItems_itemPublisher": {
+            "buckets": [],
+            "label": "Publisher"
+        },
+        "metadata_relatedItems_itemRelationType": {
+            "buckets": [],
+            "label": "Relation type"
+        },
+        "metadata_relatedItems_itemResourceType": {
+            "buckets": [],
+            "label": "Resource type"
+        },
+        "metadata_fundingReferences_projectID": {
+            "buckets": [
+                {
+                    "key": "CEZ:AV0Z7028912",
+                    "doc_count": 510,
+                    "label": "CEZ:AV0Z7028912",
+                    "is_selected": false
+                },
+                {
+                    "key": "CEZ:AV0Z2076919",
+                    "doc_count": 388,
+                    "label": "CEZ:AV0Z2076919",
+                    "is_selected": false
+                },
+                {
+                    "key": "CEZ:AV0Z4072921",
+                    "doc_count": 244,
+                    "label": "CEZ:AV0Z4072921",
+                    "is_selected": false
+                },
+                {
+                    "key": "CEZ:AV0Z4032918",
+                    "doc_count": 213,
+                    "label": "CEZ:AV0Z4032918",
+                    "is_selected": false
+                },
+                {
+                    "key": "CEZ:AV0Z2041904",
+                    "doc_count": 212,
+                    "label": "CEZ:AV0Z2041904",
+                    "is_selected": false
+                },
+                {
+                    "key": "CEZ:AV0Z2067918",
+                    "doc_count": 205,
+                    "label": "CEZ:AV0Z2067918",
+                    "is_selected": false
+                },
+                {
+                    "key": "CEZ:AV0Z2065902",
+                    "doc_count": 172,
+                    "label": "CEZ:AV0Z2065902",
+                    "is_selected": false
+                },
+                {
+                    "key": "CEZ:AV0Z3086906",
+                    "doc_count": 145,
+                    "label": "CEZ:AV0Z3086906",
+                    "is_selected": false
+                },
+                {
+                    "key": "CEZ:AV0Z9061902",
+                    "doc_count": 143,
+                    "label": "CEZ:AV0Z9061902",
+                    "is_selected": false
+                },
+                {
+                    "key": "CEZ:AV0Z20760514",
+                    "doc_count": 137,
+                    "label": "CEZ:AV0Z20760514",
+                    "is_selected": false
+                }
+            ],
+            "label": "Project double"
+        },
+        "metadata_fundingReferences_funder": {
+            "buckets": [
+                {
+                    "key": "MD0",
+                    "doc_count": 6195,
+                    "label": "Ministry of Transport of the Czech Republic",
+                    "is_selected": false
+                },
+                {
+                    "key": "GA0",
+                    "doc_count": 4456,
+                    "label": "Czech Science Foundation",
+                    "is_selected": false
+                },
+                {
+                    "key": "AV0",
+                    "doc_count": 2772,
+                    "label": "Czech Academy of Sciences",
+                    "is_selected": false
+                },
+                {
+                    "key": "MSM",
+                    "doc_count": 833,
+                    "label": "Ministry of Education, Youth and Sports of the Czech Republic",
+                    "is_selected": false
+                },
+                {
+                    "key": "MZP",
+                    "doc_count": 137,
+                    "label": "Ministry of Environment of the Czech Republic",
+                    "is_selected": false
+                },
+                {
+                    "key": "MZ0",
+                    "doc_count": 100,
+                    "label": "Ministry of Health of the Czech Republic",
+                    "is_selected": false
+                },
+                {
+                    "key": "MPO",
+                    "doc_count": 75,
+                    "label": "Ministry of Industry and Trade of the Czech Republic",
+                    "is_selected": false
+                },
+                {
+                    "key": "MK0",
+                    "doc_count": 50,
+                    "label": "Ministry of Culture of the Czech Republic",
+                    "is_selected": false
+                },
+                {
+                    "key": "MZE",
+                    "doc_count": 39,
+                    "label": "Ministry of Agriculture of the Czech Republic",
+                    "is_selected": false
+                },
+                {
+                    "key": "MH0",
+                    "doc_count": 37,
+                    "label": "Ministry of Industry of the Czech Republic",
+                    "is_selected": false
+                }
+            ],
+            "label": "Funder"
+        },
+        "metadata_version": {
+            "buckets": [],
+            "label": "Resource version"
+        },
+        "metadata_geoLocations_geoLocationPlace": {
+            "buckets": [],
+            "label": "metadata/geoLocations/geoLocationPlace.label"
+        },
+        "metadata_geoLocations_geoLocationPoint_pointLongitude": {
+            "buckets": [],
+            "label": "Longitude"
+        },
+        "metadata_geoLocations_geoLocationPoint_pointLatitude": {
+            "buckets": [],
+            "label": "Latitude"
+        },
+        "metadata_accessibility_lang": {
+            "buckets": [],
+            "label": ""
+        },
+        "metadata_accessibility_cs_keyword": {
+            "buckets": [],
+            "label": ""
+        },
+        "metadata_accessibility_en_keyword": {
+            "buckets": [],
+            "label": ""
+        },
+        "metadata_accessibility_value_keyword": {
+            "buckets": [],
+            "label": ""
+        },
+        "metadata_series_seriesTitle": {
+            "buckets": [
+                {
+                    "key": "Technical Report",
+                    "doc_count": 366,
+                    "label": "Technical Report",
+                    "is_selected": false
+                },
+                {
+                    "key": "Research Report",
+                    "doc_count": 296,
+                    "label": "Research Report",
+                    "is_selected": false
+                },
+                {
+                    "key": "Tiskov\u00e9 zpr\u00e1vy CVVM.",
+                    "doc_count": 251,
+                    "label": "Tiskov\u00e9 zpr\u00e1vy CVVM.",
+                    "is_selected": false
+                },
+                {
+                    "key": "Tiskov\u00e1 zpr\u00e1va CVVM.",
+                    "doc_count": 166,
+                    "label": "Tiskov\u00e1 zpr\u00e1va CVVM.",
+                    "is_selected": false
+                },
+                {
+                    "key": "Tiskov\u00e9 zpr\u00e1vy CVVM",
+                    "doc_count": 96,
+                    "label": "Tiskov\u00e9 zpr\u00e1vy CVVM",
+                    "is_selected": false
+                },
+                {
+                    "key": "V\u00fdzkumn\u00e1 zpr\u00e1va.",
+                    "doc_count": 96,
+                    "label": "V\u00fdzkumn\u00e1 zpr\u00e1va.",
+                    "is_selected": false
+                },
+                {
+                    "key": "CERGE-EI discussion paper series.",
+                    "doc_count": 79,
+                    "label": "CERGE-EI discussion paper series.",
+                    "is_selected": false
+                },
+                {
+                    "key": "V\u00fdzkumn\u00e1 zpr\u00e1va",
+                    "doc_count": 65,
+                    "label": "V\u00fdzkumn\u00e1 zpr\u00e1va",
+                    "is_selected": false
+                },
+                {
+                    "key": "Discussion paper series.",
+                    "doc_count": 45,
+                    "label": "Discussion paper series.",
+                    "is_selected": false
+                },
+                {
+                    "key": "Biennial Report 1997-1998.",
+                    "doc_count": 32,
+                    "label": "Biennial Report 1997-1998.",
+                    "is_selected": false
+                }
+            ],
+            "label": "Series title"
+        },
+        "metadata_series_seriesVolume": {
+            "buckets": [
+                {
+                    "key": "2A",
+                    "doc_count": 17,
+                    "label": "2A",
+                    "is_selected": false
+                },
+                {
+                    "key": "1",
+                    "doc_count": 12,
+                    "label": "1",
+                    "is_selected": false
+                },
+                {
+                    "key": "-",
+                    "doc_count": 10,
+                    "label": "-",
+                    "is_selected": false
+                },
+                {
+                    "key": "2",
+                    "doc_count": 10,
+                    "label": "2",
+                    "is_selected": false
+                },
+                {
+                    "key": "3",
+                    "doc_count": 8,
+                    "label": "3",
+                    "is_selected": false
+                },
+                {
+                    "key": "51",
+                    "doc_count": 8,
+                    "label": "51",
+                    "is_selected": false
+                },
+                {
+                    "key": "11",
+                    "doc_count": 7,
+                    "label": "11",
+                    "is_selected": false
+                },
+                {
+                    "key": "5",
+                    "doc_count": 6,
+                    "label": "5",
+                    "is_selected": false
+                },
+                {
+                    "key": "7",
+                    "doc_count": 6,
+                    "label": "7",
+                    "is_selected": false
+                },
+                {
+                    "key": "8",
+                    "doc_count": 6,
+                    "label": "8",
+                    "is_selected": false
+                }
+            ],
+            "label": "Series volume"
+        },
+        "metadata_externalLocation_externalLocationURL": {
+            "buckets": [
+                {
+                    "key": "http://cas.icpf.cas.cz/download/Sbornik_VKCAS_2005.pdf",
+                    "doc_count": 8,
+                    "label": "http://cas.icpf.cas.cz/download/Sbornik_VKCAS_2005.pdf",
+                    "is_selected": false
+                },
+                {
+                    "key": "http://cas.icpf.cas.cz/download/Sbornik_VKCAS_2003.pdf",
+                    "doc_count": 5,
+                    "label": "http://cas.icpf.cas.cz/download/Sbornik_VKCAS_2003.pdf",
+                    "is_selected": false
+                },
+                {
+                    "key": "http://cas.icpf.cas.cz/download/Sbornik_VKCAS_2004.pdf",
+                    "doc_count": 2,
+                    "label": "http://cas.icpf.cas.cz/download/Sbornik_VKCAS_2004.pdf",
+                    "is_selected": false
+                },
+                {
+                    "key": "http://image.folkoveprazdniny.cz/2003/kolokvium2003/sbornik2003_03_Pribylova+Uhlikova.pdf",
+                    "doc_count": 1,
+                    "label": "http://image.folkoveprazdniny.cz/2003/kolokvium2003/sbornik2003_03_Pribylova+Uhlikova.pdf",
+                    "is_selected": false
+                },
+                {
+                    "key": "http://image.folkoveprazdniny.cz/2003/kolokvium2003/sbornik2003_05_Toncrova.pdf",
+                    "doc_count": 1,
+                    "label": "http://image.folkoveprazdniny.cz/2003/kolokvium2003/sbornik2003_05_Toncrova.pdf",
+                    "is_selected": false
+                },
+                {
+                    "key": "http://library.utia.cas.cz/prace/20000011.pdf",
+                    "doc_count": 1,
+                    "label": "http://library.utia.cas.cz/prace/20000011.pdf",
+                    "is_selected": false
+                },
+                {
+                    "key": "http://library.utia.cas.cz/prace/20040051.pdf",
+                    "doc_count": 1,
+                    "label": "http://library.utia.cas.cz/prace/20040051.pdf",
+                    "is_selected": false
+                },
+                {
+                    "key": "http://library.utia.cas.cz/prace/20040109.pdf",
+                    "doc_count": 1,
+                    "label": "http://library.utia.cas.cz/prace/20040109.pdf",
+                    "is_selected": false
+                },
+                {
+                    "key": "http://library.utia.cas.cz/prace/20040121.pdf",
+                    "doc_count": 1,
+                    "label": "http://library.utia.cas.cz/prace/20040121.pdf",
+                    "is_selected": false
+                },
+                {
+                    "key": "http://library.utia.cas.cz/prace/20050251.pdf",
+                    "doc_count": 1,
+                    "label": "http://library.utia.cas.cz/prace/20050251.pdf",
+                    "is_selected": false
+                }
+            ],
+            "label": "Resource external location"
+        },
+        "metadata_originalRecord": {
+            "buckets": [
+                {
+                    "key": "http://hdl.handle.net/11104/0003262",
+                    "doc_count": 1,
+                    "label": "http://hdl.handle.net/11104/0003262",
+                    "is_selected": false
+                },
+                {
+                    "key": "http://hdl.handle.net/11104/0003469",
+                    "doc_count": 1,
+                    "label": "http://hdl.handle.net/11104/0003469",
+                    "is_selected": false
+                },
+                {
+                    "key": "http://hdl.handle.net/11104/0007523",
+                    "doc_count": 1,
+                    "label": "http://hdl.handle.net/11104/0007523",
+                    "is_selected": false
+                },
+                {
+                    "key": "http://hdl.handle.net/11104/0007524",
+                    "doc_count": 1,
+                    "label": "http://hdl.handle.net/11104/0007524",
+                    "is_selected": false
+                },
+                {
+                    "key": "http://hdl.handle.net/11104/0007525",
+                    "doc_count": 1,
+                    "label": "http://hdl.handle.net/11104/0007525",
+                    "is_selected": false
+                },
+                {
+                    "key": "http://hdl.handle.net/11104/0007526",
+                    "doc_count": 1,
+                    "label": "http://hdl.handle.net/11104/0007526",
+                    "is_selected": false
+                },
+                {
+                    "key": "http://hdl.handle.net/11104/0007527",
+                    "doc_count": 1,
+                    "label": "http://hdl.handle.net/11104/0007527",
+                    "is_selected": false
+                },
+                {
+                    "key": "http://hdl.handle.net/11104/0007549",
+                    "doc_count": 1,
+                    "label": "http://hdl.handle.net/11104/0007549",
+                    "is_selected": false
+                },
+                {
+                    "key": "http://hdl.handle.net/11104/0007550",
+                    "doc_count": 1,
+                    "label": "http://hdl.handle.net/11104/0007550",
+                    "is_selected": false
+                },
+                {
+                    "key": "http://hdl.handle.net/11104/0007551",
+                    "doc_count": 1,
+                    "label": "http://hdl.handle.net/11104/0007551",
+                    "is_selected": false
+                }
+            ],
+            "label": "Original record URL"
+        },
+        "metadata_objectIdentifiers_identifier": {
+            "buckets": [
+                {
+                    "key": "11104/0003262",
+                    "doc_count": 1,
+                    "label": "11104/0003262",
+                    "is_selected": false
+                },
+                {
+                    "key": "11104/0003469",
+                    "doc_count": 1,
+                    "label": "11104/0003469",
+                    "is_selected": false
+                },
+                {
+                    "key": "11104/0007523",
+                    "doc_count": 1,
+                    "label": "11104/0007523",
+                    "is_selected": false
+                },
+                {
+                    "key": "11104/0007524",
+                    "doc_count": 1,
+                    "label": "11104/0007524",
+                    "is_selected": false
+                },
+                {
+                    "key": "11104/0007525",
+                    "doc_count": 1,
+                    "label": "11104/0007525",
+                    "is_selected": false
+                },
+                {
+                    "key": "11104/0007526",
+                    "doc_count": 1,
+                    "label": "11104/0007526",
+                    "is_selected": false
+                },
+                {
+                    "key": "11104/0007527",
+                    "doc_count": 1,
+                    "label": "11104/0007527",
+                    "is_selected": false
+                },
+                {
+                    "key": "11104/0007549",
+                    "doc_count": 1,
+                    "label": "11104/0007549",
+                    "is_selected": false
+                },
+                {
+                    "key": "11104/0007550",
+                    "doc_count": 1,
+                    "label": "11104/0007550",
+                    "is_selected": false
+                },
+                {
+                    "key": "11104/0007551",
+                    "doc_count": 1,
+                    "label": "11104/0007551",
+                    "is_selected": false
+                }
+            ],
+            "label": "Object identifier"
+        },
+        "metadata_objectIdentifiers_scheme": {
+            "buckets": [
+                {
+                    "key": "Handle",
+                    "doc_count": 14042,
+                    "label": "Handle",
+                    "is_selected": false
+                }
+            ],
+            "label": "Identifier type"
+        },
+        "metadata_systemIdentifiers_identifier": {
+            "buckets": [
+                {
+                    "key": "0000008",
+                    "doc_count": 1,
+                    "label": "0000008",
+                    "is_selected": false
+                },
+                {
+                    "key": "0000009",
+                    "doc_count": 1,
+                    "label": "0000009",
+                    "is_selected": false
+                },
+                {
+                    "key": "0000011",
+                    "doc_count": 1,
+                    "label": "0000011",
+                    "is_selected": false
+                },
+                {
+                    "key": "0000012",
+                    "doc_count": 1,
+                    "label": "0000012",
+                    "is_selected": false
+                },
+                {
+                    "key": "0000013",
+                    "doc_count": 1,
+                    "label": "0000013",
+                    "is_selected": false
+                },
+                {
+                    "key": "0000014",
+                    "doc_count": 1,
+                    "label": "0000014",
+                    "is_selected": false
+                },
+                {
+                    "key": "0000015",
+                    "doc_count": 1,
+                    "label": "0000015",
+                    "is_selected": false
+                },
+                {
+                    "key": "0000025",
+                    "doc_count": 1,
+                    "label": "0000025",
+                    "is_selected": false
+                },
+                {
+                    "key": "0000044",
+                    "doc_count": 1,
+                    "label": "0000044",
+                    "is_selected": false
+                },
+                {
+                    "key": "0000047",
+                    "doc_count": 1,
+                    "label": "0000047",
+                    "is_selected": false
+                }
+            ],
+            "label": "System Identifier"
+        },
+        "metadata_systemIdentifiers_scheme": {
+            "buckets": [
+                {
+                    "key": "nusl",
+                    "doc_count": 30198,
+                    "label": "nusl",
+                    "is_selected": false
+                },
+                {
+                    "key": "nuslOAI",
+                    "doc_count": 30198,
+                    "label": "nuslOAI",
+                    "is_selected": false
+                },
+                {
+                    "key": "originalRecordOAI",
+                    "doc_count": 30190,
+                    "label": "originalRecordOAI",
+                    "is_selected": false
+                },
+                {
+                    "key": "catalogueSysNo",
+                    "doc_count": 14042,
+                    "label": "catalogueSysNo",
+                    "is_selected": false
+                }
+            ],
+            "label": "Identifier type"
+        },
+        "metadata_events_eventDate": {
+            "buckets": [],
+            "label": "Event date"
+        },
+        "metadata_events_eventLocation_place": {
+            "buckets": [],
+            "label": "Place"
+        },
+        "metadata_events_eventLocation_country": {
+            "buckets": [],
+            "label": "Country"
+        },
+        "_id": {
+            "buckets": [
+                {
+                    "key": "000tv-wvv87",
+                    "doc_count": 1,
+                    "label": "000tv-wvv87",
+                    "is_selected": false
+                },
+                {
+                    "key": "000w9-qxs91",
+                    "doc_count": 1,
+                    "label": "000w9-qxs91",
+                    "is_selected": false
+                },
+                {
+                    "key": "001f6-36j12",
+                    "doc_count": 1,
+                    "label": "001f6-36j12",
+                    "is_selected": false
+                },
+                {
+                    "key": "00498-29y84",
+                    "doc_count": 1,
+                    "label": "00498-29y84",
+                    "is_selected": false
+                },
+                {
+                    "key": "004ty-2p002",
+                    "doc_count": 1,
+                    "label": "004ty-2p002",
+                    "is_selected": false
+                },
+                {
+                    "key": "005t9-bx818",
+                    "doc_count": 1,
+                    "label": "005t9-bx818",
+                    "is_selected": false
+                },
+                {
+                    "key": "006wf-pdg42",
+                    "doc_count": 1,
+                    "label": "006wf-pdg42",
+                    "is_selected": false
+                },
+                {
+                    "key": "006wt-m3h74",
+                    "doc_count": 1,
+                    "label": "006wt-m3h74",
+                    "is_selected": false
+                },
+                {
+                    "key": "008vz-skj62",
+                    "doc_count": 1,
+                    "label": "008vz-skj62",
+                    "is_selected": false
+                },
+                {
+                    "key": "00aan-rt839",
+                    "doc_count": 1,
+                    "label": "00aan-rt839",
+                    "is_selected": false
+                }
+            ],
+            "label": "id.label"
+        },
+        "created": {
+            "buckets": [
+                {
+                    "key": "2023-06-13T14:00:35.693Z",
+                    "doc_count": 1,
+                    "label": "Jun 13, 2023, 2:00:35 PM",
+                    "is_selected": false
+                },
+                {
+                    "key": "2023-06-13T14:00:35.863Z",
+                    "doc_count": 1,
+                    "label": "Jun 13, 2023, 2:00:35 PM",
+                    "is_selected": false
+                },
+                {
+                    "key": "2023-06-13T14:00:35.980Z",
+                    "doc_count": 1,
+                    "label": "Jun 13, 2023, 2:00:35 PM",
+                    "is_selected": false
+                },
+                {
+                    "key": "2023-06-13T14:00:36.142Z",
+                    "doc_count": 1,
+                    "label": "Jun 13, 2023, 2:00:36 PM",
+                    "is_selected": false
+                },
+                {
+                    "key": "2023-06-13T14:00:36.253Z",
+                    "doc_count": 1,
+                    "label": "Jun 13, 2023, 2:00:36 PM",
+                    "is_selected": false
+                },
+                {
+                    "key": "2023-06-13T14:00:36.367Z",
+                    "doc_count": 1,
+                    "label": "Jun 13, 2023, 2:00:36 PM",
+                    "is_selected": false
+                },
+                {
+                    "key": "2023-06-13T14:00:36.478Z",
+                    "doc_count": 1,
+                    "label": "Jun 13, 2023, 2:00:36 PM",
+                    "is_selected": false
+                },
+                {
+                    "key": "2023-06-13T14:00:36.591Z",
+                    "doc_count": 1,
+                    "label": "Jun 13, 2023, 2:00:36 PM",
+                    "is_selected": false
+                },
+                {
+                    "key": "2023-06-13T14:00:36.703Z",
+                    "doc_count": 1,
+                    "label": "Jun 13, 2023, 2:00:36 PM",
+                    "is_selected": false
+                },
+                {
+                    "key": "2023-06-13T14:00:36.833Z",
+                    "doc_count": 1,
+                    "label": "Jun 13, 2023, 2:00:36 PM",
+                    "is_selected": false
+                }
+            ],
+            "label": "Created"
+        },
+        "updated": {
+            "buckets": [
+                {
+                    "key": "2023-06-13T14:00:35.793Z",
+                    "doc_count": 1,
+                    "label": "Jun 13, 2023, 2:00:35 PM",
+                    "is_selected": false
+                },
+                {
+                    "key": "2023-06-13T14:00:35.908Z",
+                    "doc_count": 1,
+                    "label": "Jun 13, 2023, 2:00:35 PM",
+                    "is_selected": false
+                },
+                {
+                    "key": "2023-06-13T14:00:36.068Z",
+                    "doc_count": 1,
+                    "label": "Jun 13, 2023, 2:00:36 PM",
+                    "is_selected": false
+                },
+                {
+                    "key": "2023-06-13T14:00:36.185Z",
+                    "doc_count": 1,
+                    "label": "Jun 13, 2023, 2:00:36 PM",
+                    "is_selected": false
+                },
+                {
+                    "key": "2023-06-13T14:00:36.297Z",
+                    "doc_count": 1,
+                    "label": "Jun 13, 2023, 2:00:36 PM",
+                    "is_selected": false
+                },
+                {
+                    "key": "2023-06-13T14:00:36.410Z",
+                    "doc_count": 1,
+                    "label": "Jun 13, 2023, 2:00:36 PM",
+                    "is_selected": false
+                },
+                {
+                    "key": "2023-06-13T14:00:36.522Z",
+                    "doc_count": 1,
+                    "label": "Jun 13, 2023, 2:00:36 PM",
+                    "is_selected": false
+                },
+                {
+                    "key": "2023-06-13T14:00:36.635Z",
+                    "doc_count": 1,
+                    "label": "Jun 13, 2023, 2:00:36 PM",
+                    "is_selected": false
+                },
+                {
+                    "key": "2023-06-13T14:00:36.764Z",
+                    "doc_count": 1,
+                    "label": "Jun 13, 2023, 2:00:36 PM",
+                    "is_selected": false
+                },
+                {
+                    "key": "2023-06-13T14:00:36.887Z",
+                    "doc_count": 1,
+                    "label": "Jun 13, 2023, 2:00:36 PM",
+                    "is_selected": false
+                }
+            ],
+            "label": "Updated"
+        },
+        "_schema": {
+            "buckets": [
+                {
+                    "key": "local://nr_documents-1.0.0.json",
+                    "doc_count": 30198,
+                    "label": "local://nr_documents-1.0.0.json",
+                    "is_selected": false
+                }
+            ],
+            "label": "$schema.label"
+        }
+    }
+}

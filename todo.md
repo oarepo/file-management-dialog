@@ -26,7 +26,7 @@ Implement React file-input based component, that:
     - https://www.npmjs.com/package/pdf-img-convert
     - https://www.npmjs.com/package/pdf-extractor
 3. What's the metadata of a image? (caption, page, size, type, name, ...)
-
+    - caption, page
 
 Bugs:
 Computer-organization-and-design.pdf:
