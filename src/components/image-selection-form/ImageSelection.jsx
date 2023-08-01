@@ -33,8 +33,8 @@ const ImageSelection = ({ images, setImages, prevStep }) => {
             </Card.Group>
           </Segment>
           <Segment>
-            <Button onClick={prevStep}>Back</Button>
-            <Button onClick={upload}>Upload {getSelectedImagesLength()} images</Button>
+            <Button secondary onClick={prevStep}>Back</Button>
+            <Button primary onClick={upload}>Upload {getSelectedImagesLength()} images</Button>
           </Segment>
         </Segment.Group>
       </Grid.Column>
