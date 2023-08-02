@@ -29,6 +29,8 @@ const FileSelectDialog = ({ images, setImages, nextStep }) => {
         );
         const imageObj = {
           src: imageSrc,
+          fileName: `${file.name.split(".")[0] ?? file.name}_${crypto.randomUUID()}.${event.data.imageType}`,
+          imageType: event.data.imageType,
           caption: "",
           isSelected: false,
           isStarred: false,
@@ -37,6 +39,7 @@ const FileSelectDialog = ({ images, setImages, nextStep }) => {
           ...images,
           {
             ...imageObj,
+            // should the first image be selected and starred by default???
             isSelected: images.length === 0 ? true : false,
             isStarred: images.length === 0 ? true : false,
           },
@@ -51,7 +54,7 @@ const FileSelectDialog = ({ images, setImages, nextStep }) => {
     } else {
       console.log("Web Worker is not supported");
     }
-  }, [extractImageWorker, setImages, nextStep, isProcessing]);
+  }, [extractImageWorker, setImages, nextStep, isProcessing, file]);
 
   const handleFileChange = (e) => {
     // Revoke and Set
@@ -83,11 +86,14 @@ const FileSelectDialog = ({ images, setImages, nextStep }) => {
       const newImages = [];
       for (let i = 0; i < e.target.files.length; i++) {
         const imageSrc = URL.createObjectURL(e.target.files[i]);
+        const imageType = e.target.files[i].type.split("/")[1] ?? "png";
         newImages.push({
           src: imageSrc,
-          caption: "",
-          isSelected: false,
-          isStarred: false,
+          fileName: e.target.files[i].name ?? `image${i}.${imageType}`,
+          imageType: imageType,
+          caption: e.target.files[i].name.split(".")[0] ?? "", // Default caption is file name??? or empty
+          isSelected: true,
+          isStarred: i === 0 ? true : false,
         });
       }
       setImages(newImages);

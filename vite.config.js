@@ -11,6 +11,8 @@ export default defineConfig(({ command, mode }) => {
       viteMockServe({
         mockPath: "mock",
         enable: true,
+        logger: true,
+        watchFiles: true,
         localEnabled: command === "serve",
         prodEnabled: command !== "serve" && mode === "production",
         injectCode: `

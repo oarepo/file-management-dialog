@@ -47,23 +47,17 @@ export default [
         enabled: true,
         default_preview: null,
         order: [],
-        entries: body.map((fileName) => {
+        entries: body.map((obj) => {
           return {
-            key: fileName,
+            key: obj.key,
             updated: "2020-11-27 11:17:11.002624",
             created: "2020-11-27 11:17:10.998919",
             metadata: null,
             status: "pending",
             links: {
-              content: `/api/records/${
-                query.id
-              }/draft/files/${fileName.toString()}/content`,
-              self: `/api/records/${
-                query.id
-              }/draft/files/${fileName.toString()}`,
-              commit: `/api/records/${
-                query.id
-              }/draft/files/${fileName.toString()}/commit`,
+              content: `/api/records/${query.id}/draft/files/${obj.key}/content`,
+              self: `/api/records/${query.id}/draft/files/${obj.key}`,
+              commit: `/api/records/${query.id}/draft/files/${obj.key}/commit`,
             },
           };
         }),
@@ -73,12 +67,33 @@ export default [
       };
     },
   },
+  // metadata:
+  {
+    url: "/api/records/:id/files/:fileName",
+    method: "put",
+    response: ({ body, query }) => {
+      return {
+        key: query.fileName,
+        updated: "2020-11-27 11:17:11.002624",
+        created: "2020-11-27 11:17:10.998919",
+        metadata: body.metadata,
+        status: "pending",
+        links: {
+          content: `/api/records/${query.id}/draft/files/${query.fileName}/content`,
+          self: `/api/records/${query.id}/draft/files/${query.fileName}`,
+          commit: `/api/records/${query.id}/draft/files/${query.fileName}/commit`,
+        },
+      };
+    },
+  },
   {
     url: "/api/records/:id/files/:fileName/content",
+    timeout: 1000,
     method: "put",
     response: ({ query }) => {
       return {
         key: query.fileName,
+        // data: body,
         updated: "2020-11-27 11:17:11.002624",
         created: "2020-11-27 11:17:10.998919",
         metadata: null,

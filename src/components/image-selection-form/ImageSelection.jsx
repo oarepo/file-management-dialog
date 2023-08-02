@@ -1,42 +1,165 @@
-import { Card, Grid, Segment, Button } from "semantic-ui-react";
+import { useState } from "react";
+import {
+  Card,
+  Grid,
+  Segment,
+  Button,
+  Progress,
+  Dimmer
+} from "semantic-ui-react";
 import PropTypes from "prop-types";
 import ImageCard from "./ImageCard";
+import useAppContext from "../../utils/useAppContext";
 
 const ImageSelection = ({ images, setImages, prevStep }) => {
-  // TODO: Implement upload
-  // Upload selected images to server
-  // Only upload images that are selected and only if there are selected images
-  const upload = () => {
-    alert("Upload");
+  const { baseUrl, recordId } = useAppContext().current;
+
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [isUploading, setIsUploading] = useState(false);
+
+  const upload = async () => {
+    setIsUploading(true);
+    setUploadProgress(0);
+    const selectedImages = getSelectedImages();
+
+    await startFilesUpload(selectedImages);
+
+    for (let i = 0; i < selectedImages.length; i++) {
+      const image = selectedImages[i];
+      // Upload file metadata
+      const metadata = {
+        caption: image.caption,
+        featureImage: image.isStarred,
+      };
+      await uploadFileMetadata(image.fileName, metadata);
+      // Upload file content
+      const imageData = await fetch(image.src);
+      const processedImageData = await imageData.blob();
+      await uploadFileContent(image.fileName, processedImageData);
+      // Complete file upload
+      await completeFileUpload(image.fileName);
+      setUploadProgress(progress => progress + 1);
+    }
+
+    setIsUploading(false);
   };
 
-  const getSelectedImagesLength = () => {
-    return images.filter((image) => image.isSelected).length;
+  const startFilesUpload = async (selectedImages) => {
+    return fetch(`${baseUrl}/records/${recordId}/files`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(
+        selectedImages.map((image) => ({
+          key: image.fileName,
+        }))
+      ),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      });
+  };
+
+  const uploadFileMetadata = async (fileName, metadata) => {
+    return fetch(`${baseUrl}/records/${recordId}/files/${fileName}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ metadata: metadata }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      });
+  };
+
+  const uploadFileContent = async (fileName, content) => {
+    return fetch(`${baseUrl}/records/${recordId}/files/${fileName}/content`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/octet-stream",
+      },
+      body: content,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      });
+  };
+
+  const completeFileUpload = async (fileName) => {
+    return fetch(`${baseUrl}/records/${recordId}/files/${fileName}/commit`, {
+      method: "POST",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      });
+  };
+
+  // const handleLoadingClick = () => {
+  //   setIsUploading(true);
+  //   setUploadProgress(0);
+
+  //   setInterval(() => {
+  //     setUploadProgress((uploadProgress) => uploadProgress + 1);
+  //   }, 1000);
+
+  //   setTimeout(() => {
+  //     setIsUploading(false);
+  //   }, 3000);
+  // };
+
+  const getSelectedImages = () => {
+    return images.filter((image) => image.isSelected);
   };
 
   return (
-    images &&
     images.length > 0 && (
       <Grid.Column textAlign="center">
-        <Segment.Group>
-          <Segment>
-            <Card.Group centered textAlign="center" doubling>
-              {images.map((image) => {
-                return (
-                  <ImageCard
-                    image={image}
-                    setImages={setImages}
-                    key={image.src}
-                  />
-                );
-              })}
-            </Card.Group>
-          </Segment>
-          <Segment>
-            <Button secondary onClick={prevStep}>Back</Button>
-            <Button primary onClick={upload}>Upload {getSelectedImagesLength()} images</Button>
-          </Segment>
-        </Segment.Group>
+        <Dimmer.Dimmable as={Segment} dimmed={isUploading} blurring>
+          <Dimmer active={isUploading} page inverted>
+            <Progress
+              progress="ratio"
+              value={uploadProgress}
+              total={getSelectedImages().length}
+              indicating
+              autoSuccess
+              size="large"
+              label="Uploading images..."
+              style={{ width: "70vw" }}
+            />
+          </Dimmer>
+
+          <Segment.Group>
+            <Segment>
+              <Card.Group centered textAlign="center" doubling>
+                {images.map((image) => {
+                  return (
+                    <ImageCard
+                      image={image}
+                      setImages={setImages}
+                      key={image.src}
+                    />
+                  );
+                })}
+              </Card.Group>
+            </Segment>
+            <Segment>
+              <Button.Group>
+                <Button secondary onClick={prevStep}>
+                  Back
+                </Button>
+                <Button primary loading={isUploading} onClick={upload}>
+                  Upload {getSelectedImages().length} images
+                </Button>
+              </Button.Group>
+            </Segment>
+          </Segment.Group>
+        </Dimmer.Dimmable>
       </Grid.Column>
     )
   );

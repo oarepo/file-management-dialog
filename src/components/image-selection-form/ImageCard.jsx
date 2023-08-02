@@ -104,6 +104,7 @@ const ImageCard = ({ image, setImages, ...props }) => {
         <Input
           fluid
           placeholder="Image Caption"
+          value={image.caption}
           onChange={handleCaptionChange}
         />
       </Card.Content>
