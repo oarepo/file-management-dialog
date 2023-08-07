@@ -5,7 +5,9 @@ import {
   Segment,
   Button,
   Progress,
-  Dimmer
+  Dimmer,
+  Image,
+  Header,
 } from "semantic-ui-react";
 import PropTypes from "prop-types";
 import ImageCard from "./ImageCard";
@@ -16,15 +18,24 @@ const ImageSelection = ({ images, setImages, prevStep }) => {
 
   const [uploadProgress, setUploadProgress] = useState(0);
   const [isUploading, setIsUploading] = useState(false);
+  const [failedUploads, setFailedUploads] = useState([]);
 
   // 200 succes
   // other error
   const upload = async () => {
     setIsUploading(true);
     setUploadProgress(0);
+    setFailedUploads([]);
     const selectedImages = getSelectedImages();
 
-    await startFilesUpload(selectedImages);
+    try {
+      await startFilesUpload(selectedImages);
+    } catch (error) {
+      setIsUploading(false);
+      alert("Error uploading images. Please try again.");
+      console.error(error);
+      return;
+    }
 
     for (let i = 0; i < selectedImages.length; i++) {
       const image = selectedImages[i];
@@ -33,17 +44,23 @@ const ImageSelection = ({ images, setImages, prevStep }) => {
         caption: image.caption,
         featureImage: image.isStarred,
       };
-      await uploadFileMetadata(image.fileName, metadata);
-      // Upload file content
-      const imageData = await fetch(image.src);
-      const processedImageData = await imageData.blob();
-      await uploadFileContent(image.fileName, processedImageData);
-      // Complete file upload
-      await completeFileUpload(image.fileName);
-      setUploadProgress(progress => progress + 1);
+      try {
+        await uploadFileMetadata(image.fileName, metadata);
+        // Upload file content
+        const imageData = await fetch(image.src);
+        const processedImageData = await imageData.blob();
+        await uploadFileContent(image.fileName, processedImageData);
+        // Complete file upload
+        console.log("Completing file upload...");
+        await completeFileUpload(image.fileName);
+      } catch (error) {
+        setFailedUploads((failedUploads) => [...failedUploads, image]);
+        console.error(error);
+      }
+      setUploadProgress((progress) => progress + 1);
     }
 
-    setIsUploading(false);
+    setTimeout(() => setIsUploading(false), 2000);
   };
 
   const startFilesUpload = async (selectedImages) => {
@@ -58,7 +75,14 @@ const ImageSelection = ({ images, setImages, prevStep }) => {
         }))
       ),
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.status.toString().startsWith("2")) {
+          throw new Error(
+            `[${response.status} ${response.statusText}] Error starting files upload.")`
+          );
+        }
+        return response.json();
+      })
       .then((data) => {
         console.log(data);
       });
@@ -72,7 +96,14 @@ const ImageSelection = ({ images, setImages, prevStep }) => {
       },
       body: JSON.stringify({ metadata: metadata }),
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.status.toString().startsWith("2")) {
+          throw new Error(
+            `[${response.status} ${response.statusText}] Error uploading file metadata.")`
+          );
+        }
+        return response.json();
+      })
       .then((data) => {
         console.log(data);
       });
@@ -86,7 +117,14 @@ const ImageSelection = ({ images, setImages, prevStep }) => {
       },
       body: content,
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.status.toString().startsWith("2")) {
+          throw new Error(
+            `[${response.status} ${response.statusText}] Error uploading file content.")`
+          );
+        }
+        return response.json();
+      })
       .then((data) => {
         console.log(data);
       });
@@ -96,7 +134,14 @@ const ImageSelection = ({ images, setImages, prevStep }) => {
     return fetch(`${baseUrl}/records/${recordId}/files/${fileName}/commit`, {
       method: "POST",
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.status.toString().startsWith("2")) {
+          throw new Error(
+            `[${response.status} ${response.statusText}] Error completing file upload.")`
+          );
+        }
+        return response.json();
+      })
       .then((data) => {
         console.log(data);
       });
@@ -119,34 +164,58 @@ const ImageSelection = ({ images, setImages, prevStep }) => {
     return images.filter((image) => image.isSelected);
   };
 
+  const selectedImages = getSelectedImages();
+
   return (
     images.length > 0 && (
       <Grid.Column textAlign="center">
         <Dimmer.Dimmable as={Segment} dimmed={isUploading} blurring>
-          <Dimmer active={isUploading} page inverted>
+          <Dimmer active={isUploading} page inverted simple>
             <Progress
               progress="ratio"
               value={uploadProgress}
-              total={getSelectedImages().length}
+              total={selectedImages.length}
               indicating
               autoSuccess
               size="large"
-              label="Uploading images..."
+              label={
+                uploadProgress !== selectedImages.length
+                  ? "Uploading images..."
+                  : "Upload complete!"
+              }
               style={{ width: "70vw" }}
             />
+            {failedUploads.length > 0 && (
+              <Segment>
+                <Header size="medium">Failed uploads</Header>
+                <Image.Group size="small">
+                  {failedUploads.map((image) => {
+                    return (
+                      <Image
+                        src={image.src}
+                        key={image.src}
+                        label={image.fileName}
+                        bordered
+                        spaced
+                        ui
+                      />
+                    );
+                  })}
+                </Image.Group>
+              </Segment>
+            )}
           </Dimmer>
 
           <Segment.Group>
             <Segment>
               <Card.Group centered textAlign="center" doubling>
                 {images.map((image) => {
-                  return (
-                    <ImageCard
-                      image={image}
-                      setImages={setImages}
-                      key={image.src}
-                    />
-                  );
+                  return <ImageCard
+                    image={image}
+                    setImages={setImages}
+                    key={image.src}
+                    color={failedUploads.includes(image) ? "red" : null}
+                  />;
                 })}
               </Card.Group>
             </Segment>
@@ -155,8 +224,15 @@ const ImageSelection = ({ images, setImages, prevStep }) => {
                 <Button secondary onClick={prevStep}>
                   Back
                 </Button>
-                <Button primary loading={isUploading} onClick={upload}>
-                  Upload {getSelectedImages().length} images
+                <Button
+                  primary
+                  loading={isUploading}
+                  onClick={upload}
+                  disabled={selectedImages.length === 0}
+                >
+                  {selectedImages.length === 0
+                    ? "No images selected"
+                    : `Upload ${selectedImages.length} images`}
                 </Button>
               </Button.Group>
             </Segment>

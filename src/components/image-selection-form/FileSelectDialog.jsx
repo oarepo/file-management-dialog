@@ -96,15 +96,7 @@ const FileSelectDialog = ({ images, setImages, nextStep }) => {
           isSelected: false,
           isStarred: false,
         };
-        setImages((images) => [
-          ...images,
-          {
-            ...imageObj,
-            // should the first image be selected and starred by default???
-            isSelected: images.length === 0 ? true : false,
-            isStarred: images.length === 0 ? true : false,
-          },
-        ]);
+        setImages((images) => [...images, imageObj]);
         nextStep();
       };
       // Handle errors (never fires ???)

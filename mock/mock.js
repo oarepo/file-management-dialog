@@ -152,7 +152,8 @@ export default [
   },
   {
     url: "/api/records/:id/files/:fileName/content",
-    timeout: 1000,
+    timeout: 2000,
+    statusCode: 404,
     method: "put",
     response: ({ query }) => {
       return {
