@@ -8,6 +8,7 @@ import {
   Dimmer,
   Image,
   Header,
+  Label,
 } from "semantic-ui-react";
 import PropTypes from "prop-types";
 import ImageCard from "./ImageCard";
@@ -147,19 +148,6 @@ const ImageSelection = ({ images, setImages, prevStep }) => {
       });
   };
 
-  // const handleLoadingClick = () => {
-  //   setIsUploading(true);
-  //   setUploadProgress(0);
-
-  //   setInterval(() => {
-  //     setUploadProgress((uploadProgress) => uploadProgress + 1);
-  //   }, 1000);
-
-  //   setTimeout(() => {
-  //     setIsUploading(false);
-  //   }, 3000);
-  // };
-
   const getSelectedImages = () => {
     return images.filter((image) => image.isSelected);
   };
@@ -186,19 +174,30 @@ const ImageSelection = ({ images, setImages, prevStep }) => {
               style={{ width: "70vw" }}
             />
             {failedUploads.length > 0 && (
-              <Segment>
+              <Segment basic>
                 <Header size="medium">Failed uploads</Header>
-                <Image.Group size="small">
+                <Image.Group size="medium">
                   {failedUploads.map((image) => {
                     return (
                       <Image
                         src={image.src}
                         key={image.src}
-                        label={image.fileName}
-                        bordered
-                        spaced
-                        ui
+                        label={<Label attached="top" basic size="medium">{image.fileName}</Label>}
+                        wrapped
                       />
+                      // <Card key={image.src} color="red">
+                      //   <Image
+                      //     src={image.src}
+                      //     label={image.fileName}
+                      //     wrapped
+                      //     ui={false}
+                      //     size="tiny"
+                      //   />
+                      // </Card>
+                      // <Item key={image.src}>
+                      //   <Item.Image size="medium" src={image.src} />
+                      //   <Item.Content verticalAlign="middle" content={image.fileName} />
+                      // </Item>
                     );
                   })}
                 </Image.Group>
@@ -210,12 +209,14 @@ const ImageSelection = ({ images, setImages, prevStep }) => {
             <Segment>
               <Card.Group centered textAlign="center" doubling>
                 {images.map((image) => {
-                  return <ImageCard
-                    image={image}
-                    setImages={setImages}
-                    key={image.src}
-                    color={failedUploads.includes(image) ? "red" : null}
-                  />;
+                  return (
+                    <ImageCard
+                      image={image}
+                      setImages={setImages}
+                      key={image.src}
+                      color={failedUploads.includes(image) ? "red" : null}
+                    />
+                  );
                 })}
               </Card.Group>
             </Segment>
