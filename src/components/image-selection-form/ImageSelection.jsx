@@ -17,6 +17,8 @@ const ImageSelection = ({ images, setImages, prevStep }) => {
   const [uploadProgress, setUploadProgress] = useState(0);
   const [isUploading, setIsUploading] = useState(false);
 
+  // 200 succes
+  // other error
   const upload = async () => {
     setIsUploading(true);
     setUploadProgress(0);

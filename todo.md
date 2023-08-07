@@ -38,3 +38,20 @@ Uncaught (in promise) TypeError: Cannot read properties of undefined (reading '0
     at Module.extractPdfImages (pdf-extract-images.js:189:27)
     at async self.onmessage (extract-images-worker.js?type=classic&worker_file:6:3)
 ```
+
+
+TODO:
+1. 
+
+1. key that already exist - update
+    - for images
+
+2. Upload process:
+    - New images:
+        - Upload photos btn
+    - change metadata:
+        - deselected
+            - modal: do you want to delete the image?
+            - when clicked on image
+        - save changes
+        - IIIF - smaller images for preview
