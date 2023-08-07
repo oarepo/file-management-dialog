@@ -9,6 +9,7 @@ import {
   Image,
   Header,
   Label,
+  Icon,
 } from "semantic-ui-react";
 import PropTypes from "prop-types";
 import ImageCard from "./ImageCard";
@@ -21,13 +22,12 @@ const ImageSelection = ({ images, setImages, prevStep }) => {
   const [isUploading, setIsUploading] = useState(false);
   const [failedUploads, setFailedUploads] = useState([]);
 
-  // 200 succes
-  // other error
+  const selectedImages = images.filter((image) => image.isSelected);
+
   const upload = async () => {
     setIsUploading(true);
     setUploadProgress(0);
     setFailedUploads([]);
-    const selectedImages = getSelectedImages();
 
     try {
       await startFilesUpload(selectedImages);
@@ -52,7 +52,7 @@ const ImageSelection = ({ images, setImages, prevStep }) => {
         const processedImageData = await imageData.blob();
         await uploadFileContent(image.fileName, processedImageData);
         // Complete file upload
-        console.log("Completing file upload...");
+        // console.log("Completing file upload...");
         await completeFileUpload(image.fileName);
       } catch (error) {
         setFailedUploads((failedUploads) => [...failedUploads, image]);
@@ -148,12 +148,6 @@ const ImageSelection = ({ images, setImages, prevStep }) => {
       });
   };
 
-  const getSelectedImages = () => {
-    return images.filter((image) => image.isSelected);
-  };
-
-  const selectedImages = getSelectedImages();
-
   return (
     images.length > 0 && (
       <Grid.Column textAlign="center">
@@ -182,7 +176,11 @@ const ImageSelection = ({ images, setImages, prevStep }) => {
                       <Image
                         src={image.src}
                         key={image.src}
-                        label={<Label attached="top" basic size="medium">{image.fileName}</Label>}
+                        label={
+                          <Label attached="top" basic size="medium">
+                            {image.fileName}
+                          </Label>
+                        }
                         wrapped
                       />
                       // <Card key={image.src} color="red">
@@ -205,39 +203,53 @@ const ImageSelection = ({ images, setImages, prevStep }) => {
             )}
           </Dimmer>
 
-          <Segment.Group>
-            <Segment>
-              <Card.Group centered textAlign="center" doubling>
-                {images.map((image) => {
-                  return (
-                    <ImageCard
-                      image={image}
-                      setImages={setImages}
-                      key={image.src}
-                      color={failedUploads.includes(image) ? "red" : null}
-                    />
-                  );
-                })}
-              </Card.Group>
+          {images.length > 0 ? (
+            <Segment.Group>
+              <Segment>
+                <Card.Group centered textAlign="center" doubling>
+                  {images.map((image) => {
+                    return (
+                      <ImageCard
+                        image={image}
+                        setImages={setImages}
+                        key={image.src}
+                        color={failedUploads.includes(image) ? "red" : null}
+                      />
+                    );
+                  })}
+                </Card.Group>
+              </Segment>
+              <Segment>
+                <Button.Group>
+                  <Button secondary onClick={prevStep}>
+                    Back
+                  </Button>
+                  <Button
+                    primary
+                    loading={isUploading}
+                    onClick={upload}
+                    disabled={selectedImages.length === 0}
+                  >
+                    {selectedImages.length === 0
+                      ? "No images selected"
+                      : `Upload ${selectedImages.length} image${
+                          selectedImages.length > 1 ? "s" : ""
+                        }`}
+                  </Button>
+                </Button.Group>
+              </Segment>
+            </Segment.Group>
+          ) : (
+            <Segment placeholder>
+              <Header icon>
+                <Icon name="images outline" />
+                No images found
+              </Header>
+              <Button primary onClick={prevStep}>
+                Back
+              </Button>
             </Segment>
-            <Segment>
-              <Button.Group>
-                <Button secondary onClick={prevStep}>
-                  Back
-                </Button>
-                <Button
-                  primary
-                  loading={isUploading}
-                  onClick={upload}
-                  disabled={selectedImages.length === 0}
-                >
-                  {selectedImages.length === 0
-                    ? "No images selected"
-                    : `Upload ${selectedImages.length} images`}
-                </Button>
-              </Button.Group>
-            </Segment>
-          </Segment.Group>
+          )}
         </Dimmer.Dimmable>
       </Grid.Column>
     )

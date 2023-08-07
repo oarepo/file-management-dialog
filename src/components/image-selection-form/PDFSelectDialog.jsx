@@ -16,7 +16,7 @@ import useRefContext from "../../utils/useRefContext";
 import useAppContext from "../../utils/useAppContext";
 import PropTypes from "prop-types";
 
-const FileSelectDialog = ({ images, setImages, nextStep }) => {
+const PDFSelectDialog = ({ images, setImages, nextStep }) => {
   const extractImageWorker = useWorker();
   const isProcessing = useRefContext();
   const { baseUrl, recordId } = useAppContext().current;
@@ -289,7 +289,7 @@ const FileSelectDialog = ({ images, setImages, nextStep }) => {
   );
 };
 
-FileSelectDialog.propTypes = {
+PDFSelectDialog.propTypes = {
   images: PropTypes.arrayOf(
     PropTypes.shape({
       src: PropTypes.string.isRequired,
@@ -302,4 +302,4 @@ FileSelectDialog.propTypes = {
   nextStep: PropTypes.func.isRequired,
 };
 
-export default FileSelectDialog;
+export default PDFSelectDialog;

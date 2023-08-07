@@ -1,6 +1,7 @@
 import { useState } from "react";
-import FileSelectDialog from "./FileSelectDialog";
+import PDFSelectDialog from "./PDFSelectDialog";
 import ImageSelection from "./ImageSelection";
+import ChooseFileActionDialog from "./ChooseFileActionDialog";
 
 const MainForm = () => {
   const [step, setStep] = useState(1);
@@ -16,13 +17,20 @@ const MainForm = () => {
   switch (step) {
     case 1:
       return (
-        <FileSelectDialog
+        <ChooseFileActionDialog
+          toPDFSelectDialog={() => setStep(2)}
+          toImageSelection={() => setStep(3)}
+        />
+      );
+    case 2:
+      return (
+        <PDFSelectDialog
           images={images}
           setImages={setImages}
           nextStep={nextStep}
         />
       );
-    case 2:
+    case 3:
       return (
         <ImageSelection
           images={images}
