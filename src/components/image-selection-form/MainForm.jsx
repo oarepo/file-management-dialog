@@ -15,6 +15,7 @@ const MainForm = () => {
   };
 
   switch (step) {
+    // case 0: Button to open dialog (Set Images)
     case 1:
       return (
         <ChooseFileActionDialog

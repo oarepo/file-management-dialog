@@ -15,9 +15,14 @@ import PropTypes from "prop-types";
 import ImageCard from "./ImageCard";
 import useAppContext from "../../utils/useAppContext";
 
+// TODO:
+// onUploadError: handle error
+// onUploadSuccess: handle success and closing of dialog (toast, random event)
+// 
 const ImageSelection = ({ images, setImages, prevStep }) => {
   const { baseUrl, recordId } = useAppContext().current;
 
+  // failedUploads with uploadProgress in one state
   const [uploadProgress, setUploadProgress] = useState(0);
   const [isUploading, setIsUploading] = useState(false);
   const [failedUploads, setFailedUploads] = useState([]);
@@ -151,7 +156,8 @@ const ImageSelection = ({ images, setImages, prevStep }) => {
   return (
     images.length > 0 && (
       <Grid.Column textAlign="center">
-        <Dimmer.Dimmable as={Segment} dimmed={isUploading} blurring>
+        <Dimmer.Dimmable as={Segment} blurring>
+          {/* Extract to FileUploader */}
           <Dimmer active={isUploading} page inverted simple>
             <Progress
               progress="ratio"
@@ -224,6 +230,7 @@ const ImageSelection = ({ images, setImages, prevStep }) => {
                   <Button secondary onClick={prevStep}>
                     Back
                   </Button>
+                  {/* FileUploader with upload logic */}
                   <Button
                     primary
                     loading={isUploading}

@@ -17,7 +17,9 @@ import useAppContext from "../../utils/useAppContext";
 import PropTypes from "prop-types";
 
 const PDFSelectDialog = ({ images, setImages, nextStep }) => {
+  // oneMessage and postMessage in on component
   const extractImageWorker = useWorker();
+  // useRef here
   const isProcessing = useRefContext();
   const { baseUrl, recordId } = useAppContext().current;
 
@@ -51,6 +53,7 @@ const PDFSelectDialog = ({ images, setImages, nextStep }) => {
   // Load all .pdf files from the server and store them in recordFiles
   useEffect(() => {
     setIsLoading(true);
+    // Already in component config (AppContext)
     fetch(`${baseUrl}/records/${recordId}/files`)
       .then((response) => response.json())
       .then((data) => {
@@ -70,6 +73,7 @@ const PDFSelectDialog = ({ images, setImages, nextStep }) => {
   }, [baseUrl, recordId]);
 
   useEffect(() => {
+    // after PDFImageExtractor Extract Images button is clicked, register onmessage callback
     if (window.Worker) {
       extractImageWorker.onmessage = (event) => {
         if (event.data === "done") {
@@ -96,6 +100,7 @@ const PDFSelectDialog = ({ images, setImages, nextStep }) => {
           isSelected: false,
           isStarred: false,
         };
+        // create onImage callback and pass it to the PDFImageExtractor
         setImages((images) => [...images, imageObj]);
         nextStep();
       };
@@ -225,22 +230,25 @@ const PDFSelectDialog = ({ images, setImages, nextStep }) => {
           <Dimmer active={isLoading} page inverted>
             <Loader size="massive">Loading...</Loader>
           </Dimmer>
+          {/* Extract to new Component = RecordFilePicker */}
           {recordFiles.length > 0 && (
+            <>
             <Grid.Row>
-              <Header as="h4">Record PDF Files:</Header>
+              <Header as="h3">Choose from existing PDF Files:</Header>
               <List verticalAlign="middle" animated>
                 {recordFiles.map((file) => (
                   <List.Item key={file.key}>
                     <List horizontal>
                       <List.Item>{file.key}</List.Item>
                       <List.Item>
+                        {/* RecordFilePickerItem */}
                         <Button
                           compact
-                          secondary
+                          primary
                           size="small"
                           onClick={() => downloadPdfAndProcess(file)}
                         >
-                          Select Images
+                          Extract Images
                         </Button>
                       </List.Item>
                     </List>
@@ -248,9 +256,11 @@ const PDFSelectDialog = ({ images, setImages, nextStep }) => {
                 ))}
               </List>
             </Grid.Row>
+            <Divider as={Grid.Row} horizontal section>Or</Divider>
+            </>
           )}
-          <Divider hidden />
           <Grid.Row>
+            <Header as="h3">Upload new PDF or images:</Header>
             <Input
               type="file"
               accept=".pdf, .jpg, .jpeg, .png, .tiff"
@@ -269,18 +279,19 @@ const PDFSelectDialog = ({ images, setImages, nextStep }) => {
           </Grid.Row>
           {file && (
             <>
-              <Divider hidden />
+              <Divider as={Grid.Row} hidden />
               <Grid.Row>{`${file.name} - ${file.type}`}</Grid.Row>
             </>
           )}
-          <Divider hidden />
+          <Divider as={Grid.Row} hidden />
           <Grid.Row>
+            {/* Extract to PDFImageExtractor */}
             <Button
               primary
               onClick={handleUploadClick}
               disabled={!file && images.length === 0}
             >
-              Upload
+              Extract Images
             </Button>
           </Grid.Row>
         </Dimmer.Dimmable>

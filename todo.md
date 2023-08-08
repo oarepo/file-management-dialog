@@ -40,12 +40,9 @@ Uncaught (in promise) TypeError: Cannot read properties of undefined (reading '0
 ```
 
 
-TODO:
-1. 
-
+## TODO
 1. key that already exist - update
     - for images
-
 2. Upload process:
     - New images:
         - Upload photos btn
@@ -55,3 +52,8 @@ TODO:
             - when clicked on image
         - save changes
         - IIIF - smaller images for preview
+
+### 8.8.2023
+- ImageSelection outputs only selected images
+- alert with semantic ui alerts
+- FullScreen preview for ImageCard component
