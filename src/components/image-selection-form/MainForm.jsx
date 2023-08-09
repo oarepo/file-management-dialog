@@ -1,29 +1,20 @@
 import { useState } from "react";
 import PDFSelectDialog from "./PDFSelectDialog";
 import ImageSelection from "./ImageSelection";
-import ChooseFileActionDialog from "./ChooseFileActionDialog";
+import DefaultDialogTriggerButton from "./DefaultDialogTriggerButton";
 
 const MainForm = () => {
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(0);
   const [images, setImages] = useState([]);
 
   const nextStep = () => setStep(step + 1);
   const prevStep = () => {
     setStep(step - 1);
-    images.forEach((image) => URL.revokeObjectURL(image.src));
-    setImages([]);
   };
 
   switch (step) {
     // case 0: Button to open dialog (Set Images)
     case 1:
-      return (
-        <ChooseFileActionDialog
-          toPDFSelectDialog={() => setStep(2)}
-          toImageSelection={() => setStep(3)}
-        />
-      );
-    case 2:
       return (
         <PDFSelectDialog
           images={images}
@@ -31,14 +22,22 @@ const MainForm = () => {
           nextStep={nextStep}
         />
       );
-    case 3:
+    case 2:
       return (
         <ImageSelection
           images={images}
           setImages={setImages}
           nextStep={nextStep}
-          prevStep={prevStep}
+          prevStep={() => {
+            images.forEach((image) => URL.revokeObjectURL(image.src));
+            setImages([]);
+            prevStep();
+          }}
         />
+      );
+    default:
+      return (
+        <DefaultDialogTriggerButton toPDFSelectDialog={() => setStep(1)} />
       );
   }
 };
