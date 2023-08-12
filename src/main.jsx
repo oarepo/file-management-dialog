@@ -2,15 +2,18 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import 'semantic-ui-css/semantic.min.css'
+import '@uppy/core/dist/style.min.css';
+import '@uppy/dashboard/dist/style.min.css';
+import '@uppy/image-editor/dist/style.min.css';
 
-const autoInitDataAttr = "data-detail-config";
+const autoInitDataAttr = "detailConfig";
 const rootElement = document.getElementById('root');
 
 const { ...config } = JSON.parse(
-  rootElement.dataset[autoInitDataAttr] || '{}'
+  rootElement.dataset[autoInitDataAttr]
 );
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+ReactDOM.createRoot(rootElement).render(
   <React.StrictMode>
     <App config={config} />
   </React.StrictMode>,

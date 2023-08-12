@@ -20,7 +20,7 @@ import useAppContext from "../../utils/useAppContext";
 // onUploadSuccess: handle success and closing of dialog (toast, random event)
 // 
 const ImageSelection = ({ images, setImages, prevStep }) => {
-  const { baseUrl, recordId } = useAppContext().current;
+  const { baseUrl, id: recordId } = useAppContext().current;
 
   // failedUploads with uploadProgress in one state
   const [uploadProgress, setUploadProgress] = useState(0);

@@ -1,9 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import {
   Button,
-  Input,
-  Label,
-  Icon,
   Grid,
   Divider,
   Dimmer,
@@ -12,16 +9,18 @@ import {
   List,
 } from "semantic-ui-react";
 import useWorker from "../../utils/useWorker";
-import useRefContext from "../../utils/useRefContext";
+import useUppyContext from "../../utils/useUppyContext";
 import useAppContext from "../../utils/useAppContext";
 import PropTypes from "prop-types";
+import { DashboardModal } from "@uppy/react";
 
 const PDFSelectDialog = ({ images, setImages, nextStep }) => {
   // oneMessage and postMessage in on component
   const extractImageWorker = useWorker();
   // useRef here
-  const isProcessing = useRefContext();
-  const { baseUrl, recordId } = useAppContext().current;
+  const uppy = useUppyContext();
+  const isProcessing = useRef(false);
+  const { baseUrl, id: recordId, record } = useAppContext().current;
 
   const [file, setFile] = useState(null);
   // RecordFile object:
@@ -47,30 +46,16 @@ const PDFSelectDialog = ({ images, setImages, nextStep }) => {
   //     commit: `/api/records/${query.id}/draft/files/figure.png/commit`,
   //   },
   // }
-  const [recordFiles, setRecordFiles] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
 
-  // Load all .pdf files from the server and store them in recordFiles
-  useEffect(() => {
-    setIsLoading(true);
-    // Already in component config (AppContext)
-    fetch(`${baseUrl}/records/${recordId}/files`)
-      .then((response) => response.json())
-      .then((data) => {
-        // Store only PDF files
-        setRecordFiles(
-          data.entries.filter((file) => file.mimetype === "application/pdf")
-        );
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        setIsLoading(false);
-        alert("There was an error when loading file list: \n" + error);
-      });
-    return () => {
-      setIsLoading(false);
-    };
-  }, [baseUrl, recordId]);
+  const PDFRecordFiles = useMemo(
+    () =>
+      record.files.entries.filter(
+        (fileObj) => fileObj.mimetype === "application/pdf"
+      ),
+    [record]
+  );
 
   useEffect(() => {
     // after PDFImageExtractor Extract Images button is clicked, register onmessage callback
@@ -231,67 +216,60 @@ const PDFSelectDialog = ({ images, setImages, nextStep }) => {
             <Loader size="massive">Loading...</Loader>
           </Dimmer>
           {/* Extract to new Component = RecordFilePicker */}
-          {recordFiles.length > 0 && (
+          {PDFRecordFiles.length > 0 && (
             <>
-            <Grid.Row>
-              <Header as="h3">Choose from existing PDF Files:</Header>
-              <List verticalAlign="middle" animated>
-                {recordFiles.map((file) => (
-                  <List.Item key={file.key}>
-                    <List horizontal>
-                      <List.Item>{file.key}</List.Item>
-                      <List.Item>
-                        {/* RecordFilePickerItem */}
-                        <Button
-                          compact
-                          primary
-                          size="small"
-                          onClick={() => downloadPdfAndProcess(file)}
-                        >
-                          Extract Images
-                        </Button>
-                      </List.Item>
-                    </List>
-                  </List.Item>
-                ))}
-              </List>
-            </Grid.Row>
-            <Divider as={Grid.Row} horizontal section>Or</Divider>
+              <Grid.Row>
+                <Header as="h3">Choose from existing PDF Files:</Header>
+                <List verticalAlign="middle" animated>
+                  {PDFRecordFiles.map((file) => (
+                    <List.Item key={file.key}>
+                      <List horizontal>
+                        <List.Item>{file.key}</List.Item>
+                        <List.Item>
+                          {/* RecordFilePickerItem */}
+                          <Button
+                            compact
+                            primary
+                            size="small"
+                            onClick={() => downloadPdfAndProcess(file)}
+                          >
+                            Extract Images
+                          </Button>
+                        </List.Item>
+                      </List>
+                    </List.Item>
+                  ))}
+                </List>
+              </Grid.Row>
+              <Divider as={Grid.Row} horizontal section>
+                Or
+              </Divider>
             </>
           )}
           <Grid.Row>
             <Header as="h3">Upload new PDF or images:</Header>
-            <Input
-              type="file"
-              accept=".pdf, .jpg, .jpeg, .png, .tiff"
-              multiple
-              name="file-upload"
-              size="small"
-              onChange={handleFileChange}
-              hidden
-            >
-              <Label attached="top">
-                <Icon name="file pdf" /> File Upload (.pdf, .jpg, .jpeg, .png,
-                .tiff)
-              </Label>
-              <input />
-            </Input>
+            <DashboardModal
+              uppy={uppy}
+              proudlyDisplayPoweredByUppy={false}
+              open={modalOpen}
+              onRequestClose={() => setModalOpen(false)}
+              showProgressDetails
+              metaFields={[
+                { id: "name", name: "Name", placeholder: "File name" },
+                {
+                  id: "caption",
+                  name: "Caption",
+                  placeholder: "Set the Caption here",
+                },
+              ]}
+              plugins={["ImageEditor"]}
+              // theme="auto"
+            />
           </Grid.Row>
-          {file && (
-            <>
-              <Divider as={Grid.Row} hidden />
-              <Grid.Row>{`${file.name} - ${file.type}`}</Grid.Row>
-            </>
-          )}
-          <Divider as={Grid.Row} hidden />
           <Grid.Row>
             {/* Extract to PDFImageExtractor */}
-            <Button
-              primary
-              onClick={handleUploadClick}
-              disabled={!file && images.length === 0}
-            >
-              Extract Images
+            <Button primary onClick={() => setModalOpen(true)}>
+              Upload file(s)
             </Button>
           </Grid.Row>
         </Dimmer.Dimmable>
