@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useRef } from "react";
+import { useState, useEffect, useMemo, useRef, useCallback } from "react";
 import {
   Button,
   Grid,
@@ -14,15 +14,14 @@ import useAppContext from "../../utils/useAppContext";
 import PropTypes from "prop-types";
 import { DashboardModal } from "@uppy/react";
 
-const PDFSelectDialog = ({ images, setImages, nextStep }) => {
+const PDFSelectDialog = () => {
   // oneMessage and postMessage in on component
   const extractImageWorker = useWorker();
-  // useRef here
   const uppy = useUppyContext();
-  const isProcessing = useRef(false);
-  const { baseUrl, id: recordId, record } = useAppContext().current;
+  const { record } = useAppContext().current;
 
-  const [file, setFile] = useState(null);
+  const isProcessing = useRef(false);
+
   // RecordFile object:
   // {
   //   key: "figure.png",
@@ -57,6 +56,56 @@ const PDFSelectDialog = ({ images, setImages, nextStep }) => {
     [record]
   );
 
+  const handleUploadClick = useCallback(
+    async (file) => {
+      if (window.Worker) {
+        if (isProcessing.current) {
+          console.log("Still processing previous file.");
+          return;
+        }
+        // TODO: Alert error only in Debug
+        try {
+          const data = await file.arrayBuffer();
+          extractImageWorker.postMessage(data, [data]);
+          isProcessing.current = true;
+        } catch (error) {
+          isProcessing.current = false;
+          alert("There was an error when uploading file: \n" + error);
+        }
+      } else {
+        console.log("Web Worker is not supported");
+      }
+    },
+    [extractImageWorker, isProcessing]
+  );
+
+  useEffect(() => {
+    uppy.setOptions({
+      debug: true,
+      restrictions: {
+        allowedFileTypes: [
+          "image/jpg",
+          "image/jpeg",
+          "image/png",
+          "image/tiff",
+          "application/pdf",
+        ],
+      },
+      onBeforeFileAdded: (currentFile, files) => {
+        if (currentFile.type === "application/pdf") {
+          uppy.info(
+            "PDF image extraction processing, please wait...",
+            "info",
+            5000
+          );
+          handleUploadClick(currentFile.data);
+          return false;
+        }
+        return true;
+      },
+    });
+  }, [uppy, handleUploadClick]);
+
   useEffect(() => {
     // after PDFImageExtractor Extract Images button is clicked, register onmessage callback
     if (window.Worker) {
@@ -66,28 +115,20 @@ const PDFSelectDialog = ({ images, setImages, nextStep }) => {
           return;
         } else if (event.data === "error") {
           isProcessing.current = false;
-          alert("There was an error when finding images.");
+          uppy.info("There was an error when finding images.");
           return;
         }
         console.log(event.data);
-        const imageSrc = URL.createObjectURL(
-          new Blob([event.data.imageData], {
-            type: `image/${event.data.imageType}`,
-          })
-        );
-        const imageObj = {
-          src: imageSrc,
-          fileName: `${
-            file.name.split(".")[0] ?? file.name
-          }_${crypto.randomUUID()}.${event.data.imageType}`,
-          imageType: event.data.imageType,
-          caption: "",
-          isSelected: false,
-          isStarred: false,
-        };
-        // create onImage callback and pass it to the PDFImageExtractor
-        setImages((images) => [...images, imageObj]);
-        nextStep();
+        const blob = new Blob([event.data.imageData], {
+          type: `image/${event.data.imageType}`,
+        });
+        uppy.addFile({
+          name: `${crypto.randomUUID()}.${event.data.imageType}`,
+          type: `image/${event.data.imageType}`,
+          data: blob,
+          source: "Local",
+          isRemote: false,
+        });
       };
       // Handle errors (never fires ???)
       extractImageWorker.onerror = (event) => {
@@ -97,85 +138,7 @@ const PDFSelectDialog = ({ images, setImages, nextStep }) => {
     } else {
       console.log("Web Worker is not supported");
     }
-  }, [extractImageWorker, setImages, nextStep, isProcessing, file]);
-
-  const handleFileChange = (e) => {
-    // Revoke and Set
-    if (images && images.length > 0) {
-      images.forEach((image) => URL.revokeObjectURL(image.src));
-      setImages([]);
-    }
-    // Handle (one) .pdf and multiple images (jpg, jpeg, png, tiff) only
-    if (e.target.files.length === 0) return;
-    else if (e.target.files.length === 1) {
-      const file = e.target.files[0];
-      if (file.type !== "application/pdf" && !file.type.startsWith("image/")) {
-        alert("File is not a pdf or image, please try again.");
-        return;
-      }
-    } else {
-      for (let i = 0; i < e.target.files.length; i++) {
-        if (!e.target.files[i].type.startsWith("image/")) {
-          alert("Multiple files must be images, please try again.");
-          return;
-        }
-      }
-    }
-    // Set .pdf or images
-    const file = e.target.files[0];
-    if (file.type === "application/pdf") {
-      setFile(e.target.files[0]);
-    } else {
-      // If a .pdf file has been selected before, clear it
-      setFile(null);
-      const newImages = [];
-      // For each image, create a new object and push it to newImages
-      for (let i = 0; i < e.target.files.length; i++) {
-        const imageSrc = URL.createObjectURL(e.target.files[i]);
-        const imageType = e.target.files[i].type.split("/")[1] ?? "png";
-        newImages.push({
-          src: imageSrc,
-          fileName: e.target.files[i].name ?? `image${i}.${imageType}`,
-          imageType: imageType,
-          caption: e.target.files[i].name.split(".")[0] ?? "",
-          isSelected: true, // All images are selected by default
-          isStarred: i === 0 ? true : false, // First image is starred by default
-        });
-      }
-      setImages(newImages);
-    }
-  };
-
-  const handleUploadClick = async () => {
-    if (!file) {
-      if (images.length === 0) {
-        alert("No file selected.");
-      } else {
-        nextStep();
-      }
-      return;
-    }
-    if (window.Worker) {
-      if (isProcessing.current) {
-        console.log("Still processing previous file.");
-        return;
-      }
-      // TODO: Alert error only in Debug
-      try {
-        const data = await file.arrayBuffer();
-        extractImageWorker.postMessage(data, [data]);
-        isProcessing.current = true;
-      } catch (error) {
-        isProcessing.current = false;
-        alert("There was an error when uploading file: \n" + error);
-      }
-      // Revoke and Set
-      images.forEach((image) => URL.revokeObjectURL(image.src));
-      setImages([]);
-    } else {
-      console.log("Web Worker is not supported");
-    }
-  };
+  }, [extractImageWorker, uppy]);
 
   // Call an API to download the pdf file and process it using the worker
   // TODO: Needs to handle errors, tested with real API
@@ -190,22 +153,23 @@ const PDFSelectDialog = ({ images, setImages, nextStep }) => {
       return;
     }
     try {
-      const response = await fetch(
-        `${baseUrl}/records/${recordId}/files/${file.key}/content`
-      );
-      // Same as file.arrayBuffer() from  but with fetch
-      const data = await response.arrayBuffer();
-      extractImageWorker.postMessage(data, [data]);
-      isProcessing.current = true;
+      const response = await fetch(file.links.content);
+      // Same as file.arrayBuffer() from but with fetch
+      const data = await response.blob();
       setIsLoading(false);
+      setModalOpen(true);
+      uppy.addFile({
+        name: file.key,
+        type: data.type,
+        data: data,
+        source: "OARepo",
+        isRemote: true,
+      });
     } catch (error) {
       isProcessing.current = false;
       setIsLoading(false);
-      console.error(error);
+      console.log(file.key, error);
     }
-    // Revoke existing image URLs and set empty images
-    images.forEach((image) => URL.revokeObjectURL(image.src));
-    setImages([]);
   };
 
   return (
@@ -254,14 +218,47 @@ const PDFSelectDialog = ({ images, setImages, nextStep }) => {
               open={modalOpen}
               onRequestClose={() => setModalOpen(false)}
               showProgressDetails
-              metaFields={[
-                { id: "name", name: "Name", placeholder: "File name" },
-                {
-                  id: "caption",
-                  name: "Caption",
-                  placeholder: "Set the Caption here",
-                },
-              ]}
+              metaFields={(file) => {
+                const fields = [];
+                if (file.type.startsWith("image/")) {
+                  fields.push({
+                    id: "caption",
+                    name: "Caption",
+                    placeholder: "Set the Caption here",
+                  });
+                  fields.push({
+                    id: "featureImage",
+                    name: "Feature Image",
+                    render: ({ value, onChange, required, form }, h) => {
+                      return h("input", {
+                        type: "checkbox",
+                        onChange: (ev) => onChange(ev.target.checked),
+                        defaultChecked: value === "on",
+                        required,
+                        form,
+                      });
+                    },
+                  });
+                } else {
+                  fields.push({
+                    id: "extractImagesButton",
+                    name: "Extract Images",
+                    render: ({ value, onChange, required, form }, h) => {
+                      return h(
+                        "button",
+                        {
+                          onClick: (ev) => {
+                            ev.preventDefault();
+                            handleUploadClick(file.data);
+                          },
+                        },
+                        "Extract Images"
+                      );
+                    },
+                  });
+                }
+                return fields;
+              }}
               plugins={["ImageEditor"]}
               // theme="auto"
             />

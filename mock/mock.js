@@ -1,3 +1,5 @@
+import fs from "fs/promises";
+
 export default [
   {
     url: "/api/records/:id/files",
@@ -100,7 +102,11 @@ export default [
     method: "get",
     rawResponse: async (req, res) => {
       res.setHeader("Content-Type", "application/pdf");
-      res.end("hello");
+      res.setHeader("Content-Disposition", "inline");
+      const urlTokens = req.originalUrl.split("/");
+      const fileName = urlTokens[urlTokens.length - 2];
+      const pdfFile = await fs.readFile(`/home/makulo123/Projects/Testing/image-previewer/mock/files/${fileName}`);
+      res.end(pdfFile);
     }
   },
   {

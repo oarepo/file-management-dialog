@@ -5,9 +5,9 @@ export const AppContext = createContext();
 
 export const AppContextProvider = ({ value, children }) => {
   const appConfigRef = useRef({
-    ...value,
-    baseUrl: "http://localhost:5173/api",
+    ...value
   });
   // const appConfigRef = useRef(value);
+  console.log("AppConfig", appConfigRef.current);
   return <AppContext.Provider value={appConfigRef}>{children}</AppContext.Provider>;
 };
