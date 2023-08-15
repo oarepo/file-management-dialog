@@ -12,6 +12,7 @@ import useWorker from "../../utils/useWorker";
 import useUppyContext from "../../utils/useUppyContext";
 import useAppContext from "../../utils/useAppContext";
 import PropTypes from "prop-types";
+import { debugLogger } from "@uppy/core";
 import { DashboardModal } from "@uppy/react";
 
 const PDFSelectDialog = () => {
@@ -82,6 +83,7 @@ const PDFSelectDialog = () => {
   useEffect(() => {
     uppy.setOptions({
       debug: true,
+      logger: debugLogger,
       restrictions: {
         allowedFileTypes: [
           "image/jpg",
@@ -91,12 +93,12 @@ const PDFSelectDialog = () => {
           "application/pdf",
         ],
       },
-      onBeforeFileAdded: (currentFile, files) => {
+      onBeforeFileAdded: (currentFile, _files) => {
         if (currentFile.type === "application/pdf") {
           uppy.info(
             "PDF image extraction processing, please wait...",
             "info",
-            5000
+            3000
           );
           handleUploadClick(currentFile.data);
           return false;
@@ -105,6 +107,12 @@ const PDFSelectDialog = () => {
       },
     });
   }, [uppy, handleUploadClick]);
+
+  useEffect(() => {
+    uppy.getPlugin("OARepoUpload").setOptions({
+      endpoint: record.files.links.self,
+    });
+  }, [uppy, record.files.links.self]);
 
   useEffect(() => {
     // after PDFImageExtractor Extract Images button is clicked, register onmessage callback
@@ -123,10 +131,12 @@ const PDFSelectDialog = () => {
           type: `image/${event.data.imageType}`,
         });
         uppy.addFile({
+          // prepend pdf name before image name
+          // extract to event
           name: `${crypto.randomUUID()}.${event.data.imageType}`,
           type: `image/${event.data.imageType}`,
           data: blob,
-          source: "Local",
+          source: "Local", // pdfimageextractor
           isRemote: false,
         });
       };
@@ -152,6 +162,7 @@ const PDFSelectDialog = () => {
       console.log("Still processing previous file.");
       return;
     }
+    // Extract to plugin
     try {
       const response = await fetch(file.links.content);
       // Same as file.arrayBuffer() from but with fetch
@@ -243,7 +254,7 @@ const PDFSelectDialog = () => {
                   fields.push({
                     id: "extractImagesButton",
                     name: "Extract Images",
-                    render: ({ value, onChange, required, form }, h) => {
+                    render: (_element, h) => {
                       return h(
                         "button",
                         {

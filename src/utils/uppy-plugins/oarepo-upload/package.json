@@ -2,5 +2,9 @@
     "name": "oarepo-upload",
     "version": "1.0.0",
     "main": "index.js",
-    "type": "module"
+    "type": "module",
+    "types": "index.d.ts",
+    "dependencies": {
+        "nanoid": "^4.0.0"
+    }
 }

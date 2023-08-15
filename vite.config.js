@@ -21,6 +21,9 @@ export default defineConfig(({ command, mode }) => {
       `,
       }),
     ],
+    worker: {
+      format: "es",
+    }
     // esbuild: {
     //   loader: "jsx",
     //   include: /src\/.*\.js[x]?$/,

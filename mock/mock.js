@@ -141,6 +141,8 @@ export default [
   {
     url: "/api/records/:id/files/:fileName",
     method: "put",
+    // timeout: 2000,
+    // statusCode: 404,
     response: ({ body, query }) => {
       return {
         key: query.fileName,
@@ -159,6 +161,7 @@ export default [
   {
     url: "/api/records/:id/files/:fileName/content",
     timeout: 2000,
+    // statusCode: 500,
     method: "put",
     response: ({ query }) => {
       return {
@@ -179,6 +182,7 @@ export default [
   {
     url: "/api/records/:id/files/:fileName/commit",
     method: "post",
+    // statusCode: 404,
     response: ({ query }) => {
       return {
         key: query.fileName,
