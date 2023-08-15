@@ -66,12 +66,18 @@ const PDFSelectDialog = () => {
         }
         // TODO: Alert error only in Debug
         try {
-          const data = await file.arrayBuffer();
-          extractImageWorker.postMessage(data, [data]);
+          const data = await file.data.arrayBuffer();
+          extractImageWorker.postMessage(
+            {
+              pdfFileName: file.name,
+              data: data,
+            },
+            [data]
+          );
           isProcessing.current = true;
         } catch (error) {
           isProcessing.current = false;
-          alert("There was an error when uploading file: \n" + error);
+          alert("There was an error when uploading file:\n" + error);
         }
       } else {
         console.log("Web Worker is not supported");
@@ -100,7 +106,7 @@ const PDFSelectDialog = () => {
             "info",
             3000
           );
-          handleUploadClick(currentFile.data);
+          handleUploadClick(currentFile);
           return false;
         }
         return true;
@@ -118,25 +124,36 @@ const PDFSelectDialog = () => {
     // after PDFImageExtractor Extract Images button is clicked, register onmessage callback
     if (window.Worker) {
       extractImageWorker.onmessage = (event) => {
-        if (event.data === "done") {
+        if (event.data?.type === "done") {
           isProcessing.current = false;
+          uppy.info("Image extraction completed.", "success", 3000);
           return;
-        } else if (event.data === "error") {
+        } else if (event.data?.type === "error") {
           isProcessing.current = false;
-          uppy.info("There was an error when finding images.");
+          uppy.info(
+            {
+              message: "Oh no, something bad happened!",
+              details: "There was an error when extracting images.",
+            },
+            "error",
+            5000
+          );
           return;
         }
-        console.log(event.data);
-        const blob = new Blob([event.data.imageData], {
-          type: `image/${event.data.imageType}`,
+        const imageObj = event.data;
+        console.log(imageObj);
+        const blob = new Blob([imageObj.imageData], {
+          type: `image/${imageObj.imageType}`,
         });
         uppy.addFile({
           // prepend pdf name before image name
           // extract to event
-          name: `${crypto.randomUUID()}.${event.data.imageType}`,
-          type: `image/${event.data.imageType}`,
+          name: `${imageObj.sourcePdf}_${crypto.randomUUID()}.${
+            event.data.imageType
+          }`,
+          type: `image/${imageObj.imageType}`,
           data: blob,
-          source: "Local", // pdfimageextractor
+          source: "PDFImageExtractor", // pdfimageextractor
           isRemote: false,
         });
       };
@@ -250,28 +267,11 @@ const PDFSelectDialog = () => {
                       });
                     },
                   });
-                } else {
-                  fields.push({
-                    id: "extractImagesButton",
-                    name: "Extract Images",
-                    render: (_element, h) => {
-                      return h(
-                        "button",
-                        {
-                          onClick: (ev) => {
-                            ev.preventDefault();
-                            handleUploadClick(file.data);
-                          },
-                        },
-                        "Extract Images"
-                      );
-                    },
-                  });
                 }
                 return fields;
               }}
               plugins={["ImageEditor"]}
-              // theme="auto"
+              theme="auto"
             />
           </Grid.Row>
           <Grid.Row>

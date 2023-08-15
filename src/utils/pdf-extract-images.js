@@ -2,7 +2,7 @@ import { PNG } from "pngjs/browser";
 import pako from "pako";
 import { PDFDocument, PDFName, PDFRawStream } from "pdf-lib";
 
-export default async function extractPdfImages(pdfBytes) {
+export default async function extractPdfImages(pdfFileName, pdfBytes) {
   const pdfDoc = await PDFDocument.load(pdfBytes);
   const enumeratedIndirectObjects = pdfDoc.context.enumerateIndirectObjects();
   const imagesInDoc = [];
@@ -42,10 +42,8 @@ export default async function extractPdfImages(pdfBytes) {
   console.log(`===== ${imagesInDoc.length} Images found in PDF =====`);
   imagesInDoc.forEach(async (image) => {
     // Find and mark SMasks as alpha layers
-    if (image.type === 'png' && image.smaskRef) {
-      const smaskImg = imagesInDoc.find(
-        ({ ref }) => ref === image.smaskRef
-      );
+    if (image.type === "png" && image.smaskRef) {
+      const smaskImg = imagesInDoc.find(({ ref }) => ref === image.smaskRef);
       smaskImg.isAlphaLayer = true;
       image.alphaLayer = image;
     }
@@ -60,7 +58,7 @@ export default async function extractPdfImages(pdfBytes) {
       image.colorSpace.toString(),
       "\n  Has Alpha Layer?",
       image.alphaLayer ? true : false,
-      '\n  Is Alpha Layer?',
+      "\n  Is Alpha Layer?",
       image.isAlphaLayer || false,
       "\n  Width:",
       image.width,
@@ -76,7 +74,7 @@ export default async function extractPdfImages(pdfBytes) {
   });
 
   // PNG modifications
-  
+
   const PngColorTypes = {
     Grayscale: 0,
     Rgb: 2,
@@ -196,6 +194,7 @@ export default async function extractPdfImages(pdfBytes) {
       const imageObj = {
         imageData: imageData,
         imageType: image.type,
+        sourcePdf: pdfFileName,
       };
       // images.push(imageObj);
       self.postMessage(imageObj, [imageObj.imageData.buffer]);
