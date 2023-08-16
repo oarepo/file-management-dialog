@@ -146,8 +146,6 @@ const PDFSelectDialog = () => {
           type: `image/${imageObj.imageType}`,
         });
         uppy.addFile({
-          // prepend pdf name before image name
-          // extract to event
           name: `${imageObj.sourcePdf}_${crypto.randomUUID()}.${
             event.data.imageType
           }`,
@@ -182,7 +180,6 @@ const PDFSelectDialog = () => {
     // Extract to plugin
     try {
       const response = await fetch(file.links.content);
-      // Same as file.arrayBuffer() from but with fetch
       const data = await response.blob();
       setIsLoading(false);
       setModalOpen(true);

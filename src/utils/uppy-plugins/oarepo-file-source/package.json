@@ -1,0 +1,9 @@
+{
+    "name": "oarepo-upload",
+    "version": "1.0.0",
+    "main": "index.js",
+    "type": "module",
+    "dependencies": {
+        "preact": "^10.5.13"
+    }
+}
