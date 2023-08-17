@@ -1,11 +1,20 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
+// import preact from "@preact/preset-vite";
 import { viteMockServe } from "vite-plugin-mock";
 // import fs from "fs/promises";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command, mode }) => {
   return {
+    resolve: {
+      alias: {
+        "react": "preact/compat",
+        "react-dom/test-utils": "preact/test-utils",
+        "react-dom": "preact/compat", // Must be below test-utils
+        "react/jsx-runtime": "preact/jsx-runtime",
+      },
+    },
     plugins: [
       react(),
       viteMockServe({
@@ -23,29 +32,32 @@ export default defineConfig(({ command, mode }) => {
     ],
     worker: {
       format: "es",
-    }
+    },
     // esbuild: {
     //   loader: "jsx",
     //   include: /src\/.*\.js[x]?$/,
     //   exclude: [],
     // },
-    // optimizeDeps: {
-    //   esbuildOptions: {
-    //     loader: {
-    //       ".js": "jsx"
-    //     },
-    //     plugins: [
-    //       {
-    //         name: "load-js-files-as-jsx",
-    //         setup(build) {
-    //           build.onLoad({ filter: /src\/.*\.js$/ }, async (args) => ({
-    //             loader: "jsx",
-    //             contents: await fs.readFile(args.path, "utf8"),
-    //           }));
-    //         },
-    //       },
-    //     ],
-    //   },
-    // },
+    optimizeDeps: {
+      include: [
+        "classnames",
+      ],
+      // esbuildOptions: {
+      //   loader: {
+      //     ".js": "jsx"
+      //   },
+      //   plugins: [
+      //     {
+      //       name: "load-js-files-as-jsx",
+      //       setup(build) {
+      //         build.onLoad({ filter: /src\/.*\.js$/ }, async (args) => ({
+      //           loader: "jsx",
+      //           contents: await fs.readFile(args.path, "utf8"),
+      //         }));
+      //       },
+      //     },
+      //   ],
+      // },
+    },
   };
 });

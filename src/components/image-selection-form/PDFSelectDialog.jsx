@@ -115,10 +115,46 @@ const PDFSelectDialog = () => {
   }, [uppy, handleUploadClick]);
 
   useEffect(() => {
-    uppy.getPlugin("OARepoUpload").setOptions({
+    uppy.getPlugin("OARepoUpload")?.setOptions({
       endpoint: record.files.links.self,
     });
-  }, [uppy, record.files.links.self]);
+    /* fileSources: 
+    [
+      {
+        id: '2151fa94-6dc3-4935-8df9-ecafgeb9175c', // file.file_id ?? file.key
+        name: 'article.pdf', // file.key
+        mimeType: 'application/pdf', // file.mimetype
+        data: **to be downloaded**,
+
+        isFolder: false,
+        icon: null, // TODO: add icons
+        thumbnail: null // TODO: add thumbnail URLs to preview images
+        requestPath: "http://localhost:5173/api/records/8t29q-nfr77/files/figure.png/content", // file.links.content
+        modifiedDate: "2020-11-27 11:26:04.607831", // file.updated ?? null
+        author: null,
+        size: 782683, file.size ?? null
+        ...
+      },
+      ...
+    ]
+    */
+    const fileSources = record.files.entries.map((file) => ({
+      id: file.file_id,
+      name: file.key,
+      mimeType: file.mimetype,
+      isFolder: false,
+      icon: "file",
+      thumbnail: null,
+      requestPath: file.links.content,
+      modifiedDate: file.updated,
+      author: null,
+      size: file.size,
+    }));
+    console.log(fileSources, "error");
+    uppy.getPlugin("OARepoFileSource")?.setOptions({
+      fileSources: fileSources,
+    });
+  }, [uppy, record.files.entries, record.files.links.self]);
 
   useEffect(() => {
     // after PDFImageExtractor Extract Images button is clicked, register onmessage callback
@@ -267,8 +303,8 @@ const PDFSelectDialog = () => {
                 }
                 return fields;
               }}
-              plugins={["ImageEditor"]}
-              theme="auto"
+              plugins={["ImageEditor", "OARepoFileSource"]}
+              // plugins={["ImageEditor", "Unsplash", "OARepoFileSource"]}
             />
           </Grid.Row>
           <Grid.Row>

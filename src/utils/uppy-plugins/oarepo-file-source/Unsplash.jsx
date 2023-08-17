@@ -3,14 +3,14 @@ import { UIPlugin } from '@uppy/core'
 import { SearchProvider, Provider } from '@uppy/companion-client'
 import { SearchProviderViews } from '@uppy/provider-views'
 
-import packageJson from './package.json'
+// import packageJson from './package.json'
 
 /**
  * Unsplash
  *
  */
 export default class Unsplash extends UIPlugin {
-  static VERSION = packageJson.version
+  // static VERSION = packageJson.version
 
   constructor (uppy, opts) {
     super(uppy, opts)

@@ -4,6 +4,11 @@
     "main": "index.js",
     "type": "module",
     "dependencies": {
-        "preact": "^10.5.13"
+        "@uppy/provider-views": "workspace:^",
+        "@uppy/utils": "workspace:^",
+        "preact": "workspace:^"
+    },
+    "peerDependencies": {
+      "@uppy/core": "workspace:^"
     }
 }

@@ -1,3 +1,4 @@
+import React from 'react'
 import MainForm from "./components/image-selection-form/MainForm";
 import { Grid } from "semantic-ui-react";
 import { WorkerProvider } from "./contexts/WorkerContext";

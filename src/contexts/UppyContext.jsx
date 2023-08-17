@@ -3,6 +3,8 @@ import { createContext, useMemo } from "react";
 import Uppy from "@uppy/core";
 import ImageEditor from "@uppy/image-editor";
 import OARepoUpload from "../utils/uppy-plugins/oarepo-upload";
+import OARepoFileSource from "../utils/uppy-plugins/oarepo-file-source";
+// import Unsplash from "../utils/uppy-plugins/oarepo-file-source/Unsplash";
 
 export const UppyContext = createContext();
 
@@ -46,6 +48,12 @@ export const UppyProvider = ({ children }) => {
         //   return true;
         // },
       })
+        .use(OARepoFileSource, {
+          fileSources: [],
+        })
+        // .use(Unsplash, {
+        //   companionUrl: "http://localhost:5000",
+        // })
         .use(OARepoUpload)
         .use(ImageEditor, {
           quality: 1.0,
