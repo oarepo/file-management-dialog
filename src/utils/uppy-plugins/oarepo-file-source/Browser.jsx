@@ -1,11 +1,8 @@
 /* eslint-disable react/prop-types */
-import { h } from "preact";
-
 import classNames from "classnames";
 import remoteFileObjToLocal from "@uppy/utils/lib/remoteFileObjToLocal";
 import { useMemo } from "preact/hooks";
 import VirtualList from "@uppy/utils/lib/VirtualList";
-// import SearchFilterInput from "./SearchFilterInput.jsx";
 import FooterActions from "@uppy/provider-views/src/FooterActions";
 import Item from "@uppy/provider-views/src/Item";
 

@@ -1,14 +1,18 @@
-import { h } from "preact";
 import { UIPlugin } from "@uppy/core";
-// import { SearchProvider, Provider } from '@uppy/companion-client'
-// import { SearchProviderViews } from '@uppy/provider-views'
 import OARepoViewProvider from "./OARepoViewProvider";
 
 import packageJson from "./package.json";
 
 /**
  * OARepoFileSource plugin
- *
+ * @class
+ * @extends UIPlugin
+ * @param {object} opts plugin options
+ * @param {string} opts.id id of the plugin
+ * @param {string} opts.title title shown in the UI
+ * @param {string} opts.target DOM element to mount the plugin on
+ * @param {string} opts.fileSources array of files to be processed
+ * @param {string} opts.fileTypeFilter array of file types to be processed
  */
 export default class OARepoFileSource extends UIPlugin {
   static VERSION = packageJson.version;
@@ -46,72 +50,42 @@ export default class OARepoFileSource extends UIPlugin {
         "File sources option is required to process files from OARepo."
       );
     }
-
     this.fileSources = this.opts.fileSources;
-    // Provider.initPlugin(this, opts, {})
+
+    this.fileTypeFilter = this.opts.fileTypeFilter;
 
     this.icon = () => {
       return (
         <svg
-          className="uppy-DashboardTab-iconUnsplash"
-          viewBox="0 0 32 32"
-          height="32"
-          width="32"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 384 512"
           aria-hidden="true"
         >
-          <g fill="currentcolor">
-            <path d="M46.575 10.883v-9h12v9zm12 5h10v18h-32v-18h10v9h12z" />
-            <path d="M13 12.5V8h6v4.5zm6 2.5h5v9H8v-9h5v4.5h6z" />
-          </g>
+          <path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM216 232V334.1l31-31c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-72 72c-9.4 9.4-24.6 9.4-33.9 0l-72-72c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l31 31V232c0-13.3 10.7-24 24-24s24 10.7 24 24z" />
         </svg>
       );
-      // return h(
-      //   "svg",
-      //   {
-      //     className: "uppy-DashboardTab-iconUnsplash",
-      //     viewBox: "0 0 32 32",
-      //     height: "32",
-      //     width: "32",
-      //     "aria-hidden": "true",
-      //   },
-      //   h(
-      //     "g",
-      //     { fill: "currentcolor" },
-      //     h("path", {
-      //       d: "M46.575 10.883v-9h12v9zm12 5h10v18h-32v-18h10v9h12z",
-      //     }),
-      //     h("path", { d: "M13 12.5V8h6v4.5zm6 2.5h5v9H8v-9h5v4.5h6z" })
-      //   )
-      // );
     };
 
     this.onFirstRender = this.onFirstRender.bind(this);
     this.render = this.render.bind(this);
+  }
 
-    // if (!this.opts.companionUrl) {
-    //   throw new Error('Companion hostname is required, please consult https://uppy.io/docs/companion')
-    // }
-
-    // this.hostname = this.opts.companionUrl
-
-    // this.provider = new SearchProvider(uppy, {
-    //   companionUrl: this.opts.companionUrl,
-    //   companionHeaders: this.opts.companionHeaders,
-    //   companionCookiesRule: this.opts.companionCookiesRule,
-    //   provider: 'unsplash',
-    //   pluginId: this.id,
-    // })
+  #filterFilesByType(files) {
+    this.uppy.log(`[OARepoFileSource] filtering files by type: ${this.fileTypeFilter}`);
+    if (!this.fileTypeFilter) {
+      return files;
+    }
+    return files.filter((file) => {
+      return this.fileTypeFilter.includes(file.mimeType);
+    });
   }
 
   install() {
     this.view = new OARepoViewProvider(this, {
-      // provider: this.provider,
       viewType: "list",
       showTitles: true,
       loadAllFiles: true,
     });
-
-    this.fileSources = this.opts.fileSources;
 
     const { target } = this.opts;
     if (target) {
@@ -121,7 +95,8 @@ export default class OARepoFileSource extends UIPlugin {
 
   // eslint-disable-next-line class-methods-use-this
   onFirstRender() {
-    this.fileSources = this.opts.fileSources;
+    this.fileTypeFilter = this.opts.fileTypeFilter;
+    this.fileSources = this.#filterFilesByType(this.opts.fileSources);
     this.uppy.log(
       `[OARepoFileSource] onFirstRender. downloading files:\n${JSON.stringify(
         this.fileSources,
@@ -133,7 +108,6 @@ export default class OARepoFileSource extends UIPlugin {
   }
 
   render(state) {
-    // this.fileSources = this.opts.fileSources;
     return this.view.render(state);
   }
 

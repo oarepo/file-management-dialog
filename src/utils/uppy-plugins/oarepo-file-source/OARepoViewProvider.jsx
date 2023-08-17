@@ -1,16 +1,13 @@
-import { h } from "preact";
-
-// import SearchFilterInput from '@uppy/provider-views/src/SearchFilterInput'
 import Browser from "./Browser";
 import CloseWrapper from "@uppy/provider-views/src/CloseWrapper";
 import View from "@uppy/provider-views/src/View";
-import getFileType from '@uppy/utils/lib/getFileType'
-import isPreviewSupported from '@uppy/utils/lib/isPreviewSupported'
+import getFileType from "@uppy/utils/lib/getFileType";
+import isPreviewSupported from "@uppy/utils/lib/isPreviewSupported";
 
 import packageJson from "./package.json";
 
 /**
- * SearchProviderView, used for Unsplash and future image search providers.
+ * OARepoViewProvider forked from SearchProviderView, used for Unsplash and future image search providers.
  * Extends generic View, shared with regular providers like Google Drive and Instagram.
  */
 export default class OARepoViewProvider extends View {
@@ -36,11 +33,8 @@ export default class OARepoViewProvider extends View {
     this.opts = { ...defaultOptions, ...opts };
 
     // Logic
-    // this.search = this.search.bind(this)
-    // this.clearSearch = this.clearSearch.bind(this)
     this.downloadFiles = this.downloadFiles.bind(this);
     this.resetPluginState = this.resetPluginState.bind(this);
-    // this.handleScroll = this.handleScroll.bind(this)
     this.donePicking = this.donePicking.bind(this);
     this.getTagFile = this.getTagFile.bind(this);
 
@@ -49,13 +43,9 @@ export default class OARepoViewProvider extends View {
 
     this.defaultState = {
       didFirstRender: false,
-      isInputMode: false,
       files: [],
       folders: [],
-      breadcrumbs: [],
-      filterInput: "",
       currentSelection: [],
-      //   searchTerm: null,
     };
 
     // Set default state for the plugin
@@ -72,7 +62,6 @@ export default class OARepoViewProvider extends View {
   }
 
   #updateFilesAndInputMode(fileSources, files) {
-    // this.nextPageQuery = res.nextPageQuery
     fileSources.forEach((item) => {
       files.push(item);
     });
@@ -81,7 +70,6 @@ export default class OARepoViewProvider extends View {
     );
     this.plugin.setPluginState({
       currentSelection: [],
-      isInputMode: false,
       files,
     });
   }
@@ -108,18 +96,11 @@ export default class OARepoViewProvider extends View {
       },
       ...
     ]
-    */
+  */
   downloadFiles(fileSources) {
-    // const { searchTerm } = this.plugin.getPluginState()
-    // if (query && query === searchTerm) {
-    //   // no need to search again as this is the same as the previous search
-    //   return
-    // }
     console.log("downloadFiles", fileSources);
     this.setLoading(true);
     try {
-      // TODO: Implement download of files using fileSources
-      // const res = await this.provider.search(query)
       this.#updateFilesAndInputMode(fileSources, []);
     } catch (err) {
       this.handleError(err);
@@ -128,33 +109,7 @@ export default class OARepoViewProvider extends View {
     }
   }
 
-  //   clearSearch () {
-  //     this.plugin.setPluginState({
-  //       currentSelection: [],
-  //       files: [],
-  //     //   searchTerm: null,
-  //     })
-  //   }
-
-  //   async handleScroll (event) {
-  //     const query = this.nextPageQuery || null
-
-  //     if (this.shouldHandleScroll(event) && query) {
-  //       this.isHandlingScroll = true
-
-  //       try {
-  //         const { files, searchTerm } = this.plugin.getPluginState()
-  //         // const response = await this.provider.search(searchTerm, query)
-
-  //         this.#updateFilesAndInputMode(response, files)
-  //       } catch (error) {
-  //         this.handleError(error)
-  //       } finally {
-  //         this.isHandlingScroll = false
-  //       }
-  //     }
-  //   }
-
+  // Forked from View.js
   getTagFile(file) {
     const tagFile = {
       id: file.id,
@@ -167,16 +122,6 @@ export default class OARepoViewProvider extends View {
       body: {
         fileId: file.id,
       },
-      // remote: {
-      //   companionUrl: this.plugin.opts.companionUrl,
-      //   url: file.requestPath,
-      //   body: {
-      //     fileId: file.id,
-      //   },
-      //   providerOptions: this.provider.opts,
-      //   providerName: this.provider.name,
-      //   provider: this.provider.provider,
-      // },
     };
 
     const fileType = getFileType(tagFile);
@@ -228,13 +173,12 @@ export default class OARepoViewProvider extends View {
       })
     );
 
-    this.plugin.uppy.addFiles(filesToAdd)
+    this.plugin.uppy.addFiles(filesToAdd);
     this.resetPluginState();
   }
 
   render(state, viewOptions = {}) {
-    const { didFirstRender, isInputMode, searchTerm } =
-      this.plugin.getPluginState();
+    const { didFirstRender } = this.plugin.getPluginState();
     const { i18n } = this.plugin.uppy;
 
     if (!didFirstRender) {
@@ -242,11 +186,8 @@ export default class OARepoViewProvider extends View {
     }
 
     const targetViewOptions = { ...this.opts, ...viewOptions };
-    const { files, folders, filterInput, loading, currentSelection } =
-      this.plugin.getPluginState();
-    const { isChecked, toggleCheckbox, filterItems, recordShiftKeyPress } =
-      this;
-    const hasInput = filterInput !== "";
+    const { files, loading, currentSelection } = this.plugin.getPluginState();
+    const { isChecked, toggleCheckbox, recordShiftKeyPress } = this;
 
     console.log(files);
 
@@ -257,18 +198,8 @@ export default class OARepoViewProvider extends View {
       currentSelection,
       files: files,
       folders: [],
-      //   handleScroll: this.handleScroll,
       done: this.donePicking,
       cancel: this.cancelPicking,
-
-      //   // For SearchFilterInput component
-      //   showSearchFilter: targetViewOptions.showFilter,
-      //   search: this.search,
-      //   clearSearch: this.clearSearch,
-      //   searchTerm,
-      //   searchOnInput: false,
-      //   searchInputLabel: i18n('search'),
-      //   clearSearchLabel: i18n('resetSearch'),
 
       noResultsLabel: i18n("noSearchResults"),
       title: this.plugin.title,
@@ -285,32 +216,11 @@ export default class OARepoViewProvider extends View {
       loadAllFiles: this.opts.loadAllFiles,
     };
 
-    // if (isInputMode) {
-    //   return (
-    //     <CloseWrapper onUnmount={this.resetPluginState}>
-    //       <div className="uppy-SearchProvider">
-    //         <SearchFilterInput
-    //           search={this.search}
-    //           clearSelection={this.clearSelection}
-    //           inputLabel={i18n('enterTextToSearch')}
-    //           buttonLabel={i18n('searchImages')}
-    //           inputClassName="uppy-c-textInput uppy-SearchProvider-input"
-    //           buttonCSSClassName="uppy-SearchProvider-searchButton"
-    //           showButton
-    //         />
-    //       </div>
-    //     </CloseWrapper>
-    //   )
-    // }
-
     return (
       <CloseWrapper onUnmount={this.resetPluginState}>
         {/* eslint-disable-next-line react/jsx-props-no-spreading */}
         <Browser {...browserProps} />
       </CloseWrapper>
-      // <CloseWrapper onUnmount={this.resetPluginState}>
-      //   <div>TODO: Implement OARepoViewProvider</div>
-      // </CloseWrapper>
     );
   }
 }

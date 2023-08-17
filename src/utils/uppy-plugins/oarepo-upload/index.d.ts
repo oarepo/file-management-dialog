@@ -7,8 +7,6 @@ export type Headers = {
 
 export interface XHRUploadOptions extends PluginOptions {
     limit?: number
-    // bundle?: boolean
-    // formData?: boolean
     headers?: Headers | ((file: UppyFile) => Headers)
     allowedMetaFields?: string[] | null
     fieldName?: string

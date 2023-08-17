@@ -153,6 +153,7 @@ const PDFSelectDialog = () => {
     console.log(fileSources, "error");
     uppy.getPlugin("OARepoFileSource")?.setOptions({
       fileSources: fileSources,
+      fileTypeFilter: ["application/pdf"],
     });
   }, [uppy, record.files.entries, record.files.links.self]);
 
