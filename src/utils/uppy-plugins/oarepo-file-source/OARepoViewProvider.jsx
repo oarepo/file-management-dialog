@@ -22,8 +22,8 @@ export default class OARepoViewProvider extends View {
 
     // set default options
     const defaultOptions = {
-      viewType: "grid",
-      showTitles: false,
+      viewType: "list",
+      showTitles: true,
       showFilter: false,
       showBreadcrumbs: false,
       loadAllFiles: true,
@@ -118,7 +118,7 @@ export default class OARepoViewProvider extends View {
       name: file.name || file.id,
       type: file.mimeType,
       isRemote: false,
-      meta: {},
+      meta: file.metadata || {},
       body: {
         fileId: file.id,
       },
@@ -206,6 +206,7 @@ export default class OARepoViewProvider extends View {
       done: this.donePicking,
       cancel: this.cancelPicking,
 
+      headerComponent: "Select PDF(s) to extract images from.",
       noResultsLabel: i18n("noSearchResults"),
       title: this.plugin.title,
       viewType: targetViewOptions.viewType,

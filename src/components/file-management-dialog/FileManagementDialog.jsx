@@ -9,6 +9,7 @@ const UppyDashboardDialog = lazy(() => import("./UppyDashboardDialog"));
 // eslint-disable-next-line react/prop-types
 const FileManagementDialog = ({
   config,
+  modifyExistingFiles = false,
   TriggerComponent = ({ onClick, ...props }) => (
     <button onClick={onClick} {...props}>
       Set images
@@ -40,6 +41,7 @@ const FileManagementDialog = ({
                 <UppyDashboardDialog
                   modalOpen={modalOpen}
                   setModalOpen={setModalOpen}
+                  modifyExistingFiles={modifyExistingFiles}
                 />
               </UppyProvider>
             )}

@@ -6,7 +6,7 @@ import { debugLogger } from "@uppy/core";
 import { DashboardModal } from "@uppy/react";
 import PropTypes from "prop-types";
 
-const UppyDashboardDialog = ({ modalOpen, setModalOpen }) => {
+const UppyDashboardDialog = ({ modalOpen, setModalOpen, modifyExistingFiles }) => {
   // oneMessage and postMessage in on component
   const extractImageWorker = useWorker();
   const uppy = useUppyContext();
@@ -80,7 +80,7 @@ const UppyDashboardDialog = ({ modalOpen, setModalOpen }) => {
         ],
       },
       // eslint-disable-next-line no-unused-vars
-      onBeforeFileAdded: (currentFile, _files) => {
+      onBeforeFileAdded: !modifyExistingFiles ? (currentFile, _files) => {
         if (currentFile.type === "application/pdf") {
           uppy.info(
             "PDF image extraction processing, please wait...",
@@ -91,7 +91,7 @@ const UppyDashboardDialog = ({ modalOpen, setModalOpen }) => {
           return false;
         }
         return true;
-      },
+      } : () => true,
     });
   }, [uppy, handleUploadClick]);
 
@@ -130,10 +130,11 @@ const UppyDashboardDialog = ({ modalOpen, setModalOpen }) => {
       modifiedDate: file.updated,
       author: null,
       size: file.size,
+      metadata: file.metadata
     }));
     uppy.getPlugin("OARepoFileSource")?.setOptions({
       fileSources: fileSources,
-      fileTypeFilter: ["application/pdf"],
+      fileTypeFilter: !modifyExistingFiles ? ["application/pdf"] : null,
     });
   }, [uppy, record.files.entries, record.files.links.self]);
 
@@ -197,6 +198,8 @@ const UppyDashboardDialog = ({ modalOpen, setModalOpen }) => {
         }}
         closeModalOnClickOutside
         showProgressDetails
+        note={modifyExistingFiles ? "Select existing files to modify metadata." : "Select files to upload."}
+        disableLocalFiles={modifyExistingFiles}
         metaFields={(file) => {
           const fields = [];
           if (file.type.startsWith("image/")) {
@@ -231,6 +234,7 @@ const UppyDashboardDialog = ({ modalOpen, setModalOpen }) => {
 UppyDashboardDialog.propTypes = {
   modalOpen: PropTypes.bool.isRequired,
   setModalOpen: PropTypes.func.isRequired,
+  modifyExistingFiles: PropTypes.bool,
 };
 
 export default UppyDashboardDialog;
