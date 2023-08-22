@@ -8,7 +8,9 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "@uppy/core": "^3.3.1",
@@ -21,11 +23,17 @@
     "pdf-lib": "^1.17.1",
     "pngjs": "^7.0.0",
     "react": "^16.14.0",
-    "react-dom": "^16.14.0",
-    "semantic-ui-css": "^2.5.0",
-    "semantic-ui-react": "^2.1.4"
+    "react-dom": "^16.14.0"
   },
   "devDependencies": {
+    "@storybook/addon-essentials": "^7.3.2",
+    "@storybook/addon-interactions": "^7.3.2",
+    "@storybook/addon-links": "^7.3.2",
+    "@storybook/addon-onboarding": "^1.0.8",
+    "@storybook/blocks": "^7.3.2",
+    "@storybook/react": "^7.3.2",
+    "@storybook/react-vite": "^7.3.2",
+    "@storybook/testing-library": "^0.2.0",
     "@types/react": "^16.14.45",
     "@types/react-dom": "^16.9.19",
     "@vitejs/plugin-react": "^4.0.3",
@@ -33,7 +41,10 @@
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",
+    "eslint-plugin-storybook": "^0.6.13",
     "mockjs": "^1.1.0",
+    "prop-types": "^15.8.1",
+    "storybook": "^7.3.2",
     "vite": "^4.4.5",
     "vite-plugin-mock": "^2.9.8"
   }

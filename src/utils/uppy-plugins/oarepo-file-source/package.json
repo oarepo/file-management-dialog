@@ -1,5 +1,6 @@
 {
-    "name": "oarepo-upload",
+    "name": "oarepo-file-source",
+    "description": "OArepo file source plugin for Uppy",
     "version": "1.0.0",
     "main": "index.js",
     "type": "module",

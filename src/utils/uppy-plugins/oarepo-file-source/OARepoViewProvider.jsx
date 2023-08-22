@@ -165,6 +165,11 @@ export default class OARepoViewProvider extends View {
           data = await response.blob();
         } catch (error) {
           this.plugin.uppy.log(error, "error");
+          this.plugin.uppy.info(
+            "Could not fetch files from remote provider",
+            "error",
+            5000
+          );
           return;
         }
         const tagFile = this.getTagFile(file);

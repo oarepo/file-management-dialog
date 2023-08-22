@@ -191,7 +191,8 @@ const UppyDashboardDialog = ({ modalOpen, setModalOpen }) => {
         open={modalOpen}
         onRequestClose={() => {
           isProcessing.current = false;
-          extractImageWorker.terminate();
+          uppy.cancelAll();
+          // uppy.emit("dashboard:modal-closed");
           setModalOpen(false);
         }}
         closeModalOnClickOutside
