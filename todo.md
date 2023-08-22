@@ -57,3 +57,10 @@ Uncaught (in promise) TypeError: Cannot read properties of undefined (reading '0
 - ImageSelection outputs only selected images
 - alert with semantic ui alerts
 - FullScreen preview for ImageCard component
+
+
+## 17.8.2023
+- Add Metadata modifier.
+- NPM package - create react library
+- Functional decomposition for FileManagementDialog component
+  - extract based props
