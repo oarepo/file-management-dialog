@@ -100,6 +100,8 @@ export default [
   {
     url: "/api/records/:id/files/:fileName/content",
     method: "get",
+    // timeout: 2000,
+    // statusCode: 500,
     rawResponse: async (req, res) => {
       res.setHeader("Content-Type", "application/pdf");
       res.setHeader("Content-Disposition", "inline");

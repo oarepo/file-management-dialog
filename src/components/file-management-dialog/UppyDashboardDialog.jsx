@@ -93,7 +93,7 @@ const UppyDashboardDialog = ({ modalOpen, setModalOpen, modifyExistingFiles }) =
         return true;
       } : () => true,
     });
-  }, [uppy, handleUploadClick]);
+  }, [uppy, handleUploadClick, modifyExistingFiles]);
 
   useEffect(() => {
     uppy.getPlugin("OARepoUpload")?.setOptions({
@@ -136,7 +136,7 @@ const UppyDashboardDialog = ({ modalOpen, setModalOpen, modifyExistingFiles }) =
       fileSources: fileSources,
       fileTypeFilter: !modifyExistingFiles ? ["application/pdf"] : null,
     });
-  }, [uppy, record.files.entries, record.files.links.self]);
+  }, [uppy, record.files.entries, record.files.links.self, modifyExistingFiles]);
 
   useEffect(() => {
     // after PDFImageExtractor Extract Images button is clicked, register onmessage callback

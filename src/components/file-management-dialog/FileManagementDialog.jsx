@@ -54,6 +54,7 @@ const FileManagementDialog = ({
 
 FileManagementDialog.propTypes = {
   config: PropTypes.object.isRequired,
+  modifyExistingFiles: PropTypes.bool,
   TriggerComponent: PropTypes.elementType,
 };
 

@@ -3,8 +3,8 @@
     "created": "2022-10-18T10:22:35.153753+00:00",
     "id": "8t29q-nfr77",
     "links": {
-      "files": "http://localhost:5173/general/datasets/8t29q-nfr77/files/",
-      "self": "http://localhost:5173/general/datasets/8t29q-nfr77",
+      "files": "http://localhost:6006/general/datasets/8t29q-nfr77/files/",
+      "self": "http://localhost:6006/general/datasets/8t29q-nfr77",
       "transitions": {}
     },
     "files": {
@@ -28,9 +28,9 @@
           "bucket_id": "90b5b318-114a-4b87-bc9d-0d018b9363d3",
           "storage_class": "S",
           "links": {
-            "content": "http://localhost:5173/api/records/8t29q-nfr77/files/figure.png/content",
-            "self": "http://localhost:5173/api/records/8t29q-nfr77/files/figure.png",
-            "commit": "http://localhost:5173/api/records/8t29q-nfr77/files/figure.png/commit"
+            "content": "http://localhost:6006/api/records/8t29q-nfr77/files/figure.png/content",
+            "self": "http://localhost:6006/api/records/8t29q-nfr77/files/figure.png",
+            "commit": "http://localhost:6006/api/records/8t29q-nfr77/files/figure.png/commit"
           }
         },
         {
@@ -47,9 +47,9 @@
           "bucket_id": "90b5b318-114a-4b87-bc9d-0d0f439363d3",
           "storage_class": "S",
           "links": {
-            "content": "http://localhost:5173/api/records/8t29q-nfr77/files/article.pdf/content",
-            "self": "http://localhost:5173/api/records/8t29q-nfr77/files/article.pdf",
-            "commit": "http://localhost:5173/api/records/8t29q-nfr77/files/article.pdf/commit"
+            "content": "http://localhost:6006/api/records/8t29q-nfr77/files/article.pdf/content",
+            "self": "http://localhost:6006/api/records/8t29q-nfr77/files/article.pdf",
+            "commit": "http://localhost:6006/api/records/8t29q-nfr77/files/article.pdf/commit"
           }
         },
         {
@@ -66,9 +66,9 @@
           "bucket_id": "90b5b318-114a-4b87-bc9d-0d0f439363d3",
           "storage_class": "S",
           "links": {
-            "content": "http://localhost:5173/api/records/8t29q-nfr77/files/article2.pdf/content",
-            "self": "http://localhost:5173/api/records/8t29q-nfr77/files/article2.pdf",
-            "commit": "http://localhost:5173/api/records/8t29q-nfr77/files/article2.pdf/commit"
+            "content": "http://localhost:6006/api/records/8t29q-nfr77/files/article2.pdf/content",
+            "self": "http://localhost:6006/api/records/8t29q-nfr77/files/article2.pdf",
+            "commit": "http://localhost:6006/api/records/8t29q-nfr77/files/article2.pdf/commit"
           }
         },
         {
@@ -85,14 +85,14 @@
           "bucket_id": "90b5b318-114a-4b87-bc9d-0d0f439363d3",
           "storage_class": "S",
           "links": {
-            "content": "http://localhost:5173/api/records/8t29q-nfr77/files/article3.pdf/content",
-            "self": "http://localhost:5173/api/records/8t29q-nfr77/files/article3.pdf",
-            "commit": "http://localhost:5173/api/records/8t29q-nfr77/files/article3.pdf/commit"
+            "content": "http://localhost:6006/api/records/8t29q-nfr77/files/article3.pdf/content",
+            "self": "http://localhost:6006/api/records/8t29q-nfr77/files/article3.pdf",
+            "commit": "http://localhost:6006/api/records/8t29q-nfr77/files/article3.pdf/commit"
           }
         }
       ],
       "links": {
-        "self": "http://localhost:5173/api/records/8t29q-nfr77/files"
+        "self": "http://localhost:6006/api/records/8t29q-nfr77/files"
       },
       "order": []
     },
