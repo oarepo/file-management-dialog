@@ -161,7 +161,14 @@ export default class OARepoUpload extends UploaderPlugin {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ metadata: metadata }),
+      body: JSON.stringify({
+        metadata: Object.keys(metadata).reduce((acc, key) => {
+          if (opts.allowedMetaFields.includes(key)) {
+            acc[key] = metadata[key];
+          }
+          return acc;
+        }, {}),
+      }),
     })
       .then(async (response) => {
         if (!this.opts.validateStatus(response.status)) {
@@ -328,6 +335,7 @@ export default class OARepoUpload extends UploaderPlugin {
         await this.#uploadFileMetadata(file, file.meta, opts, uploadId)
         await xhrContentPromise
         await this.#completeFileUpload(file, opts, uploadId)
+        return file
       } catch (error) {
         return error;
       }

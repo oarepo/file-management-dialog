@@ -82,6 +82,24 @@ const UppyDashboardDialog = ({
       restrictions: {
         allowedFileTypes: allowedFileTypes,
       },
+      onBeforeUpload: (files) => {
+        const updatedFiles = {};
+        // TODO: add required metadata fields (for certain fileTypes) to prop settings of this component
+        Object.keys(files).forEach((fileID) => {
+          const file = files[fileID];
+          updatedFiles[fileID] = file.type.startsWith("image/")
+            ? {
+                ...file,
+                meta: {
+                  ...file.meta,
+                  caption: file.meta?.caption ?? "",
+                  featureImage: file.meta?.featureImage ?? false,
+                },
+              }
+            : file;
+        });
+        return updatedFiles;
+      },
       onBeforeFileAdded:
         !modifyExistingFiles && autoExtractImagesFromPDFs
           ? // eslint-disable-next-line no-unused-vars
@@ -110,6 +128,7 @@ const UppyDashboardDialog = ({
   useEffect(() => {
     uppy.getPlugin("OARepoUpload")?.setOptions({
       endpoint: record.files.links.self,
+      allowedMetaFields: ["caption", "featureImage"],
     });
     /* fileSources: 
     [
