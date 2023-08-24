@@ -64,3 +64,7 @@ Uncaught (in promise) TypeError: Cannot read properties of undefined (reading '0
 - NPM package - create react library
 - Functional decomposition for FileManagementDialog component
   - extract based props
+
+## 24.8.2023
+- handle metadata upload
+  - revise key-value pairs

@@ -176,7 +176,6 @@ export default async function extractPdfImages(pdfFileName, pdfBytes) {
         .on("error", (err) => reject(err));
     });
 
-  // const images = [];
   for (const image of imagesInDoc) {
     // Emit .jpg images immediately and process .png images later
     if (!image.isAlphaLayer) {
@@ -196,18 +195,7 @@ export default async function extractPdfImages(pdfFileName, pdfBytes) {
         imageType: image.type,
         sourcePdf: pdfFileName,
       };
-      // images.push(imageObj);
       self.postMessage(imageObj, [imageObj.imageData.buffer]);
     }
   }
-
-  // const images = imagesInDoc.map(async (image) => {
-  //   if (!image.isAlphaLayer) {
-  //     const imageData =
-  //       image.type === "jpg" ? image.data : await savePng(image);
-  //     return imageData;
-  //   }
-  // });
-
-  // return images;
 }

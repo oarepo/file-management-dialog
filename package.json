@@ -10,7 +10,8 @@
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "test-storybook": "test-storybook"
   },
   "dependencies": {
     "@uppy/core": "^3.3.1",
@@ -32,12 +33,15 @@
     "@storybook/addon-onboarding": "^1.0.8",
     "@storybook/addon-storysource": "^7.3.2",
     "@storybook/blocks": "^7.3.2",
+    "@storybook/jest": "^0.2.1",
     "@storybook/react": "^7.3.2",
     "@storybook/react-vite": "^7.3.2",
+    "@storybook/test-runner": "^0.13.0",
     "@storybook/testing-library": "^0.2.0",
     "@types/react": "^16.14.45",
     "@types/react-dom": "^16.9.19",
     "@vitejs/plugin-react": "^4.0.3",
+    "chromatic": "^6.23.0",
     "eslint": "^8.45.0",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",

@@ -42,6 +42,7 @@ const FileManagementDialog = ({
                   modalOpen={modalOpen}
                   setModalOpen={setModalOpen}
                   modifyExistingFiles={modifyExistingFiles}
+                  // allowedMimeTypes={allowedMimeTypes}
                 />
               </UppyProvider>
             )}
