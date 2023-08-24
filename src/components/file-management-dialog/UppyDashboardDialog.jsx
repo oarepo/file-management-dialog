@@ -6,8 +6,13 @@ import { debugLogger } from "@uppy/core";
 import { DashboardModal } from "@uppy/react";
 import PropTypes from "prop-types";
 
-const UppyDashboardDialog = ({ modalOpen, setModalOpen, modifyExistingFiles }) => {
-  // oneMessage and postMessage in on component
+const UppyDashboardDialog = ({
+  modalOpen,
+  setModalOpen,
+  modifyExistingFiles,
+  allowedFileTypes,
+  autoExtractImagesFromPDFs,
+}) => {
   const extractImageWorker = useWorker();
   const uppy = useUppyContext();
   const { record } = useAppContext().current;
@@ -57,7 +62,11 @@ const UppyDashboardDialog = ({ modalOpen, setModalOpen, modifyExistingFiles }) =
           isProcessing.current = true;
         } catch (error) {
           isProcessing.current = false;
-          uppy.info("There was an error when uploading file:\n" + error, "error", 5000);
+          uppy.info(
+            "There was an error when uploading file:\n" + error,
+            "error",
+            5000
+          );
         }
       } else {
         uppy.info("Web Worker is not supported", "info", 5000);
@@ -68,32 +77,35 @@ const UppyDashboardDialog = ({ modalOpen, setModalOpen, modifyExistingFiles }) =
 
   useEffect(() => {
     uppy.setOptions({
-      debug: true,
-      logger: debugLogger,
+      debug: true, // TODO: set to false in production
+      logger: debugLogger, // TODO: set to null in production
       restrictions: {
-        allowedFileTypes: [
-          "image/jpg",
-          "image/jpeg",
-          "image/png",
-          "image/tiff",
-          "application/pdf",
-        ],
+        allowedFileTypes: allowedFileTypes,
       },
-      // eslint-disable-next-line no-unused-vars
-      onBeforeFileAdded: !modifyExistingFiles ? (currentFile, _files) => {
-        if (currentFile.type === "application/pdf") {
-          uppy.info(
-            "PDF image extraction processing, please wait...",
-            "info",
-            3000
-          );
-          handleUploadClick(currentFile);
-          return false;
-        }
-        return true;
-      } : () => true,
+      onBeforeFileAdded:
+        !modifyExistingFiles && autoExtractImagesFromPDFs
+          ? // eslint-disable-next-line no-unused-vars
+            (currentFile, _files) => {
+              if (currentFile.type === "application/pdf") {
+                uppy.info(
+                  "PDF image extraction processing, please wait...",
+                  "info",
+                  3000
+                );
+                handleUploadClick(currentFile);
+                return false;
+              }
+              return true;
+            }
+          : () => true,
     });
-  }, [uppy, handleUploadClick, modifyExistingFiles]);
+  }, [
+    uppy,
+    handleUploadClick,
+    modifyExistingFiles,
+    allowedFileTypes,
+    autoExtractImagesFromPDFs,
+  ]);
 
   useEffect(() => {
     uppy.getPlugin("OARepoUpload")?.setOptions({
@@ -130,13 +142,18 @@ const UppyDashboardDialog = ({ modalOpen, setModalOpen, modifyExistingFiles }) =
       modifiedDate: file.updated,
       author: null,
       size: file.size,
-      metadata: file.metadata
+      metadata: file.metadata,
     }));
     uppy.getPlugin("OARepoFileSource")?.setOptions({
       fileSources: fileSources,
       fileTypeFilter: !modifyExistingFiles ? ["application/pdf"] : null,
     });
-  }, [uppy, record.files.entries, record.files.links.self, modifyExistingFiles]);
+  }, [
+    uppy,
+    record.files.entries,
+    record.files.links.self,
+    modifyExistingFiles,
+  ]);
 
   useEffect(() => {
     // after PDFImageExtractor Extract Images button is clicked, register onmessage callback
@@ -185,20 +202,21 @@ const UppyDashboardDialog = ({ modalOpen, setModalOpen, modifyExistingFiles }) =
 
   return (
     <>
-      {/* Extract to new Component = RecordFilePicker */}
       <DashboardModal
         uppy={uppy}
-        // proudlyDisplayPoweredByUppy={false}
         open={modalOpen}
         onRequestClose={() => {
           isProcessing.current = false;
           uppy.cancelAll();
-          // uppy.emit("dashboard:modal-closed");
           setModalOpen(false);
         }}
         closeModalOnClickOutside
         showProgressDetails
-        note={modifyExistingFiles ? "Select existing files to modify metadata." : "Select files to upload."}
+        note={
+          modifyExistingFiles
+            ? "Select existing files to modify metadata."
+            : "Select files to upload."
+        }
         disableLocalFiles={modifyExistingFiles}
         metaFields={(file) => {
           const fields = [];
@@ -225,7 +243,6 @@ const UppyDashboardDialog = ({ modalOpen, setModalOpen, modifyExistingFiles }) =
           return fields;
         }}
         plugins={["ImageEditor", "OARepoFileSource"]}
-        // plugins={["ImageEditor", "Unsplash", "OARepoFileSource"]}
       />
     </>
   );
@@ -235,6 +252,8 @@ UppyDashboardDialog.propTypes = {
   modalOpen: PropTypes.bool.isRequired,
   setModalOpen: PropTypes.func.isRequired,
   modifyExistingFiles: PropTypes.bool,
+  allowedFileTypes: PropTypes.arrayOf(PropTypes.string),
+  autoExtractImagesFromPDFs: PropTypes.bool,
 };
 
 export default UppyDashboardDialog;

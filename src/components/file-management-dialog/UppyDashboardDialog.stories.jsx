@@ -25,17 +25,30 @@ export default {
   args: {
     modalOpen: true,
     setModalOpen: () => {},
+    allowedFileTypes: [
+      "image/*",
+      "application/pdf",
+    ],
   },
 };
 
 export const NewFilesUploader = {
   args: {
     modifyExistingFiles: false,
+    autoExtractImagesFromPDFs: false,
+  },
+};
+
+export const NewImageFilesUploader = {
+  args: {
+    modifyExistingFiles: false,
+    autoExtractImagesFromPDFs: true,
   },
 };
 
 export const ExistingFilesModifier = {
   args: {
     modifyExistingFiles: true,
+    autoExtractImagesFromPDFs: false,
   },
 };

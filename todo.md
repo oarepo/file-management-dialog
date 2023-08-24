@@ -66,5 +66,25 @@ Uncaught (in promise) TypeError: Cannot read properties of undefined (reading '0
   - extract based props
 
 ## 24.8.2023
-- handle metadata upload
+- BUG: handle metadata upload from OARepoUpload plugin
   - revise key-value pairs
+```json
+{
+  "key": "test_pattern.png",
+  "updated": "2020-11-27 11:17:11.002624",
+  "created": "2020-11-27 11:17:10.998919",
+  "metadata": {
+    "relativePath": null, // should be removed
+    "name": "test_pattern.png", // should be removed
+    "type": "image/png", // should be removed
+    "caption": "test pattern",
+    "featureImage": true
+  },
+  "status": "pending",
+  "links": {
+    "content": "/api/records/8t29q-nfr77/draft/files/test_pattern.png/content",
+    "self": "/api/records/8t29q-nfr77/draft/files/test_pattern.png",
+    "commit": "/api/records/8t29q-nfr77/draft/files/test_pattern.png/commit"
+  }
+}
+```

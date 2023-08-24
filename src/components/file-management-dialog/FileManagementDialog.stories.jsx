@@ -20,18 +20,31 @@ export default {
   tags: ["autodocs"],
   args: {
     config: appConfig,
+    allowedFileTypes: [
+      "image/*",
+      "application/pdf",
+    ],
   },
 };
 
 export const NewFilesUploader = {
   args: {
     modifyExistingFiles: false,
+    autoExtractImagesFromPDFs: false,
+  },
+};
+
+export const NewImageFilesUploader = {
+  args: {
+    modifyExistingFiles: false,
+    autoExtractImagesFromPDFs: true,
   },
 };
 
 export const ExistingFilesModifier = {
   args: {
     modifyExistingFiles: true,
+    autoExtractImagesFromPDFs: false,
   },
 };
 
@@ -42,7 +55,7 @@ function sleep(ms) {
 
 export const UploadInvalidPdfFromDevice = {
   args: {
-    modifyExistingFiles: false,
+    ...NewImageFilesUploader.args,
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
@@ -67,7 +80,7 @@ export const UploadInvalidPdfFromDevice = {
 
 export const UploadValidPdfFromDevice = {
   args: {
-    modifyExistingFiles: false,
+    ...NewImageFilesUploader.args,
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
@@ -105,7 +118,7 @@ export const UploadValidPdfFromDevice = {
 
 export const UploadFromOARepo = {
   args: {
-    modifyExistingFiles: false,
+    ...NewImageFilesUploader.args,
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);

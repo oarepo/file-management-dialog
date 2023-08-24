@@ -10,6 +10,14 @@ const UppyDashboardDialog = lazy(() => import("./UppyDashboardDialog"));
 const FileManagementDialog = ({
   config,
   modifyExistingFiles = false,
+  allowedFileTypes = [
+    "image/jpg",
+    "image/jpeg",
+    "image/png",
+    "image/tiff",
+    "application/pdf",
+  ],
+  autoExtractImagesFromPDFs = true,
   TriggerComponent = ({ onClick, ...props }) => (
     <button onClick={onClick} {...props}>
       Set images
@@ -42,7 +50,8 @@ const FileManagementDialog = ({
                   modalOpen={modalOpen}
                   setModalOpen={setModalOpen}
                   modifyExistingFiles={modifyExistingFiles}
-                  // allowedMimeTypes={allowedMimeTypes}
+                  allowedFileTypes={allowedFileTypes}
+                  autoExtractImagesFromPDFs={autoExtractImagesFromPDFs}
                 />
               </UppyProvider>
             )}
@@ -56,6 +65,8 @@ const FileManagementDialog = ({
 FileManagementDialog.propTypes = {
   config: PropTypes.object.isRequired,
   modifyExistingFiles: PropTypes.bool,
+  allowedFileTypes: PropTypes.arrayOf(PropTypes.string),
+  autoExtractImagesFromPDFs: PropTypes.bool,
   TriggerComponent: PropTypes.elementType,
 };
 
