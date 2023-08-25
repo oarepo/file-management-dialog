@@ -128,3 +128,16 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# *.png
+# *.jpg
+# *.jpeg
+# *.gif
+# *.tif
+# *.tiff
+# *.bmp
+# # *.svg
+# *.svgz
+# *.zip
+# *.webp
+todo.md
