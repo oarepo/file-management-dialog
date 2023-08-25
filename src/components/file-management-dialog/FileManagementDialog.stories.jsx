@@ -7,9 +7,8 @@ import {
 import { expect } from "@storybook/jest";
 
 import FileManagementDialog from "./FileManagementDialog";
-import appConfig from "./data-storybook.json";
-
-import articlePdf from "./mock/files/article.pdf";
+import appConfig from "./__fixtures__/data-storybook.json";
+import articlePdf from "./__fixtures__/article.pdf";
 
 export default {
   title: "file-management-dialog/FileManagementDialog",

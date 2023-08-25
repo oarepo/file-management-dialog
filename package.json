@@ -14,6 +14,8 @@
     "test-storybook": "test-storybook",
     "chromatic": "npx chromatic --exit-once-uploaded"
   },
+  "main": "./dist/oarepo-ui-components.umd.js",
+  "module": "./dist/oarepo-ui-components.es.js",
   "dependencies": {
     "@uppy/core": "^3.3.1",
     "@uppy/dashboard": "^3.5.0",

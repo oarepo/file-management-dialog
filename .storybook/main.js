@@ -16,8 +16,9 @@ const config = {
   },
   core: {
     builder: "@storybook/builder-vite",
+    disableTelemetry: true,
   },
-  async viteFinal(config, options) {
+  async viteFinal (config, options) {
     return config;
   },
 };
