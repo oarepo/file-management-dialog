@@ -1,6 +1,6 @@
 {
-  "name": "image-previewer",
-  "private": true,
+  "name": "@oarepo/file-manager",
+  "private": false,
   "version": "1.0.0",
   "description": "File management component for Open Access Repository.",
   "type": "module",
@@ -11,11 +11,13 @@
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "test-storybook": "test-storybook"
+    "test-storybook": "test-storybook",
+    "chromatic": "npx chromatic --exit-once-uploaded"
   },
   "dependencies": {
     "@uppy/core": "^3.3.1",
     "@uppy/dashboard": "^3.5.0",
+    "@uppy/drag-drop": "^3.0.3",
     "@uppy/file-input": "^3.0.2",
     "@uppy/image-editor": "^2.1.2",
     "@uppy/progress-bar": "^3.0.2",
