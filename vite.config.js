@@ -1,7 +1,7 @@
 import { resolve } from "node:path";
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import { viteMockServe } from "vite-plugin-mock";
+// import { viteMockServe } from "vite-plugin-mock";
 import { name } from "./package.json";
 
 // https://vitejs.dev/config/
@@ -25,18 +25,19 @@ export default defineConfig(({ command, mode }) => {
     },
     plugins: [
       react(),
-      viteMockServe({
-        mockPath: "mock",
-        enable: true,
-        logger: true,
-        watchFiles: true,
-        localEnabled: command === "serve",
-        prodEnabled: command !== "serve" && mode === "production",
-        injectCode: `
-        import { setupProdMockServer } from './mockProdServer';
-        setupProdMockServer();
-      `,
-      }),
+      // Enable only when not using storybook as it already has a mock server
+      // viteMockServe({
+      //   mockPath: "mock",
+      //   enable: true,
+      //   logger: true,
+      //   watchFiles: true,
+      //   localEnabled: command === "serve",
+      //   prodEnabled: command !== "serve" && mode === "production",
+      //   injectCode: `
+      //   import { setupProdMockServer } from './mockProdServer';
+      //   setupProdMockServer();
+      // `,
+      // }),
     ],
     worker: {
       format: "es",

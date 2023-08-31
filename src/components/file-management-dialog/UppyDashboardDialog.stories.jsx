@@ -2,7 +2,8 @@ import UppyDashboardDialog from "./UppyDashboardDialog";
 import { WorkerProvider } from "../../contexts/WorkerContext";
 import { UppyProvider } from "../../contexts/UppyContext";
 import { AppContextProvider } from "../../contexts/AppContext";
-import appConfig from "./__fixtures__/data-storybook.json";
+
+import appConfig from "./__fixtures__/data-storybook";
 
 export default {
   title: "file-management-dialog/UppyDashboardDialog",

@@ -7,7 +7,8 @@ import {
 import { expect } from "@storybook/jest";
 
 import FileManagementDialog from "./FileManagementDialog";
-import appConfig from "./__fixtures__/data-storybook.json";
+
+import appConfig from "./__fixtures__/data-storybook";
 import articlePdf from "./__fixtures__/article.pdf";
 
 export default {
@@ -83,7 +84,7 @@ export const UploadValidPdfFromDevice = {
 
     await userEvent.click(canvas.getByRole("button", { name: /set images/i }));
 
-    await sleep(1000);
+    await sleep(3000);
 
     const fileInput = document.querySelector("input[type=file]");
     const fileData = await fetch(articlePdf).then((r) => r.blob());
@@ -93,7 +94,7 @@ export const UploadValidPdfFromDevice = {
     await userEvent.upload(fileInput, file);
 
     // wait for the file to be processed
-    await canvas.findByText(/image extraction completed/i);
+    await canvas.findByText(/image extraction completed/i, {}, { timeout: 20000 });
 
     const uploadButton = await canvas.findByLabelText(/Upload [0-9]+ files/i);
     await userEvent.click(uploadButton);
@@ -143,7 +144,7 @@ export const UploadFromOARepo = {
     await userEvent.click(canvas.getByRole("button", { name: /select 2/i }));
 
     // wait for the 2 files to be downloaded and processed
-    await canvas.findByText(/image extraction completed/i);
+    await canvas.findByText(/image extraction completed/i, {}, { timeout: 10000 });
     await waitForElementToBeRemoved(
       () => canvas.queryByText(/image extraction completed/i),
       { timeout: 10000 }

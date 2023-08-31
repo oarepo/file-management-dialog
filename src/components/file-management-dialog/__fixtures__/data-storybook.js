@@ -1,10 +1,12 @@
-{
+const baseUrl = window.location.origin;
+
+export default {
   "record": {
     "created": "2022-10-18T10:22:35.153753+00:00",
     "id": "8t29q-nfr77",
     "links": {
-      "files": "http://localhost:6006/general/datasets/8t29q-nfr77/files/",
-      "self": "http://localhost:6006/general/datasets/8t29q-nfr77",
+      "files": `${baseUrl}/general/datasets/8t29q-nfr77/files/`,
+      "self": `${baseUrl}/general/datasets/8t29q-nfr77`,
       "transitions": {}
     },
     "files": {
@@ -28,9 +30,9 @@
           "bucket_id": "90b5b318-114a-4b87-bc9d-0d018b9363d3",
           "storage_class": "S",
           "links": {
-            "content": "http://localhost:6006/api/records/8t29q-nfr77/files/figure.png/content",
-            "self": "http://localhost:6006/api/records/8t29q-nfr77/files/figure.png",
-            "commit": "http://localhost:6006/api/records/8t29q-nfr77/files/figure.png/commit"
+            "content": `${baseUrl}/api/records/8t29q-nfr77/files/figure.png/content`,
+            "self": `${baseUrl}/api/records/8t29q-nfr77/files/figure.png`,
+            "commit": `${baseUrl}/api/records/8t29q-nfr77/files/figure.png/commit`
           }
         },
         {
@@ -47,9 +49,9 @@
           "bucket_id": "90b5b318-114a-4b87-bc9d-0d0f439363d3",
           "storage_class": "S",
           "links": {
-            "content": "http://localhost:6006/api/records/8t29q-nfr77/files/article.pdf/content",
-            "self": "http://localhost:6006/api/records/8t29q-nfr77/files/article.pdf",
-            "commit": "http://localhost:6006/api/records/8t29q-nfr77/files/article.pdf/commit"
+            "content": `${baseUrl}/api/records/8t29q-nfr77/files/article.pdf/content`,
+            "self": `${baseUrl}/api/records/8t29q-nfr77/files/article.pdf`,
+            "commit": `${baseUrl}/api/records/8t29q-nfr77/files/article.pdf/commit`
           }
         },
         {
@@ -66,9 +68,9 @@
           "bucket_id": "90b5b318-114a-4b87-bc9d-0d0f439363d3",
           "storage_class": "S",
           "links": {
-            "content": "http://localhost:6006/api/records/8t29q-nfr77/files/article2.pdf/content",
-            "self": "http://localhost:6006/api/records/8t29q-nfr77/files/article2.pdf",
-            "commit": "http://localhost:6006/api/records/8t29q-nfr77/files/article2.pdf/commit"
+            "content": `${baseUrl}/api/records/8t29q-nfr77/files/article2.pdf/content`,
+            "self": `${baseUrl}/api/records/8t29q-nfr77/files/article2.pdf`,
+            "commit": `${baseUrl}/api/records/8t29q-nfr77/files/article2.pdf/commit`
           }
         },
         {
@@ -85,14 +87,14 @@
           "bucket_id": "90b5b318-114a-4b87-bc9d-0d0f439363d3",
           "storage_class": "S",
           "links": {
-            "content": "http://localhost:6006/api/records/8t29q-nfr77/files/article3.pdf/content",
-            "self": "http://localhost:6006/api/records/8t29q-nfr77/files/article3.pdf",
-            "commit": "http://localhost:6006/api/records/8t29q-nfr77/files/article3.pdf/commit"
+            "content": `${baseUrl}/api/records/8t29q-nfr77/files/article3.pdf/content`,
+            "self": `${baseUrl}/api/records/8t29q-nfr77/files/article3.pdf`,
+            "commit": `${baseUrl}/api/records/8t29q-nfr77/files/article3.pdf/commit`
           }
         }
       ],
       "links": {
-        "self": "http://localhost:6006/api/records/8t29q-nfr77/files"
+        "self": `${baseUrl}/api/records/8t29q-nfr77/files`
       },
       "order": []
     },
@@ -111,7 +113,7 @@
           "name": "Fig.2.zip",
           "size": 3110886758,
           "type": "application/x-zip-compressed",
-          "url": "https://data.narodni-repozitar.cz/general/datasets/d2a2g-vqz71/files/Fig.2.zip",
+          "url": `${baseUrl}/general/datasets/d2a2g-vqz71/files/Fig.2.zip`,
           "version_id": "cf69a980-ab1a-43b2-bb3a-e0705bde9a65"
         },
         {
@@ -124,7 +126,7 @@
           "name": "Fig.3 and S3.zip",
           "size": 17832756479,
           "type": "article2.pdf",
-          "url": "https://data.narodni-repozitar.cz/general/datasets/d2a2g-vqz71/files/article2.pdf",
+          "url": `${baseUrl}/general/datasets/d2a2g-vqz71/files/article2.pdf`,
           "version_id": "51d27ff8-8ec7-4be1-8f12-243149a7b6b8"
         }
       ],
