@@ -14,8 +14,17 @@
     "test-storybook": "test-storybook",
     "chromatic": "npx chromatic --exit-once-uploaded"
   },
-  "main": "./dist/oarepo-ui-components.umd.js",
-  "module": "./dist/oarepo-ui-components.es.js",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/file-manager.umd.js",
+  "module": "./dist/file-manager.es.js",
+  "exports": {
+    ".": {
+      "import": "./dist/file-manager.es.js",
+      "require": "./dist/file-manager.umd.js"
+    }
+  },
   "dependencies": {
     "@uppy/core": "^3.3.1",
     "@uppy/dashboard": "^3.5.0",
@@ -27,6 +36,7 @@
     "pako": "^2.1.0",
     "pdf-lib": "^1.17.1",
     "pngjs": "^7.0.0",
+    "preact": "^10.5.13",
     "react": "^16.14.0",
     "react-dom": "^16.14.0"
   },
@@ -56,6 +66,7 @@
     "prop-types": "^15.8.1",
     "storybook": "^7.3.2",
     "vite": "^4.4.5",
+    "vite-plugin-css-injected-by-js": "^3.3.0",
     "vite-plugin-mock": "^2.9.8"
   },
   "msw": {

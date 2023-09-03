@@ -1,6 +1,6 @@
 import "preact/debug";
 import React from 'react'
-import ReactDOM from 'react-dom/client'
+import ReactDOM from 'react-dom'
 import App from './App.jsx'
 import '@uppy/core/dist/style.min.css';
 import '@uppy/dashboard/dist/style.min.css';
@@ -13,8 +13,9 @@ const { ...config } = JSON.parse(
   rootElement.dataset[autoInitDataAttr]
 );
 
-ReactDOM.createRoot(rootElement).render(
+ReactDOM.render(
   <React.StrictMode>
     <App config={config} />
   </React.StrictMode>,
+  rootElement
 )

@@ -1,3 +1,9 @@
+/*
+  This file is a modified version of the code found here:
+  https://github.com/Hopding/pdf-lib/issues/83#issuecomment-475332523
+  https://github.com/Hopding/pdf-lib/issues/83#issuecomment-1274786806
+*/
+
 import { PNG } from "pngjs/browser";
 import pako from "pako";
 import { PDFDocument, PDFName, PDFRawStream } from "pdf-lib";
@@ -195,7 +201,7 @@ export default async function extractPdfImages(pdfFileName, pdfBytes) {
         imageType: image.type,
         sourcePdf: pdfFileName,
       };
-      self.postMessage(imageObj, [imageObj.imageData.buffer]);
+      postMessage(imageObj, [imageObj.imageData.buffer]);
     }
   }
 }

@@ -4,7 +4,6 @@ import Uppy from "@uppy/core";
 import ImageEditor from "@uppy/image-editor";
 import OARepoUpload from "../utils/uppy-plugins/oarepo-upload";
 import OARepoFileSource from "../utils/uppy-plugins/oarepo-file-source";
-// import Unsplash from "../utils/uppy-plugins/oarepo-file-source/Unsplash";
 
 export const UppyContext = createContext();
 

@@ -1,1 +1,1 @@
-export * from "./file-management-dialog"
+export { default } from './file-management-dialog';

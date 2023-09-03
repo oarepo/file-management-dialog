@@ -1,3 +1,7 @@
+import '@uppy/core/dist/style.min.css';
+import '@uppy/dashboard/dist/style.min.css';
+import '@uppy/image-editor/dist/style.min.css';
+
 import { useEffect, useRef, useCallback } from "react";
 import useWorker from "../../utils/useWorker";
 import useUppyContext from "../../utils/useUppyContext";
