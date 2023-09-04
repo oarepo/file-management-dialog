@@ -4,7 +4,7 @@ import "@uppy/image-editor/dist/style.min.css";
 
 import { initialize, mswLoader } from "msw-storybook-addon";
 
-import handlers from "../mock/msw-mock";
+import handlers from "./msw-mock";
 
 // Initialize MSW
 initialize({

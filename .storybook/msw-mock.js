@@ -1,8 +1,8 @@
 import { rest } from "msw";
-import article from "./__fixtures__/article.pdf";
-import article2 from "./__fixtures__/article2.pdf";
-import article3 from "./__fixtures__/article3.pdf";
-import figure from "./__fixtures__/figure.png";
+import article from "../mock/__fixtures__/article.pdf";
+import article2 from "../mock/__fixtures__/article2.pdf";
+import article3 from "../mock/__fixtures__/article3.pdf";
+import figure from "../mock/__fixtures__/figure.png";
 
 const baseUrl = window.location.origin;
 

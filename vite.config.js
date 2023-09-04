@@ -22,7 +22,7 @@ export default defineConfig(({ command, mode }) => {
       //   injectCode: `
       //   import { setupProdMockServer } from './mockProdServer';
       //   setupProdMockServer();
-      // `,
+      //   `,
       // }),
     ],
     resolve: {
