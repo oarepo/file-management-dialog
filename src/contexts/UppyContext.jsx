@@ -1,5 +1,5 @@
-/* eslint-disable react/prop-types */
-import { createContext, useMemo } from "react";
+import { useMemo } from "preact/hooks";
+import { createContext } from "preact";
 import Uppy from "@uppy/core";
 import ImageEditor from "@uppy/image-editor";
 import OARepoUpload from "../utils/uppy-plugins/oarepo-upload";

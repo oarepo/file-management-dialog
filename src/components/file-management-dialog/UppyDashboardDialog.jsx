@@ -2,7 +2,7 @@ import '@uppy/core/dist/style.min.css';
 import '@uppy/dashboard/dist/style.min.css';
 import '@uppy/image-editor/dist/style.min.css';
 
-import { useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef, useCallback } from "preact/hooks";
 import useWorker from "../../utils/useWorker";
 import useUppyContext from "../../utils/useUppyContext";
 import useAppContext from "../../utils/useAppContext";

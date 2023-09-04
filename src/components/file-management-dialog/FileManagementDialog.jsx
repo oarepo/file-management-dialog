@@ -1,4 +1,5 @@
-import { useState, lazy, Suspense } from "react";
+import { useState } from "preact/hooks";
+import { Suspense, lazy } from 'preact/compat';
 import { WorkerProvider } from "../../contexts/WorkerContext";
 import { UppyProvider } from "../../contexts/UppyContext";
 import { AppContextProvider } from "../../contexts/AppContext";

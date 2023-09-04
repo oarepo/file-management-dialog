@@ -1,37 +1,33 @@
 import { resolve } from "node:path";
 import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
+import preact from "@preact/preset-vite";
 import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js'
-// import { viteMockServe } from "vite-plugin-mock";
+import { viteMockServe } from "vite-plugin-mock";
 import { name } from "./package.json";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command, mode }) => {
   return {
     plugins: [
-      react(),
+      preact(),
       cssInjectedByJsPlugin(),
       // Enable only when not using storybook as it already has a mock server
-      // viteMockServe({
-      //   mockPath: "mock",
-      //   enable: true,
-      //   logger: true,
-      //   watchFiles: true,
-      //   localEnabled: command === "serve",
-      //   prodEnabled: command !== "serve" && mode === "production",
-      //   injectCode: `
-      //   import { setupProdMockServer } from './mockProdServer';
-      //   setupProdMockServer();
-      //   `,
-      // }),
+      viteMockServe({
+        mockPath: "mock",
+        enable: true,
+        logger: true,
+        watchFiles: true,
+        localEnabled: command === "serve",
+        prodEnabled: command !== "serve" && mode === "production",
+        injectCode: `
+        import { setupProdMockServer } from './mockProdServer';
+        setupProdMockServer();
+        `,
+      }),
     ],
-    resolve: {
-      alias: {
-        "react": "preact/compat",
-        "react-dom/test-utils": "preact/test-utils",
-        "react-dom": "preact/compat", // Must be below test-utils
-        "react/jsx-runtime": "preact/jsx-runtime",
-      },
+    esbuild: {
+      jsxFactory: "h",
+      jsxFragment: "Fragment",
     },
     build: {
       copyPublicDir: false, // public/mockServiceWorker.js is only for storybook
@@ -42,11 +38,10 @@ export default defineConfig(({ command, mode }) => {
         fileName: (format) => `file-manager.${format}.js`,
       },
       rollupOptions: {
-        external: ['react', 'react-dom'],
+        external: ["preact"],
         output: {
           globals: {
-            react: "React",
-            "react-dom": "ReactDOM"
+            preact: "preact",
           },
         },
       },
