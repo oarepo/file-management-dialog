@@ -81,6 +81,8 @@ const MyComponent = () => {
           "application/pdf",
         ],
         autoExtractImagesFromPDFs = true,
+        extraUppyDashboardProps = {},
+        debug = false,
         TriggerComponent = ({ onClick, ...props }) => (
           <button onClick={onClick} {...props}>
             Set images
@@ -100,6 +102,8 @@ const MyComponent = () => {
 | `modifyExistingFiles`       | `boolean`             | `false`                                                                               | Whether to allow modification of existing files (to modify existing metadata). |
 | `allowedFileTypes`          | `string[]`            | `["image/jpg", "image/jpeg", "image/png", "image/tiff", "application/pdf"]`           | Allowed file types (accepts * wildcards, e.g. "image/*").                      |
 | `autoExtractImagesFromPDFs` | `boolean`             | `true`                                                                                | Whether to automatically extract images from selected PDFs.                    |
+| `extraUppyDashboardProps`   | `object`              | `{}`                                                                                  | Extra props to pass to Uppy Dashboard. (see [Uppy API](https://uppy.io/docs/dashboard/#api))                                         |
+| `debug`                     | `boolean`             | `false`                                                                               | Whether to enable debug mode.                                                  |
 | `TriggerComponent`          | `React.ComponentType` | `({ onClick, ...props }) => <button onClick={onClick} {...props}>Set images</button>` | Triggers FileManagement modal.                                                 |
 
 ### `config` object

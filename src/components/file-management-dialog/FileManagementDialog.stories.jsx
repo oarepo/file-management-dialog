@@ -21,6 +21,7 @@ export default {
   args: {
     config: appConfig,
     allowedFileTypes: ["image/*", "application/pdf"],
+    debug: true,
   },
 };
 
@@ -42,6 +43,17 @@ export const ExistingFilesModifier = {
   args: {
     modifyExistingFiles: true,
     autoExtractImagesFromPDFs: false,
+  },
+};
+
+export const WithExtraUppyDashboardProps = {
+  args: {
+    ...NewFilesUploader.args,
+    extraUppyDashboardProps: {
+      hideRetryButton: true,
+      closeAfterFinish: true,
+      // theme: "dark", -- TODO: fix styling for dark theme setting
+    },
   },
 };
 

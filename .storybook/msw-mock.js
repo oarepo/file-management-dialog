@@ -121,7 +121,6 @@ const handlers = [
       const pdfFile = await fetch(importedFile).then((res) =>
         res.arrayBuffer()
       );
-      console.error(pdfFile);
       return res(
         ctx.set("Content-Type", "application/pdf"),
         ctx.set("Content-Disposition", "inline"),
