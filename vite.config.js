@@ -2,7 +2,7 @@ import { resolve } from "node:path";
 import { defineConfig } from "vite";
 import preact from "@preact/preset-vite";
 import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js'
-import { viteMockServe } from "vite-plugin-mock";
+// import { viteMockServe } from "vite-plugin-mock";
 import { name } from "./package.json";
 
 // https://vitejs.dev/config/
@@ -12,18 +12,18 @@ export default defineConfig(({ command, mode }) => {
       preact(),
       cssInjectedByJsPlugin(),
       // Enable only when not using storybook as it already has a mock server
-      viteMockServe({
-        mockPath: "mock",
-        enable: true,
-        logger: true,
-        watchFiles: true,
-        localEnabled: command === "serve",
-        prodEnabled: command !== "serve" && mode === "production",
-        injectCode: `
-        import { setupProdMockServer } from './mockProdServer';
-        setupProdMockServer();
-        `,
-      }),
+      // viteMockServe({
+      //   mockPath: "mock",
+      //   enable: true,
+      //   logger: true,
+      //   watchFiles: true,
+      //   localEnabled: command === "serve",
+      //   prodEnabled: command !== "serve" && mode === "production",
+      //   injectCode: `
+      //   import { setupProdMockServer } from './mockProdServer';
+      //   setupProdMockServer();
+      //   `,
+      // }),
     ],
     esbuild: {
       jsxFactory: "h",
