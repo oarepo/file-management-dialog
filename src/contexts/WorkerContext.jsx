@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
-import { useMemo, createContext } from "react";
+import { useMemo } from "preact/hooks";
+import { createContext } from "preact";
 import ExtractImagesWorker from "../workers/extract-images-worker?worker&inline";
 
 export const WorkerContext = createContext(null);

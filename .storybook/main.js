@@ -1,4 +1,4 @@
-/** @type { import('@storybook/react-vite').StorybookConfig } */
+/** @type { import('@storybook/preact-vite').StorybookConfig } */
 const config = {
   stories: ["../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
   staticDirs: ['../public'],
@@ -9,7 +9,7 @@ const config = {
     '@storybook/addon-storysource',
   ],
   framework: {
-    name: "@storybook/react-vite",
+    name: "@storybook/preact-vite",
     options: {},
   },
   docs: {

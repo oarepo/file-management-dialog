@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
-import { createContext, useRef } from "react";
+import { useRef } from "preact/hooks";
+import { createContext } from "preact";
 
 export const AppContext = createContext();
 
