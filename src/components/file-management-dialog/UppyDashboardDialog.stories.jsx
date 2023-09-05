@@ -2,15 +2,16 @@ import UppyDashboardDialog from "./UppyDashboardDialog";
 import { WorkerProvider } from "../../contexts/WorkerContext";
 import { UppyProvider } from "../../contexts/UppyContext";
 import { AppContextProvider } from "../../contexts/AppContext";
-import appConfig from "../../../data-storybook.json";
+
+import appConfig from "./__fixtures__/data-storybook";
 
 export default {
-  title: 'file-management-dialog/UppyDashboardDialog',
+  title: "file-management-dialog/UppyDashboardDialog",
   component: UppyDashboardDialog,
   parameters: {
-    layout: 'centered',
+    layout: "centered",
   },
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   decorators: [
     (Story) => (
       <AppContextProvider value={appConfig}>
@@ -25,10 +26,9 @@ export default {
   args: {
     modalOpen: true,
     setModalOpen: () => {},
-    allowedFileTypes: [
-      "image/*",
-      "application/pdf",
-    ],
+    allowedFileTypes: ["image/*", "application/pdf"],
+    extraUppyDashboardProps: {},
+    debug: true,
   },
 };
 

@@ -1,6 +1,6 @@
 {
-  "name": "image-previewer",
-  "private": true,
+  "name": "@oarepo/file-manager",
+  "private": false,
   "version": "1.0.0",
   "description": "File management component for Open Access Repository.",
   "type": "module",
@@ -11,11 +11,24 @@
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "test-storybook": "test-storybook"
+    "test-storybook": "test-storybook",
+    "chromatic": "npx chromatic --exit-once-uploaded"
+  },
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/file-manager.umd.js",
+  "module": "./dist/file-manager.es.js",
+  "exports": {
+    ".": {
+      "import": "./dist/file-manager.es.js",
+      "require": "./dist/file-manager.umd.js"
+    }
   },
   "dependencies": {
     "@uppy/core": "^3.3.1",
     "@uppy/dashboard": "^3.5.0",
+    "@uppy/drag-drop": "^3.0.3",
     "@uppy/file-input": "^3.0.2",
     "@uppy/image-editor": "^2.1.2",
     "@uppy/progress-bar": "^3.0.2",
@@ -47,9 +60,15 @@
     "eslint-plugin-react-refresh": "^0.4.3",
     "eslint-plugin-storybook": "^0.6.13",
     "mockjs": "^1.1.0",
+    "msw": "^1.2.5",
+    "msw-storybook-addon": "^1.8.0",
     "prop-types": "^15.8.1",
     "storybook": "^7.3.2",
     "vite": "^4.4.5",
+    "vite-plugin-css-injected-by-js": "^3.3.0",
     "vite-plugin-mock": "^2.9.8"
+  },
+  "msw": {
+    "workerDirectory": "public"
   }
 }

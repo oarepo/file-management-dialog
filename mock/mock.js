@@ -107,7 +107,7 @@ export default [
       res.setHeader("Content-Disposition", "inline");
       const urlTokens = req.originalUrl.split("/");
       const fileName = urlTokens[urlTokens.length - 2];
-      const pdfFile = await fs.readFile(`/home/martin/Projects/CESNET/Test-projects/image-previewer/mock/files/${fileName}`);
+      const pdfFile = await fs.readFile(`./mock/__fixtures__/${fileName}`);
       res.end(pdfFile);
     }
   },

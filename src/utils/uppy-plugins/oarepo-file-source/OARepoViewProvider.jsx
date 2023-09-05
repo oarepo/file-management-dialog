@@ -98,7 +98,6 @@ export default class OARepoViewProvider extends View {
     ]
   */
   downloadFiles(fileSources) {
-    console.log("downloadFiles", fileSources);
     this.setLoading(true);
     try {
       this.#updateFilesAndInputMode(fileSources, []);
@@ -193,8 +192,6 @@ export default class OARepoViewProvider extends View {
     const targetViewOptions = { ...this.opts, ...viewOptions };
     const { files, loading, currentSelection } = this.plugin.getPluginState();
     const { isChecked, toggleCheckbox, recordShiftKeyPress } = this;
-
-    console.log(files);
 
     const browserProps = {
       isChecked,

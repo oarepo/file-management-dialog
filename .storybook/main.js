@@ -1,6 +1,7 @@
 /** @type { import('@storybook/react-vite').StorybookConfig } */
 const config = {
-  stories: ["../src/**/*.mdx", "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
+  stories: ["../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
+  staticDirs: ['../public'],
   addons: [
     "@storybook/addon-links",
     "@storybook/addon-essentials",
@@ -16,8 +17,9 @@ const config = {
   },
   core: {
     builder: "@storybook/builder-vite",
+    disableTelemetry: true,
   },
-  async viteFinal(config, options) {
+  async viteFinal (config, options) {
     return config;
   },
 };

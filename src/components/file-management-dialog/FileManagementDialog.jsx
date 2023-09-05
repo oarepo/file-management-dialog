@@ -18,6 +18,8 @@ const FileManagementDialog = ({
     "application/pdf",
   ],
   autoExtractImagesFromPDFs = true,
+  extraUppyDashboardProps = {},
+  debug = false,
   TriggerComponent = ({ onClick, ...props }) => (
     <button onClick={onClick} {...props}>
       Set images
@@ -52,6 +54,8 @@ const FileManagementDialog = ({
                   modifyExistingFiles={modifyExistingFiles}
                   allowedFileTypes={allowedFileTypes}
                   autoExtractImagesFromPDFs={autoExtractImagesFromPDFs}
+                  extraUppyDashboardProps={extraUppyDashboardProps}
+                  debug={debug}
                 />
               </UppyProvider>
             )}
@@ -67,6 +71,8 @@ FileManagementDialog.propTypes = {
   modifyExistingFiles: PropTypes.bool,
   allowedFileTypes: PropTypes.arrayOf(PropTypes.string),
   autoExtractImagesFromPDFs: PropTypes.bool,
+  extraUppyDashboardProps: PropTypes.object,
+  debug: PropTypes.bool,
   TriggerComponent: PropTypes.elementType,
 };
 

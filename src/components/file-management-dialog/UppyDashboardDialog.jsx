@@ -1,3 +1,7 @@
+import "@uppy/core/dist/style.min.css";
+import "@uppy/dashboard/dist/style.min.css";
+import "@uppy/image-editor/dist/style.min.css";
+
 import { useEffect, useRef, useCallback } from "react";
 import useWorker from "../../utils/useWorker";
 import useUppyContext from "../../utils/useUppyContext";
@@ -12,6 +16,8 @@ const UppyDashboardDialog = ({
   modifyExistingFiles,
   allowedFileTypes,
   autoExtractImagesFromPDFs,
+  extraUppyDashboardProps,
+  debug,
 }) => {
   const extractImageWorker = useWorker();
   const uppy = useUppyContext();
@@ -77,8 +83,16 @@ const UppyDashboardDialog = ({
 
   useEffect(() => {
     uppy.setOptions({
-      debug: true, // TODO: set to false in production
-      logger: debugLogger, // TODO: set to null in production
+      debug: debug,
+      logger: debug
+        ? debugLogger
+        : {
+            debug: (...args) => {},
+            warn: (...args) => {},
+            error: (...args) => {
+              console.error(...args);
+            },
+          },
       restrictions: {
         allowedFileTypes: allowedFileTypes,
       },
@@ -123,6 +137,7 @@ const UppyDashboardDialog = ({
     modifyExistingFiles,
     allowedFileTypes,
     autoExtractImagesFromPDFs,
+    debug,
   ]);
 
   useEffect(() => {
@@ -195,7 +210,7 @@ const UppyDashboardDialog = ({
           return;
         }
         const imageObj = event.data;
-        console.log(imageObj);
+        if (debug) console.log(imageObj);
         const blob = new Blob([imageObj.imageData], {
           type: `image/${imageObj.imageType}`,
         });
@@ -215,13 +230,14 @@ const UppyDashboardDialog = ({
         alert("Error: " + event.message);
       };
     } else {
-      console.log("Web Worker is not supported");
+      uppy.info("Web Worker is not supported.", "error", 5000);
     }
-  }, [extractImageWorker, uppy]);
+  }, [extractImageWorker, uppy, debug]);
 
   return (
     <>
       <DashboardModal
+        {...extraUppyDashboardProps}
         uppy={uppy}
         open={modalOpen}
         onRequestClose={() => {
@@ -273,6 +289,8 @@ UppyDashboardDialog.propTypes = {
   modifyExistingFiles: PropTypes.bool,
   allowedFileTypes: PropTypes.arrayOf(PropTypes.string),
   autoExtractImagesFromPDFs: PropTypes.bool,
+  extraUppyDashboardProps: PropTypes.object,
+  debug: PropTypes.bool,
 };
 
 export default UppyDashboardDialog;

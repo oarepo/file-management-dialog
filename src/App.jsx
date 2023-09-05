@@ -12,6 +12,8 @@ function App({
     "application/pdf",
   ],
   autoExtractImagesFromPDFs = true,
+  extraUppyDashboardProps = {},
+  debug = true,
 }) {
   return (
     <FileManagementDialog
@@ -19,6 +21,8 @@ function App({
       modifyExistingFiles={modifyExistingFiles}
       allowedFileTypes={allowedFileTypes}
       autoExtractImagesFromPDFs={autoExtractImagesFromPDFs}
+      extraUppyDashboardProps={extraUppyDashboardProps}
+      debug={debug}
     />
   );
 }
@@ -28,6 +32,8 @@ App.propTypes = {
   modifyExistingFiles: PropTypes.bool,
   allowedFileTypes: PropTypes.arrayOf(PropTypes.string),
   autoExtractImagesFromPDFs: PropTypes.bool,
+  extraUppyDashboardProps: PropTypes.object,
+  debug: PropTypes.bool,
 };
 
 export default App;

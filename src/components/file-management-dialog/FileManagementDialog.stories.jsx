@@ -2,14 +2,14 @@ import {
   waitFor,
   userEvent,
   within,
-  waitForElementToBeRemoved
+  waitForElementToBeRemoved,
 } from "@storybook/testing-library";
 import { expect } from "@storybook/jest";
 
 import FileManagementDialog from "./FileManagementDialog";
-import appConfig from "../../../data-storybook.json";
 
-import articlePdf from "../../../mock/files/article.pdf";
+import appConfig from "./__fixtures__/data-storybook";
+import articlePdf from "./__fixtures__/article.pdf";
 
 export default {
   title: "file-management-dialog/FileManagementDialog",
@@ -20,10 +20,8 @@ export default {
   tags: ["autodocs"],
   args: {
     config: appConfig,
-    allowedFileTypes: [
-      "image/*",
-      "application/pdf",
-    ],
+    allowedFileTypes: ["image/*", "application/pdf"],
+    debug: true,
   },
 };
 
@@ -45,6 +43,17 @@ export const ExistingFilesModifier = {
   args: {
     modifyExistingFiles: true,
     autoExtractImagesFromPDFs: false,
+  },
+};
+
+export const WithExtraUppyDashboardProps = {
+  args: {
+    ...NewFilesUploader.args,
+    extraUppyDashboardProps: {
+      hideRetryButton: true,
+      closeAfterFinish: true,
+      // theme: "dark", -- TODO: fix styling for dark theme setting
+    },
   },
 };
 
@@ -87,7 +96,7 @@ export const UploadValidPdfFromDevice = {
 
     await userEvent.click(canvas.getByRole("button", { name: /set images/i }));
 
-    await sleep(1000);
+    await sleep(3000);
 
     const fileInput = document.querySelector("input[type=file]");
     const fileData = await fetch(articlePdf).then((r) => r.blob());
@@ -97,7 +106,7 @@ export const UploadValidPdfFromDevice = {
     await userEvent.upload(fileInput, file);
 
     // wait for the file to be processed
-    await canvas.findByText(/image extraction completed/i);
+    await canvas.findByText(/image extraction completed/i, {}, { timeout: 20000 });
 
     const uploadButton = await canvas.findByLabelText(/Upload [0-9]+ files/i);
     await userEvent.click(uploadButton);
@@ -105,7 +114,9 @@ export const UploadValidPdfFromDevice = {
     // wait for the files to be uploaded
     await waitFor(
       () => {
-        expect(canvas.getByRole("status", { name: /complete/i })).toBeInTheDocument();
+        expect(
+          canvas.getByRole("status", { name: /complete/i })
+        ).toBeInTheDocument();
       },
       { timeout: 20000 }
     );
@@ -130,19 +141,26 @@ export const UploadFromOARepo = {
     await sleep(1000);
 
     // Select 2 files
-    await userEvent.click(canvas.getByRole("checkbox", { name: /article.pdf/i }));
+    await userEvent.click(
+      canvas.getByRole("checkbox", { name: /article.pdf/i })
+    );
 
     await sleep(1000);
 
-    await userEvent.click(canvas.getByRole("checkbox", { name: /article2.pdf/i }));
+    await userEvent.click(
+      canvas.getByRole("checkbox", { name: /article2.pdf/i })
+    );
 
     await sleep(1000);
 
     await userEvent.click(canvas.getByRole("button", { name: /select 2/i }));
 
     // wait for the 2 files to be downloaded and processed
-    await canvas.findByText(/image extraction completed/i);
-    await waitForElementToBeRemoved(() => canvas.queryByText(/image extraction completed/i), { timeout: 10000 });
+    await canvas.findByText(/image extraction completed/i, {}, { timeout: 10000 });
+    await waitForElementToBeRemoved(
+      () => canvas.queryByText(/image extraction completed/i),
+      { timeout: 10000 }
+    );
 
     const uploadButton = await canvas.findByLabelText(/Upload [0-9]+ files/i);
     await userEvent.click(uploadButton);
@@ -150,7 +168,9 @@ export const UploadFromOARepo = {
     // wait for the files to be uploaded
     await waitFor(
       () => {
-        expect(canvas.getByRole("status", { name: /complete/i })).toBeInTheDocument();
+        expect(
+          canvas.getByRole("status", { name: /complete/i })
+        ).toBeInTheDocument();
       },
       { timeout: 20000 }
     );
