@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext } from "preact/hooks";
 import { WorkerContext } from "../contexts/WorkerContext";
 
 const useWorker = () => {

@@ -11,7 +11,7 @@ initialize({
   onUnhandledRequest: 'bypass'
 });
 
-/** @type { import('@storybook/react').Preview } */
+/** @type { import('@storybook/preact').Preview } */
 const preview = {
   parameters: {
     actions: { argTypesRegex: "^on[A-Z].*" },

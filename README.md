@@ -1,5 +1,7 @@
 # OARepo File Manager
 
+![Work In Progress](https://img.shields.io/badge/work_in_progress-red?style=for-the-badge)
+
 ![Version](https://img.shields.io/github/package-json/v/oarepo/file-management-dialog) [![License](https://img.shields.io/github/license/oarepo/file-management-dialog)](https://github.com/oarepo/file-management-dialog/blob/main/LICENSE) ![Build Status](https://github.com/oarepo/file-management-dialog/actions/workflows/chromatic.yml/badge.svg
 )
 
@@ -19,8 +21,9 @@ It uses [Uppy](https://uppy.io/) package to render uploader Dashboard, import fi
     yarn add @oarepo/file-manager
     ```
 
-3. Since this package uses Uppy, which includes Preact as its internal dependency, you have to install compatible Preact individually and, if using React in your existing project, you also [need to set aliases](https://preactjs.com/guide/v8/switching-to-preact/#how-to-alias-preact-compat) for React in your Vite/Webpack config:
+3. Since this package uses Uppy, which includes Preact as its internal dependency, you have to install compatible version of Preact explicitly and, if using React in your existing project, you also need to [set up a Wrapper](https://swizec.com/blog/seamlessly-render-a-preact-component-in-a-react-project/) to seamlessly render Preact components inside a `div` container:
 
+    Install Preact:
     ```bash
     npm install preact@10.5.13
 
@@ -29,35 +32,54 @@ It uses [Uppy](https://uppy.io/) package to render uploader Dashboard, import fi
     yarn add preact@10.5.13
     ```
 
-    Vite:
-    ```js
-    // vite.config.js
-    export default defineConfig({
-      resolve: {
-        alias: {
-          "react": "preact/compat",
-          "react-dom": "preact/compat",
-          "react/jsx-runtime": "preact/jsx-runtime",
-        },
-      },
-    })
-    ```
+    Wrapper example: (can be configured based on your needs)
+    ```jsx
+    // Wrapper.jsx
+    import React from "react";
+    import { h, render } from "preact";
 
-    Webpack:
-    ```js
-    // webpack.config.js
-    module.exports = {
-      resolve: {
-        alias: {
-          "react": "preact/compat",
-          "react-dom": "preact/compat",
-          "react/jsx-runtime": "preact/jsx-runtime",
-        },
-      },
+    import FileManagementDialog from "@oarepo/file-manager";
+    import data from "./data"; // mock data, see below
+
+    class Wrapper extends React.Component {
+      constructor(props) {
+        super(props);
+        this.preactContainerRef = React.createRef();
+      }
+
+      componentDidMount() {
+        this.renderPreact();
+      }
+
+      componentDidUpdate() {
+        this.renderPreact();
+      }
+
+      renderPreact() {
+        render(
+          h(
+            FileManagementDialog, 
+            { 
+              config: data,
+              allowedFileTypes: ["image/*", "application/pdf"]
+              /* additional FileManagementDialog options, see Usage below */
+            }
+          ),
+          this.preactContainerRef.current
+        );
+      }
+
+      render() {
+        return <div ref={this.preactContainerRef} />;
+      }
     }
+
+    export default Wrapper;
     ```
 
 ## Usage
+
+### Basic usage with Preact
 
 ```jsx
 import FileManagementDialog from '@oarepo/file-manager'
@@ -89,6 +111,23 @@ const MyComponent = () => {
           </button>
         ),
       />
+      {/* ... */}
+  )
+}
+```
+
+### With Wrapper Component
+
+Used in React projects with Automatic JSX Runtime enabled (see [React docs](https://legacy.reactjs.org/blog/2020/09/22/introducing-the-new-jsx-transform.html)).
+
+```jsx
+import Wrapper from "./Wrapper";
+
+const MyComponent = () => {
+  /* ... */
+  return (
+      {/* ... */}
+      <Wrapper />
       {/* ... */}
   )
 }
