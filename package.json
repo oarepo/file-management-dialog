@@ -59,6 +59,8 @@
     "msw": "^1.2.5",
     "msw-storybook-addon": "^1.8.0",
     "prop-types": "^15.8.1",
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0",
     "storybook": "^7.3.2",
     "vite": "^4.4.5",
     "vite-plugin-css-injected-by-js": "^3.3.0",
