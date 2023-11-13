@@ -27,6 +27,7 @@ export default {
     modalOpen: true,
     setModalOpen: () => {},
     allowedFileTypes: ["image/*", "application/pdf"],
+    locale: "cs_CZ",
     extraUppyDashboardProps: {},
     debug: true,
   },

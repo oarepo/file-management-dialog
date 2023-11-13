@@ -1,4 +1,4 @@
-import UploaderPlugin from '@uppy/core/lib/UploaderPlugin.js'
+import { BasePlugin } from '@uppy/core'
 import { nanoid } from 'nanoid/non-secure'
 import EventManager from '@uppy/utils/lib/EventManager'
 import ProgressTimeout from '@uppy/utils/lib/ProgressTimeout'
@@ -43,7 +43,7 @@ function setTypeInBlob (file) {
   return dataWithUpdatedType
 }
 
-export default class OARepoUpload extends UploaderPlugin {
+export default class OARepoUpload extends BasePlugin {
   // eslint-disable-next-line global-require
   static VERSION = packageJson.version
 

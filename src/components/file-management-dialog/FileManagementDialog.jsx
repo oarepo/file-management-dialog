@@ -19,11 +19,12 @@ const FileManagementDialog = ({
     "application/pdf",
   ],
   autoExtractImagesFromPDFs = true,
+  locale = "en_US",
   extraUppyDashboardProps = {},
   debug = false,
   TriggerComponent = ({ onClick, ...props }) => (
     <button onClick={onClick} {...props}>
-      Set images
+      {locale.startsWith("cs") ? "Vybrat Obrázky" : "Select Images"}
     </button>
   ),
 }) => {
@@ -55,6 +56,7 @@ const FileManagementDialog = ({
                   modifyExistingFiles={modifyExistingFiles}
                   allowedFileTypes={allowedFileTypes}
                   autoExtractImagesFromPDFs={autoExtractImagesFromPDFs}
+                  locale={locale}
                   extraUppyDashboardProps={extraUppyDashboardProps}
                   debug={debug}
                 />
@@ -72,6 +74,7 @@ FileManagementDialog.propTypes = {
   modifyExistingFiles: PropTypes.bool,
   allowedFileTypes: PropTypes.arrayOf(PropTypes.string),
   autoExtractImagesFromPDFs: PropTypes.bool,
+  locale: PropTypes.oneOf(["cs_CZ", "en_US"]),
   extraUppyDashboardProps: PropTypes.object,
   debug: PropTypes.bool,
   TriggerComponent: PropTypes.elementType,

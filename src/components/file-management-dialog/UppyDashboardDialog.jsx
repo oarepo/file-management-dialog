@@ -8,6 +8,8 @@ import useUppyContext from "../../utils/useUppyContext";
 import useAppContext from "../../utils/useAppContext";
 import { debugLogger } from "@uppy/core";
 import { DashboardModal } from "@uppy/react";
+import en_US from "@uppy/locales/lib/en_US";
+import cs_CZ from "@uppy/locales/lib/cs_CZ";
 import PropTypes from "prop-types";
 
 const UppyDashboardDialog = ({
@@ -16,6 +18,7 @@ const UppyDashboardDialog = ({
   modifyExistingFiles,
   allowedFileTypes,
   autoExtractImagesFromPDFs,
+  locale,
   extraUppyDashboardProps,
   debug,
 }) => {
@@ -93,6 +96,7 @@ const UppyDashboardDialog = ({
               console.error(...args);
             },
           },
+      locale: locale?.startsWith("cs") ? cs_CZ : en_US, 
       restrictions: {
         allowedFileTypes: allowedFileTypes,
       },
@@ -289,6 +293,7 @@ UppyDashboardDialog.propTypes = {
   modifyExistingFiles: PropTypes.bool,
   allowedFileTypes: PropTypes.arrayOf(PropTypes.string),
   autoExtractImagesFromPDFs: PropTypes.bool,
+  locale: PropTypes.oneOf["cs_CZ", "en_US"],
   extraUppyDashboardProps: PropTypes.object,
   debug: PropTypes.bool,
 };
