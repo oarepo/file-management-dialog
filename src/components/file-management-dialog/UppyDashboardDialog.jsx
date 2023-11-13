@@ -142,7 +142,7 @@ const UppyDashboardDialog = ({
 
   useEffect(() => {
     uppy.getPlugin("OARepoUpload")?.setOptions({
-      endpoint: record.files.links.self,
+      endpoint: record.files.enabled ? record.files.links.self : record.links.files,
       allowedMetaFields: ["caption", "featureImage"],
     });
     /* fileSources: 
@@ -165,27 +165,27 @@ const UppyDashboardDialog = ({
       ...
     ]
     */
-    const fileSources = record.files.entries.map((file) => ({
-      id: file.file_id,
-      name: file.key,
-      mimeType: file.mimetype,
+    const fileSources = record?.files?.enabled ? record?.files?.entries.map((file) => ({
+      id: file?.file_id,
+      name: file?.key,
+      mimeType: file?.mimetype,
       isFolder: false,
       icon: "file",
       thumbnail: null,
-      requestPath: file.links.content,
-      modifiedDate: file.updated,
+      requestPath: file?.links?.content,
+      modifiedDate: file?.updated,
       author: null,
-      size: file.size,
-      metadata: file.metadata,
-    }));
+      size: file?.size,
+      metadata: file?.metadata,
+    })) : [];
     uppy.getPlugin("OARepoFileSource")?.setOptions({
       fileSources: fileSources,
       fileTypeFilter: !modifyExistingFiles ? ["application/pdf"] : null,
     });
   }, [
     uppy,
-    record.files.entries,
-    record.files.links.self,
+    record.files?.entries,
+    record.files?.links?.self,
     modifyExistingFiles,
   ]);
 

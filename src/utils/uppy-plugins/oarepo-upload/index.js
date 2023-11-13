@@ -197,7 +197,8 @@ export default class OARepoUpload extends UploaderPlugin {
       })
       .then(([response, data]) => {
         const body = data
-        const uploadURL = opts.responseUrlFieldName.split('.').reduce((o,i)=> o[i], body) ?? body[opts.responseUrlFieldName]
+        const uploadURLFromResp = opts.responseUrlFieldName.split('.').reduce((o,i)=> o[i], body)
+        const uploadURL = uploadURLFromResp ? uploadURLFromResp : body[opts.responseUrlFieldName]
 
         const uploadResp = {
           status: response.status,
@@ -288,7 +289,8 @@ export default class OARepoUpload extends UploaderPlugin {
         return reject(error)
       })
 
-      xhr.open(opts.method?.toUpperCase() ?? "PUT", `${opts.endpoint}/${file.name}/content`, true)
+      const uppercasedMethod = opts.method?.toUpperCase()
+      xhr.open(uppercasedMethod ?? "PUT", `${opts.endpoint}/${file.name}/content`, true)
       // IE10 does not allow setting `withCredentials` and `responseType`
       // before `open()` is called.
       xhr.withCredentials = opts.withCredentials
