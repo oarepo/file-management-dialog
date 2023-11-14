@@ -183,7 +183,7 @@ export default class OARepoViewProvider extends View {
 
   render(state, viewOptions = {}) {
     const { didFirstRender } = this.plugin.getPluginState();
-    const { i18n } = this.plugin.uppy;
+    const { i18n } = this.plugin;
 
     if (!didFirstRender) {
       this.preFirstRender();
@@ -203,7 +203,7 @@ export default class OARepoViewProvider extends View {
       done: this.donePicking,
       cancel: this.cancelPicking,
 
-      headerComponent: "Select PDF(s) to extract images from.",
+      headerComponent: i18n("selectPdfs"),
       noResultsLabel: i18n("noSearchResults"),
       title: this.plugin.title,
       viewType: targetViewOptions.viewType,

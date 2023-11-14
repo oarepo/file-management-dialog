@@ -7,7 +7,6 @@ import PropTypes from "prop-types";
 
 const UppyDashboardDialog = lazy(() => import("./UppyDashboardDialog"));
 
-// eslint-disable-next-line react/prop-types
 const FileManagementDialog = ({
   config,
   modifyExistingFiles = false,
@@ -24,7 +23,7 @@ const FileManagementDialog = ({
   debug = false,
   TriggerComponent = ({ onClick, ...props }) => (
     <button onClick={onClick} {...props}>
-      {locale.startsWith("cs") ? "Vybrat Obrázky" : "Select Images"}
+      {locale.startsWith("cs") ? "Vybrat Obrázky" : "Set Images"}
     </button>
   ),
 }) => {

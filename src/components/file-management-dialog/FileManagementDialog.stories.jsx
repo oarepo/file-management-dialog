@@ -21,7 +21,7 @@ export default {
   args: {
     config: appConfig,
     allowedFileTypes: ["image/*", "application/pdf"],
-    locale: "cs_CZ",
+    locale: "en_US",
     debug: true,
   },
 };

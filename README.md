@@ -2,8 +2,8 @@
 
 ![Work In Progress](https://img.shields.io/badge/work_in_progress-red?style=for-the-badge)
 
-![Version](https://img.shields.io/github/package-json/v/oarepo/file-management-dialog) [![License](https://img.shields.io/github/license/oarepo/file-management-dialog)](https://github.com/oarepo/file-management-dialog/blob/main/LICENSE) ![Build Status](https://github.com/oarepo/file-management-dialog/actions/workflows/chromatic.yml/badge.svg
-)
+[![NPM](https://nodei.co/npm/@oarepo%2Ffile-manager.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/@oarepo%2Ffile-manager/)
+[![Version](https://img.shields.io/github/package-json/v/oarepo/file-management-dialog)](https://www.npmjs.com/package/@oarepo/file-manager) [![License](https://img.shields.io/github/license/oarepo/file-management-dialog)](https://github.com/oarepo/file-management-dialog/blob/main/LICENSE) ![Build Status](https://github.com/oarepo/file-management-dialog/actions/workflows/chromatic.yml/badge.svg)
 
 This package provides a file management dialog for OARepo. It allows users to upload new files and modify existing files (change metadata). It also allows users to extract images from PDF files.
 It uses [Uppy](https://uppy.io/) package to render uploader Dashboard, import files from local storage and from external sources (OARepo), add/edit file metadata, edit images and most importantly, to upload files to OARepo.
@@ -103,6 +103,7 @@ const MyComponent = () => {
           "application/pdf",
         ],
         autoExtractImagesFromPDFs = true,
+        locale = "cs_CZ",
         extraUppyDashboardProps = {},
         debug = false,
         TriggerComponent = ({ onClick, ...props }) => (
@@ -135,15 +136,16 @@ const MyComponent = () => {
 
 ## Props
 
-| Name                        | Type                  | Default                                                                               | Description                                                                    |
-| :-------------------------- | :-------------------- | :------------------------------------------------------------------------------------ | :----------------------------------------------------------------------------- |
-| `config`                    | `object`              | *Required Prop*                                                                       | Record data (details below).                                                   |
-| `modifyExistingFiles`       | `boolean`             | `false`                                                                               | Whether to allow modification of existing files (to modify existing metadata). |
-| `allowedFileTypes`          | `string[]`            | `["image/jpg", "image/jpeg", "image/png", "image/tiff", "application/pdf"]`           | Allowed file types (accepts * wildcards, e.g. "image/*").                      |
-| `autoExtractImagesFromPDFs` | `boolean`             | `true`                                                                                | Whether to automatically extract images from selected PDFs.                    |
-| `extraUppyDashboardProps`   | `object`              | `{}`                                                                                  | Extra props to pass to Uppy Dashboard. (see [Uppy API](https://uppy.io/docs/dashboard/#api))                                         |
-| `debug`                     | `boolean`             | `false`                                                                               | Whether to enable debug mode.                                                  |
-| `TriggerComponent`          | `React.ComponentType` | `({ onClick, ...props }) => <button onClick={onClick} {...props}>Set images</button>` | Triggers FileManagement modal.                                                 |
+| Name                        | Type                  | Default                                                                     | Description                                                                                  |
+|-----------------------------|-----------------------|-----------------------------------------------------------------------------|----------------------------------------------------------------------------------------------|
+| `config`                    | `object`              | *Required Prop*                                                             | Record data (details below).                                                                 |
+| `modifyExistingFiles`       | `boolean`             | `false`                                                                     | Whether to allow modification of existing files (to modify existing metadata).               |
+| `allowedFileTypes`          | `string[]`            | `["image/jpg", "image/jpeg", "image/png", "image/tiff", "application/pdf"]` | Allowed file types (accepts * wildcards, e.g. "image/*").                                    |
+| `autoExtractImagesFromPDFs` | `boolean`             | `true`                                                                      | Whether to automatically extract images from selected PDFs.                                  |
+| `locale`                    | `string`              | `"en_US"`                                                                   | The language locale used for translations. Currently only "en_US" and "cs_CZ" are supported. |
+| `extraUppyDashboardProps`   | `object`              | `{}`                                                                        | Extra props to pass to Uppy Dashboard. (see [Uppy API](https://uppy.io/docs/dashboard/#api)) |
+| `debug`                     | `boolean`             | `false`                                                                     | Whether to enable debug mode.                                                                |
+| `TriggerComponent`          | `React.ComponentType` | `({ onClick, ...props }) => Set images`                                     | Triggers FileManagement modal.                                                               |
 
 ### `config` object
 

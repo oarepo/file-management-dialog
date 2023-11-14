@@ -6,10 +6,13 @@ import { useEffect, useRef, useCallback } from "preact/hooks";
 import useWorker from "../../utils/useWorker";
 import useUppyContext from "../../utils/useUppyContext";
 import useAppContext from "../../utils/useAppContext";
+import czechLocale from "../../utils/czechLocale";
+
 import { debugLogger } from "@uppy/core";
 import { DashboardModal } from "@uppy/react";
 import en_US from "@uppy/locales/lib/en_US";
 import cs_CZ from "@uppy/locales/lib/cs_CZ";
+
 import PropTypes from "prop-types";
 
 const UppyDashboardDialog = ({
@@ -145,9 +148,12 @@ const UppyDashboardDialog = ({
   ]);
 
   useEffect(() => {
+    const additionalLocale = locale?.startsWith("cs") ? czechLocale : {};
+
     uppy.getPlugin("OARepoUpload")?.setOptions({
       endpoint: record.files.enabled ? record.files.links.self : record.links.files,
       allowedMetaFields: ["caption", "featureImage"],
+      locale: additionalLocale,
     });
     /* fileSources: 
     [
@@ -185,6 +191,7 @@ const UppyDashboardDialog = ({
     uppy.getPlugin("OARepoFileSource")?.setOptions({
       fileSources: fileSources,
       fileTypeFilter: !modifyExistingFiles ? ["application/pdf"] : null,
+      locale: additionalLocale,
     });
   }, [
     uppy,
