@@ -2,7 +2,8 @@
 
 ![Work In Progress](https://img.shields.io/badge/work_in_progress-red?style=for-the-badge)
 
-[![NPM](https://nodei.co/npm/@oarepo%2Ffile-manager.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/@oarepo%2Ffile-manager/)
+[![NPM](https://nodei.co/npm/@oarepo%2Ffile-manager.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/@oarepo%2Ffile-manager/) 
+
 [![Version](https://img.shields.io/github/package-json/v/oarepo/file-management-dialog)](https://www.npmjs.com/package/@oarepo/file-manager) [![License](https://img.shields.io/github/license/oarepo/file-management-dialog)](https://github.com/oarepo/file-management-dialog/blob/main/LICENSE) ![Build Status](https://github.com/oarepo/file-management-dialog/actions/workflows/chromatic.yml/badge.svg)
 
 This package provides a file management dialog for OARepo. It allows users to upload new files and modify existing files (change metadata). It also allows users to extract images from PDF files.
@@ -34,47 +35,28 @@ It uses [Uppy](https://uppy.io/) package to render uploader Dashboard, import fi
 
     Wrapper example: (can be configured based on your needs)
     ```jsx
-    // Wrapper.jsx
-    import React from "react";
+    // ReactWrapper.jsx
+    import React, { useEffect, useRef } from "react";
     import { h, render } from "preact";
 
-    import FileManagementDialog from "@oarepo/file-manager";
-    import data from "./data"; // mock data, see below
+    const ReactWrapper = ({ preactComponent, props }) => {
 
-    class Wrapper extends React.Component {
-      constructor(props) {
-        super(props);
-        this.preactContainerRef = React.createRef();
-      }
+      const preactCompRef = useRef();
 
-      componentDidMount() {
-        this.renderPreact();
-      }
-
-      componentDidUpdate() {
-        this.renderPreact();
-      }
-
-      renderPreact() {
+      useEffect(() => {
         render(
           h(
-            FileManagementDialog, 
-            { 
-              config: data,
-              allowedFileTypes: ["image/*", "application/pdf"]
-              /* additional FileManagementDialog options, see Usage below */
-            }
-          ),
-          this.preactContainerRef.current
+            preactComponent,
+            { ...props }
+          ), // Assuming 'data' is defined somewhere
+          preactCompRef.current
         );
-      }
+      });
 
-      render() {
-        return <div ref={this.preactContainerRef} />;
-      }
-    }
+      return <div ref={preactCompRef} />;
+    };
 
-    export default Wrapper;
+    export default ReactWrapper;
     ```
 
 ## Usage
@@ -122,13 +104,20 @@ const MyComponent = () => {
 Used in React projects with Automatic JSX Runtime enabled (see [React docs](https://legacy.reactjs.org/blog/2020/09/22/introducing-the-new-jsx-transform.html)).
 
 ```jsx
-import Wrapper from "./Wrapper";
+import ReactWrapper from "./ReactWrapper";
 
-const MyComponent = () => {
+const MyReactComponent = () => {
   /* ... */
   return (
       {/* ... */}
-      <Wrapper />
+      <ReactWrapper 
+        preactComponent={FileManagementDialog} 
+        props={{ 
+          config: data, 
+          autoExtractImagesFromPDFs: false,
+          /* additional FileManagementDialog options, see Props below */
+        }} 
+      />
       {/* ... */}
   )
 }
