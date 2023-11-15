@@ -3,6 +3,7 @@ import { defineConfig } from "vite";
 import preact from "@preact/preset-vite";
 import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js'
 import { name } from "./package.json";
+// import { viteMockServe } from "vite-plugin-mock";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command, mode }) => {

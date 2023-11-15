@@ -5,8 +5,8 @@ export default {
     "created": "2022-10-18T10:22:35.153753+00:00",
     "id": "8t29q-nfr77",
     "links": {
-      "files": `${baseUrl}/general/datasets/8t29q-nfr77/files/`,
-      "self": `${baseUrl}/general/datasets/8t29q-nfr77`,
+      "files": `${baseUrl}/api/records/8t29q-nfr77/files`,
+      "self": `${baseUrl}/api/records/8t29q-nfr77`,
       "transitions": {}
     },
     "files": {

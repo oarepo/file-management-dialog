@@ -3,9 +3,7 @@ import "@uppy/dashboard/dist/style.min.css";
 import "@uppy/image-editor/dist/style.min.css";
 
 import { useEffect, useRef, useCallback } from "preact/hooks";
-import useWorker from "../../utils/useWorker";
-import useUppyContext from "../../utils/useUppyContext";
-import useAppContext from "../../utils/useAppContext";
+import { useUppyContext, useAppContext, useWorker } from "../../hooks";
 import czechLocale from "../../utils/czechLocale";
 
 import { debugLogger } from "@uppy/core";
@@ -93,13 +91,13 @@ const UppyDashboardDialog = ({
       logger: debug
         ? debugLogger
         : {
-            debug: (...args) => {},
-            warn: (...args) => {},
-            error: (...args) => {
-              console.error(...args);
-            },
+          debug: (...args) => { },
+          warn: (...args) => { },
+          error: (...args) => {
+            console.error(...args);
           },
-      locale: locale?.startsWith("cs") ? cs_CZ : en_US, 
+        },
+      locale: locale?.startsWith("cs") ? cs_CZ : en_US,
       restrictions: {
         allowedFileTypes: allowedFileTypes,
       },
@@ -110,13 +108,13 @@ const UppyDashboardDialog = ({
           const file = files[fileID];
           updatedFiles[fileID] = file.type.startsWith("image/")
             ? {
-                ...file,
-                meta: {
-                  ...file.meta,
-                  caption: file.meta?.caption ?? "",
-                  featureImage: file.meta?.featureImage ?? false,
-                },
-              }
+              ...file,
+              meta: {
+                ...file.meta,
+                caption: file.meta?.caption ?? "",
+                featureImage: file.meta?.featureImage ?? false,
+              },
+            }
             : file;
         });
         return updatedFiles;
@@ -124,18 +122,18 @@ const UppyDashboardDialog = ({
       onBeforeFileAdded:
         !modifyExistingFiles && autoExtractImagesFromPDFs
           ? // eslint-disable-next-line no-unused-vars
-            (currentFile, _files) => {
-              if (currentFile.type === "application/pdf") {
-                uppy.info(
-                  "PDF image extraction processing, please wait...",
-                  "info",
-                  3000
-                );
-                handleUploadClick(currentFile);
-                return false;
-              }
-              return true;
+          (currentFile, _files) => {
+            if (currentFile.type === "application/pdf") {
+              uppy.info(
+                "PDF image extraction processing, please wait...",
+                "info",
+                3000
+              );
+              handleUploadClick(currentFile);
+              return false;
             }
+            return true;
+          }
           : () => true,
     });
   }, [
@@ -148,13 +146,6 @@ const UppyDashboardDialog = ({
   ]);
 
   useEffect(() => {
-    const additionalLocale = locale?.startsWith("cs") ? czechLocale : {};
-
-    uppy.getPlugin("OARepoUpload")?.setOptions({
-      endpoint: record.files.enabled ? record.files.links.self : record.links.files,
-      allowedMetaFields: ["caption", "featureImage"],
-      locale: additionalLocale,
-    });
     /* fileSources: 
     [
       {
@@ -175,29 +166,85 @@ const UppyDashboardDialog = ({
       ...
     ]
     */
-    const fileSources = record?.files?.enabled ? record?.files?.entries.map((file) => ({
-      id: file?.file_id,
-      name: file?.key,
-      mimeType: file?.mimetype,
-      isFolder: false,
-      icon: "file",
-      thumbnail: null,
-      requestPath: file?.links?.content,
-      modifiedDate: file?.updated,
-      author: null,
-      size: file?.size,
-      metadata: file?.metadata,
-    })) : [];
-    uppy.getPlugin("OARepoFileSource")?.setOptions({
-      fileSources: fileSources,
-      fileTypeFilter: !modifyExistingFiles ? ["application/pdf"] : null,
-      locale: additionalLocale,
+    const setUpOARepoFileSourcePlugin = (fileSources) => {
+      uppy.getPlugin("OARepoFileSource")?.setOptions({
+        fileSources: fileSources,
+        fileTypeFilter: !modifyExistingFiles ? ["application/pdf"] : null,
+        locale: locale?.startsWith("cs") ? czechLocale : {},
+      });
+    };
+
+    let fileSources = [];
+    if (record.files?.enabled) {
+      if (!record.files.entries) {
+        fetch(record.links.files)
+          .then((response) => {
+            if (!response.ok)
+              throw new Error(response.statusText);
+            return response.json();
+          })
+          .then((data) => {
+            fileSources = data?.entries.map((file) => ({
+              id: file?.file_id,
+              name: file?.key,
+              mimeType: file?.mimetype,
+              isFolder: false,
+              icon: "file",
+              thumbnail: null,
+              requestPath: file?.links?.content,
+              modifiedDate: file?.updated,
+              author: null,
+              size: file?.size,
+              metadata: file?.metadata,
+            }))
+          })
+          .catch((error) => {
+            uppy.info({
+              message: "Error loading files.",
+              details: error.message,
+            }, "error", 7000);
+          })
+          .finally(() => {
+            setUpOARepoFileSourcePlugin(fileSources);
+          });
+      } else {
+        fileSources = record.files.entries.map((file) => ({
+          id: file?.file_id,
+          name: file?.key,
+          mimeType: file?.mimetype,
+          isFolder: false,
+          icon: "file",
+          thumbnail: null,
+          requestPath: file?.links?.content,
+          modifiedDate: file?.updated,
+          author: null,
+          size: file?.size,
+          metadata: file?.metadata,
+        }));
+        setUpOARepoFileSourcePlugin(fileSources);
+      }
+    } else {
+      setUpOARepoFileSourcePlugin(fileSources);
+    }
+  }, [
+    uppy,
+    record.files,
+    record.links?.files,
+    modifyExistingFiles,
+    locale,
+  ]);
+
+  useEffect(() => {
+    uppy.getPlugin("OARepoUpload")?.setOptions({
+      endpoint: record.files?.enabled ? record.links.files : record.files.links.self,
+      allowedMetaFields: ["caption", "featureImage"],
+      locale: locale?.startsWith("cs") ? czechLocale : {},
     });
   }, [
     uppy,
-    record.files?.entries,
-    record.files?.links?.self,
-    modifyExistingFiles,
+    record.files,
+    record.links?.files,
+    locale,
   ]);
 
   useEffect(() => {
@@ -226,9 +273,8 @@ const UppyDashboardDialog = ({
           type: `image/${imageObj.imageType}`,
         });
         uppy.addFile({
-          name: `${imageObj.sourcePdf}_${crypto.randomUUID()}.${
-            event.data.imageType
-          }`,
+          name: `${imageObj.sourcePdf}_${crypto.randomUUID()}.${event.data.imageType
+            }`,
           type: `image/${imageObj.imageType}`,
           data: blob,
           source: "PDFImageExtractor", // pdfimageextractor

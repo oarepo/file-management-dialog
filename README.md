@@ -64,7 +64,7 @@ It uses [Uppy](https://uppy.io/) package to render uploader Dashboard, import fi
 ### Basic usage with Preact
 
 ```jsx
-import FileManagementDialog from '@oarepo/file-manager'
+import FileManagementDialog from '@oarepo/file-manager';
 
 const MyComponent = () => {
   /* ... */
@@ -105,6 +105,7 @@ Used in React projects with Automatic JSX Runtime enabled (see [React docs](http
 
 ```jsx
 import ReactWrapper from "./ReactWrapper";
+import { h, render } from "preact";
 
 const MyReactComponent = () => {
   /* ... */
@@ -114,6 +115,16 @@ const MyReactComponent = () => {
         preactComponent={FileManagementDialog} 
         props={{ 
           config: data, 
+          TriggerComponent: ({ onClick, ...props }) => 
+            h(
+              "button", 
+              { 
+                onClick: onClick, 
+                style: { backgroundColor: "cyan" }, 
+                ...props 
+              }, 
+              "Upload Files"
+            ),
           autoExtractImagesFromPDFs: false,
           /* additional FileManagementDialog options, see Props below */
         }} 

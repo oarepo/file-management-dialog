@@ -88,3 +88,11 @@ Uncaught (in promise) TypeError: Cannot read properties of undefined (reading '0
   }
 }
 ```
+
+# 15.11.2023
+
+BUGS:
+1. when PDF is invalid, Uppy Error occurs after another PDF upload and another PDF cannot be uploaded
+2. use api record.links.files instead of record.files
+3. onClick on TriggerComponent
+4. 
