@@ -4,7 +4,8 @@ import "@uppy/image-editor/dist/style.min.css";
 
 import { useEffect, useRef, useCallback } from "preact/hooks";
 import { useUppyContext, useAppContext, useWorker } from "../../hooks";
-import czechLocale from "../../utils/czechLocale";
+import czechLocale from "../../utils/locales/czechLocale";
+import englishLocale from "../../utils/locales/englishLocale";
 
 import { debugLogger } from "@uppy/core";
 import { DashboardModal } from "@uppy/react";
@@ -56,7 +57,7 @@ const UppyDashboardDialog = ({
     async (file) => {
       if (window.Worker) {
         if (isProcessing.current) {
-          this.uppy.info("Still processing previous file.", "info", 3000);
+          uppy.info(uppy.i18n("Still processing previous file."), "info", 3000);
           return;
         }
         // TODO: Alert error only in Debug
@@ -73,19 +74,25 @@ const UppyDashboardDialog = ({
         } catch (error) {
           isProcessing.current = false;
           uppy.info(
-            "There was an error when uploading file:\n" + error,
+            `${uppy.i18n("There was an error when uploading file")}:\n ${error}`,
             "error",
             5000
           );
         }
       } else {
-        uppy.info("Web Worker is not supported", "info", 5000);
+        uppy.info(uppy.i18n("Web Worker is not supported"), "info", 5000);
       }
     },
     [uppy, extractImageWorker, isProcessing]
   );
 
   useEffect(() => {
+    const customLocale = locale?.startsWith("cs") ? 
+      { 
+        strings: Object.assign(cs_CZ.strings, czechLocale.strings) 
+      } : { 
+        strings: Object.assign(en_US.strings, englishLocale.strings) 
+      }
     uppy.setOptions({
       debug: debug,
       logger: debug
@@ -97,7 +104,7 @@ const UppyDashboardDialog = ({
             console.error(...args);
           },
         },
-      locale: locale?.startsWith("cs") ? cs_CZ : en_US,
+      locale: customLocale,
       restrictions: {
         allowedFileTypes: allowedFileTypes,
       },
@@ -123,9 +130,10 @@ const UppyDashboardDialog = ({
         !modifyExistingFiles && autoExtractImagesFromPDFs
           ? // eslint-disable-next-line no-unused-vars
           (currentFile, _files) => {
+            console.log(currentFile, _files);
             if (currentFile.type === "application/pdf") {
               uppy.info(
-                "PDF image extraction processing, please wait...",
+                uppy.i18n("PDF image extraction processing, please wait..."),
                 "info",
                 3000
               );
@@ -200,7 +208,7 @@ const UppyDashboardDialog = ({
           })
           .catch((error) => {
             uppy.info({
-              message: "Error loading files.",
+              message: uppy.i18n("Error loading files."),
               details: error.message,
             }, "error", 7000);
           })
@@ -253,13 +261,13 @@ const UppyDashboardDialog = ({
       extractImageWorker.onmessage = (event) => {
         if (event.data?.type === "done") {
           isProcessing.current = false;
-          uppy.info("Image extraction completed.", "success", 3000);
+          uppy.info(`[${event.data.sourcePdf}] ${uppy.i18n("Image extraction completed")}. ${uppy.i18n("Image count")}: ${event.data.imageCount}`, "success", 5000);
           return;
         } else if (event.data?.type === "error") {
           isProcessing.current = false;
           uppy.info(
             {
-              message: `Error extracting images from ${event.data.sourcePdf}`,
+              message: `${uppy.i18n("Error extracting images from")}: ${event.data.sourcePdf}`,
               details: `${event.data.message}`,
             },
             "error",
@@ -287,9 +295,14 @@ const UppyDashboardDialog = ({
         alert("Error: " + event.message);
       };
     } else {
-      uppy.info("Web Worker is not supported.", "error", 5000);
+      uppy.info(uppy.i18n("Web Worker is not supported"), "error", 5000);
     }
   }, [extractImageWorker, uppy, debug]);
+
+  const manualI18n = (key) => {
+    const localeStrings = locale?.startsWith("cs") ? czechLocale.strings : englishLocale.strings;
+    return localeStrings[key];
+  }
 
   return (
     <>
@@ -306,8 +319,8 @@ const UppyDashboardDialog = ({
         showProgressDetails
         note={
           modifyExistingFiles
-            ? "Select existing files to modify metadata."
-            : "Select files to upload."
+            ? manualI18n("Select existing files to modify metadata.")
+            : manualI18n("Select files to upload.")
         }
         disableLocalFiles={modifyExistingFiles}
         metaFields={(file) => {
@@ -315,12 +328,12 @@ const UppyDashboardDialog = ({
           if (file.type.startsWith("image/")) {
             fields.push({
               id: "caption",
-              name: "Caption",
-              placeholder: "Set the Caption here",
+              name: manualI18n("Caption"),
+              placeholder: manualI18n("Set the Caption here"),
             });
             fields.push({
               id: "featureImage",
-              name: "Feature Image",
+              name: manualI18n("Feature Image"),
               render: ({ value, onChange, required, form }, h) => {
                 return h("input", {
                   type: "checkbox",

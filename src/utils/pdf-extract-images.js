@@ -204,4 +204,6 @@ export default async function extractPdfImages(pdfFileName, pdfBytes) {
       postMessage(imageObj, [imageObj.imageData.buffer]);
     }
   }
+
+  return imagesInDoc.length;
 }
