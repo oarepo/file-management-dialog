@@ -15,6 +15,6 @@ export default {
     "Select files to upload.": "Vyberte soubory, které chcete nahrát.",
     "Set the Caption here": "Zde nastavte Titulek",
     "Caption": "Titulek",
-    "Feature Image": "Hlavní obrázek"
+    "Featured Image": "Hlavní obrázek"
   },
 };

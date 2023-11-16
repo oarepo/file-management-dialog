@@ -63,7 +63,9 @@ export default class OARepoUpload extends BasePlugin {
       allowedMetaFields: null,
       responseUrlFieldName: 'links.self',
       // bundle: false,
-      headers: {},
+      headers: {
+        "Content-Type": "application/octet-stream"
+      },
       timeout: 30 * 1000,
       limit: 5,
       withCredentials: false,
@@ -215,7 +217,7 @@ export default class OARepoUpload extends BasePlugin {
       })
   }
 
-  async #upload (file, current, total) {
+  async #upload (file, current, total) { // Application/octet-stream should be the Content-Type
     const opts = this.getOptions(file)
     const uploadId = nanoid()
     

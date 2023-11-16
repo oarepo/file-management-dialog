@@ -1,7 +1,7 @@
 {
   "name": "@oarepo/file-manager",
   "private": false,
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "File management component for Open Access Repository.",
   "type": "module",
   "scripts": {

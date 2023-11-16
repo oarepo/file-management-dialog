@@ -41,7 +41,7 @@ const UppyDashboardDialog = ({
   //   status: "completed",
   //   metadata: {
   //     caption: "Figure 1",
-  //     featureImage: true,
+  //     featured: true,
   //   },
   //   file_id: "2151fa94-6dc3-4965-8df9-ec73ceb9175c",
   //   version_id: "57ad8c66-b934-49c9-a46f-38bf5aa0374f",
@@ -119,7 +119,7 @@ const UppyDashboardDialog = ({
               meta: {
                 ...file.meta,
                 caption: file.meta?.caption ?? "",
-                featureImage: file.meta?.featureImage ?? false,
+                featured: file.meta?.featured ?? false,
               },
             }
             : file;
@@ -245,7 +245,7 @@ const UppyDashboardDialog = ({
   useEffect(() => {
     uppy.getPlugin("OARepoUpload")?.setOptions({
       endpoint: record.files?.enabled ? record.links.files : record.files.links.self,
-      allowedMetaFields: ["caption", "featureImage"],
+      allowedMetaFields: ["caption", "featured"],
       locale: locale?.startsWith("cs") ? czechLocale : {},
     });
   }, [
@@ -332,8 +332,8 @@ const UppyDashboardDialog = ({
               placeholder: manualI18n("Set the Caption here"),
             });
             fields.push({
-              id: "featureImage",
-              name: manualI18n("Feature Image"),
+              id: "featured",
+              name: manualI18n("Featured Image"),
               render: ({ value, onChange, required, form }, h) => {
                 return h("input", {
                   type: "checkbox",
