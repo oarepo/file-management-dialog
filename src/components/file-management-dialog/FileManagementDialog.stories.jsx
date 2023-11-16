@@ -137,6 +137,8 @@ export const UploadFromOARepo = {
 
     await userEvent.click(canvas.getByRole("button", { name: /set images/i }));
 
+    await sleep(1000); // to wait for files being loaded from API
+
     await userEvent.click(await canvas.findByRole("tab", { name: /oarepo/i }));
 
     await sleep(1000);

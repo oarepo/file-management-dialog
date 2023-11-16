@@ -204,7 +204,7 @@ const UppyDashboardDialog = ({
               author: null,
               size: file?.size,
               metadata: file?.metadata,
-            }))
+            }));
           })
           .catch((error) => {
             uppy.info({
@@ -267,7 +267,7 @@ const UppyDashboardDialog = ({
           isProcessing.current = false;
           uppy.info(
             {
-              message: `${uppy.i18n("Error extracting images from")}: ${event.data.sourcePdf}`,
+              message: `${uppy.i18n("Error extracting images from")} ${event.data.sourcePdf}`,
               details: `${event.data.message}`,
             },
             "error",
