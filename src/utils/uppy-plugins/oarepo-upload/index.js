@@ -365,10 +365,6 @@ export default class OARepoUpload extends BasePlugin {
     })
       .then(async (response) => {
         if (!this.opts.validateStatus(response.status)) {
-          // throw new Error(
-          //   `[${response.status} ${response.statusText}] Error starting files upload.")`
-          // );
-          this.uppy.emit('error')
           throw buildResponseError(response, this.opts.getResponseError(await response.text(), response))
         }
         return response.json();
