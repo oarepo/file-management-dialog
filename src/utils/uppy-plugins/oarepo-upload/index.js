@@ -163,14 +163,14 @@ export default class OARepoUpload extends BasePlugin {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        metadata: Object.keys(metadata).reduce((acc, key) => {
+      body: JSON.stringify(
+        Object.keys(metadata).reduce((acc, key) => {
           if (opts.allowedMetaFields.includes(key)) {
             acc[key] = metadata[key];
           }
           return acc;
         }, {}),
-      }),
+      ),
     })
       .then(async (response) => {
         if (!this.opts.validateStatus(response.status)) {

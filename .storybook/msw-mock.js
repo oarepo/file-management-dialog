@@ -168,7 +168,7 @@ const handlers = [
           key: query.fileName,
           updated: "2020-11-27 11:17:11.002624",
           created: "2020-11-27 11:17:10.998919",
-          metadata: body.metadata,
+          metadata: body,
           status: "pending",
           links: {
             content: `/api/records/${query.id}/draft/files/${query.fileName}/content`,
