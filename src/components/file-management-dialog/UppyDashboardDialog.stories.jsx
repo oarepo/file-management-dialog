@@ -27,6 +27,11 @@ export default {
     modalOpen: true,
     setModalOpen: () => {},
     allowedFileTypes: ["image/*", "application/pdf"],
+    allowedMetaFields: [
+      { id: "caption", defaultValue: "", isUserInput: true },
+      { id: "featured", defaultValue: false, isUserInput: true },
+      { id: "fileType", defaultValue: "", isUserInput: false },
+    ],
     locale: "en_US",
     extraUppyDashboardProps: {},
     debug: true,

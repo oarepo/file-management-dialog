@@ -19,6 +19,7 @@ const UppyDashboardDialog = ({
   setModalOpen,
   modifyExistingFiles,
   allowedFileTypes,
+  allowedMetaFields,
   autoExtractImagesFromPDFs,
   locale,
   extraUppyDashboardProps,
@@ -42,6 +43,7 @@ const UppyDashboardDialog = ({
   //   metadata: {
   //     caption: "Figure 1",
   //     featured: true,
+  //     fileType: "photo",
   //   },
   //   file_id: "2151fa94-6dc3-4965-8df9-ec73ceb9175c",
   //   version_id: "57ad8c66-b934-49c9-a46f-38bf5aa0374f",
@@ -87,17 +89,18 @@ const UppyDashboardDialog = ({
   );
 
   useEffect(() => {
-    const customLocale = locale?.startsWith("cs") ? 
-      { 
-        strings: Object.assign(cs_CZ.strings, czechLocale.strings) 
-      } : { 
-        strings: Object.assign(en_US.strings, englishLocale.strings) 
+    // Extending Uppy's default locales with custom locales found in src/utils/locales
+    const customLocale = locale?.startsWith("cs") ?
+      {
+        strings: Object.assign(cs_CZ.strings, czechLocale.strings)
+      } : {
+        strings: Object.assign(en_US.strings, englishLocale.strings)
       }
     uppy.setOptions({
       debug: debug,
       logger: debug
         ? debugLogger
-        : {
+        : { // Logging only errors in production
           debug: (...args) => { },
           warn: (...args) => { },
           error: (...args) => {
@@ -118,8 +121,11 @@ const UppyDashboardDialog = ({
               ...file,
               meta: {
                 ...file.meta,
-                caption: file.meta?.caption ?? "",
-                featured: file.meta?.featured ?? false,
+                // Assign default values to input metaFields (if not already set)
+                // Also assign default values to other (not rendered) metaFields
+                ...Object.assign({}, ...allowedMetaFields.map((field) => ({
+                  [field.id]: file.meta?.[field.id] ?? field.defaultValue,
+                }))),
               },
             }
             : file;
@@ -182,6 +188,22 @@ const UppyDashboardDialog = ({
       });
     };
 
+    const mapFilesToFileSources = (fileEntries) => {
+      return fileEntries.map((file) => ({
+        id: file?.file_id,
+        name: file?.key,
+        mimeType: file?.mimetype,
+        isFolder: false,
+        icon: "file",
+        thumbnail: null,
+        requestPath: file?.links?.content,
+        modifiedDate: file?.updated,
+        author: null,
+        size: file?.size,
+        metadata: file?.metadata,
+      }));
+    };
+
     let fileSources = [];
     if (record.files?.enabled) {
       if (!record.files.entries) {
@@ -192,19 +214,7 @@ const UppyDashboardDialog = ({
             return response.json();
           })
           .then((data) => {
-            fileSources = data?.entries.map((file) => ({
-              id: file?.file_id,
-              name: file?.key,
-              mimeType: file?.mimetype,
-              isFolder: false,
-              icon: "file",
-              thumbnail: null,
-              requestPath: file?.links?.content,
-              modifiedDate: file?.updated,
-              author: null,
-              size: file?.size,
-              metadata: file?.metadata,
-            }));
+            fileSources = mapFilesToFileSources(data?.entries ?? []);
           })
           .catch((error) => {
             uppy.info({
@@ -216,19 +226,7 @@ const UppyDashboardDialog = ({
             setUpOARepoFileSourcePlugin(fileSources);
           });
       } else {
-        fileSources = record.files.entries.map((file) => ({
-          id: file?.file_id,
-          name: file?.key,
-          mimeType: file?.mimetype,
-          isFolder: false,
-          icon: "file",
-          thumbnail: null,
-          requestPath: file?.links?.content,
-          modifiedDate: file?.updated,
-          author: null,
-          size: file?.size,
-          metadata: file?.metadata,
-        }));
+        fileSources = mapFilesToFileSources(record.files.entries);
         setUpOARepoFileSourcePlugin(fileSources);
       }
     } else {
@@ -245,7 +243,7 @@ const UppyDashboardDialog = ({
   useEffect(() => {
     uppy.getPlugin("OARepoUpload")?.setOptions({
       endpoint: record.files?.enabled ? record.links.files : record.files.links.self,
-      allowedMetaFields: ["caption", "featured"],
+      allowedMetaFields: allowedMetaFields.map((field) => field.id),
       locale: locale?.startsWith("cs") ? czechLocale : {},
     });
   }, [
@@ -323,6 +321,7 @@ const UppyDashboardDialog = ({
             : manualI18n("Select files to upload.")
         }
         disableLocalFiles={modifyExistingFiles}
+        // TODO: add custom metaFields renderers (for isUserInput=true metaFields) to prop settings of this component
         metaFields={(file) => {
           const fields = [];
           if (file.type.startsWith("image/")) {
@@ -358,6 +357,11 @@ UppyDashboardDialog.propTypes = {
   setModalOpen: PropTypes.func.isRequired,
   modifyExistingFiles: PropTypes.bool,
   allowedFileTypes: PropTypes.arrayOf(PropTypes.string),
+  allowedMetaFields: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    defaultValue: PropTypes.any.isRequired,
+    isUserInput: PropTypes.bool.isRequired,
+  })),
   autoExtractImagesFromPDFs: PropTypes.bool,
   locale: PropTypes.oneOf["cs_CZ", "en_US"],
   extraUppyDashboardProps: PropTypes.object,

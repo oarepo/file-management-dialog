@@ -21,6 +21,11 @@ export default {
   args: {
     config: appConfig,
     allowedFileTypes: ["image/*", "application/pdf"],
+    allowedMetaFields: [
+      { id: "caption", defaultValue: "", isUserInput: true },
+      { id: "featured", defaultValue: false, isUserInput: true },
+      { id: "fileType", defaultValue: "", isUserInput: false },
+    ],
     locale: "en_US",
     debug: true,
   },
@@ -159,9 +164,9 @@ export const UploadFromOARepo = {
     await userEvent.click(canvas.getByRole("button", { name: /select 2/i }));
 
     // wait for the 2 files to be downloaded and processed
-    await canvas.findByText(/image extraction completed/i, {}, { timeout: 10000 });
+    await canvas.findByText(/article\.pdf.*image extraction completed/i, {}, { timeout: 10000 });
     await waitForElementToBeRemoved(
-      () => canvas.queryByText(/image extraction completed/i),
+      () => canvas.queryByText(/article2\.pdf.*image extraction completed/i),
       { timeout: 10000 }
     );
 

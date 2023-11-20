@@ -11,11 +11,13 @@ const FileManagementDialog = ({
   config,
   modifyExistingFiles = false,
   allowedFileTypes = [
-    "image/jpg",
-    "image/jpeg",
-    "image/png",
-    "image/tiff",
+    "image/*",
     "application/pdf",
+  ],
+  allowedMetaFields = [
+    { id: "caption", defaultValue: "", isUserInput: true },
+    { id: "featured", defaultValue: false, isUserInput: true },
+    { id: "fileType", defaultValue: "", isUserInput: false },
   ],
   autoExtractImagesFromPDFs = true,
   locale = "en_US",
@@ -54,6 +56,7 @@ const FileManagementDialog = ({
                   setModalOpen={setModalOpen}
                   modifyExistingFiles={modifyExistingFiles}
                   allowedFileTypes={allowedFileTypes}
+                  allowedMetaFields={allowedMetaFields}
                   autoExtractImagesFromPDFs={autoExtractImagesFromPDFs}
                   locale={locale}
                   extraUppyDashboardProps={extraUppyDashboardProps}
@@ -72,6 +75,11 @@ FileManagementDialog.propTypes = {
   config: PropTypes.object.isRequired,
   modifyExistingFiles: PropTypes.bool,
   allowedFileTypes: PropTypes.arrayOf(PropTypes.string),
+  allowedMetaFields: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    defaultValue: PropTypes.any.isRequired,
+    isUserInput: PropTypes.bool.isRequired,
+  })),
   autoExtractImagesFromPDFs: PropTypes.bool,
   locale: PropTypes.oneOf(["cs_CZ", "en_US"]),
   extraUppyDashboardProps: PropTypes.object,
