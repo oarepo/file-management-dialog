@@ -333,7 +333,7 @@ const UppyDashboardDialog = ({
             });
             fields.push({
               id: "featured",
-              name: manualI18n("Featured Image"),
+              name: manualI18n("Feature Image"),
               render: ({ value, onChange, required, form }, h) => {
                 return h("input", {
                   type: "checkbox",

@@ -165,7 +165,7 @@ export default class OARepoViewProvider extends View {
         } catch (error) {
           this.plugin.uppy.log(error, "error");
           this.plugin.uppy.info(
-            "Could not fetch files from remote provider",
+            this.plugin.i18n("fetchRemoteError"),
             "error",
             5000
           );

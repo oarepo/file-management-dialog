@@ -12,6 +12,6 @@ export default {
     "Select files to upload.": "Select files to upload.",
     "Set the Caption here": "Set the Caption here",
     "Caption": "Caption",
-    "Featured Image": "Feature Image",
+    "Feature Image": "Feature Image",
   },
 };

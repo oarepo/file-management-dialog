@@ -2,6 +2,7 @@ export default {
   strings: {
     noSearchResults: "Pro vaše hledání nejsou k dispozici žádné výsledky.",
     selectPdfs: "Vyberte soubory PDF, ze kterých chcete extrahovat obrázky.",
+    fetchRemoteError: "Could not fetch files from remote provider",
     uploadStalled: "Nahrávání neproběhlo po dobu %{seconds} sekund. Možná jej budete chtít zopakovat.",
     "Still processing previous file.": "Stále zpracováváme předchozí soubor.",
     "PDF image extraction processing, please wait...": "Zpracování extrakce obrázků z PDF, počkejte prosím...",
@@ -15,6 +16,6 @@ export default {
     "Select files to upload.": "Vyberte soubory, které chcete nahrát.",
     "Set the Caption here": "Zde nastavte Titulek",
     "Caption": "Titulek",
-    "Featured Image": "Hlavní obrázek"
+    "Feature Image": "Hlavní obrázek"
   },
 };
