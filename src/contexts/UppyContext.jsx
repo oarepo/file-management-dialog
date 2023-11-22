@@ -7,17 +7,19 @@ import OARepoFileSource from "../utils/uppy-plugins/oarepo-file-source";
 
 export const UppyContext = createContext();
 
-export const UppyProvider = ({ children }) => {
+export const UppyProvider = ({ startEvent, children }) => {
   const uppy = useMemo(
-    () =>
-      new Uppy()
-        .use(OARepoFileSource, {
-          fileSources: [],
-        })
+    () => {
+      let uppy = new Uppy()
         .use(OARepoUpload)
         .use(ImageEditor, {
           quality: 1.0,
-        }),
+        })
+      startEvent ?? uppy.use(OARepoFileSource, {
+        fileSources: [],
+      });
+      return uppy;
+    },
     []
   );
   return <UppyContext.Provider value={uppy}>{children}</UppyContext.Provider>;

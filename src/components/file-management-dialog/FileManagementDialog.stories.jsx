@@ -27,6 +27,7 @@ export default {
       { id: "fileType", defaultValue: "", isUserInput: false },
     ],
     locale: "en_US",
+    startEvent: null,
     debug: true,
   },
 };
@@ -45,13 +46,6 @@ export const NewImageFilesUploader = {
   },
 };
 
-export const ExistingFilesModifier = {
-  args: {
-    modifyExistingFiles: true,
-    autoExtractImagesFromPDFs: false,
-  },
-};
-
 export const WithExtraUppyDashboardProps = {
   args: {
     ...NewFilesUploader.args,
@@ -60,6 +54,53 @@ export const WithExtraUppyDashboardProps = {
       closeAfterFinish: true,
       // theme: "dark", -- TODO: fix styling for dark theme setting
     },
+  },
+};
+
+export const WithExtraUppyCoreSettings = {
+  args: {
+    ...NewFilesUploader.args,
+    extraUppyCoreSettings: {
+      restrictions: {
+        maxFileSize: 1000000,
+        maxNumberOfFiles: 2,
+        minNumberOfFiles: 1,
+        allowedFileTypes: ["image/*", "application/pdf"],
+      },
+    },
+  },
+};
+
+export const ExistingFileModifierEvent = {
+  args: {
+    autoExtractImagesFromPDFs: false,
+    startEvent: {
+      event: "edit-file",
+      data: {
+        file_key: "figure.png",
+      },
+    }
+  },
+};
+
+export const UploadImagesFromPDFEvent = {
+  args: {
+    autoExtractImagesFromPDFs: true,
+    startEvent: {
+      event: "upload-images-from-pdf",
+      data: {
+        file_key: "article.pdf",
+      },
+    }
+  },
+};
+
+export const UploadFileWithoutEditEvent = {
+  args: {
+    autoExtractImagesFromPDFs: false,
+    startEvent: {
+      event: "upload-file-without-edit",
+    }
   },
 };
 

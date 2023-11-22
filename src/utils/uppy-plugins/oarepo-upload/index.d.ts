@@ -1,11 +1,10 @@
-import type { PluginOptions, BasePlugin, UppyFile } from '@uppy/core'
-import XHRUploadLocale from './generatedLocale'
+import type { PluginOptions, BasePlugin, UppyFile, Locale } from '@uppy/core'
 
 export type Headers = {
    [name: string]: string | number
 }
 
-export interface XHRUploadOptions extends PluginOptions {
+export interface OARepoUploadOptions extends PluginOptions {
     limit?: number
     headers?: Headers | ((file: UppyFile) => Headers)
     allowedMetaFields?: string[] | null
@@ -14,7 +13,7 @@ export interface XHRUploadOptions extends PluginOptions {
     responseUrlFieldName?: string
     endpoint: string
     method?: 'GET' | 'POST' | 'PUT' | 'HEAD' | 'get' | 'post' | 'put' | 'head'
-    locale?: XHRUploadLocale
+    locale?: Locale
     responseType?: string
     withCredentials?: boolean
     validateStatus?: (statusCode: number, responseText: string, response: unknown) => boolean
@@ -22,6 +21,6 @@ export interface XHRUploadOptions extends PluginOptions {
     getResponseError?: (responseText: string, xhr: unknown) => Error
 }
 
-declare class XHRUpload extends BasePlugin<XHRUploadOptions> {}
+declare class OARepoUpload extends BasePlugin<OARepoUploadOptions> {}
 
-export default XHRUpload
+export default OARepoUpload

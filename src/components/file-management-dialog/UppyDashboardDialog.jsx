@@ -14,6 +14,26 @@ import cs_CZ from "@uppy/locales/lib/cs_CZ";
 
 import PropTypes from "prop-types";
 
+function waitForElement(selector) {
+  return new Promise(resolve => {
+    if (document.querySelector(selector)) {
+      return resolve(document.querySelector(selector));
+    }
+
+    const observer = new MutationObserver(mutations => {
+      if (document.querySelector(selector)) {
+        observer.disconnect();
+        resolve(document.querySelector(selector));
+      }
+    });
+
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true
+    });
+  });
+}
+
 const UppyDashboardDialog = ({
   modalOpen,
   setModalOpen,
@@ -23,6 +43,8 @@ const UppyDashboardDialog = ({
   autoExtractImagesFromPDFs,
   locale,
   extraUppyDashboardProps,
+  extraUppyCoreSettings,
+  startEvent,
   debug,
 }) => {
   const extractImageWorker = useWorker();
@@ -97,6 +119,7 @@ const UppyDashboardDialog = ({
         strings: Object.assign(en_US.strings, englishLocale.strings)
       }
     uppy.setOptions({
+      ...extraUppyCoreSettings,
       debug: debug,
       logger: debug
         ? debugLogger
@@ -108,6 +131,7 @@ const UppyDashboardDialog = ({
           },
         },
       locale: customLocale,
+      allowMultipleUploadBatches: startEvent?.event === "edit-file" ? false : true,
       restrictions: {
         allowedFileTypes: allowedFileTypes,
       },
@@ -150,6 +174,20 @@ const UppyDashboardDialog = ({
           }
           : () => true,
     });
+    if (startEvent?.event == "edit-file") {
+      uppy.on("dashboard:file-edit-complete", (file) => {
+        uppy.log(file);
+        if (file) {
+          uppy.upload();
+        } else {
+          setModalOpen(false);
+        }
+      });
+      uppy.on("file-added", async (file) => {
+        const element = await waitForElement(".uppy-Dashboard-Item-action--edit");
+        element.click();
+      });
+    }
   }, [
     uppy,
     handleUploadClick,
@@ -204,6 +242,44 @@ const UppyDashboardDialog = ({
       }));
     };
 
+    const getTagFile = (file) => ({
+      id: file.id,
+      source: "OARepo",
+      data: null,
+      name: file.name || file.id,
+      type: file.mimeType,
+      isRemote: false,
+      meta: file.metadata || {},
+      body: {
+        fileId: file.id,
+      },
+    });
+
+    const addUppyFileObj = (fileSources) => {
+      const file = fileSources.find(file => file.name === startEvent?.data?.file_key);
+      const uppyFileObj = getTagFile(fileSources.find(file => file.name === startEvent?.data?.file_key));
+      fetch(file.requestPath)
+        .then((response) => {
+          if (!response.ok)
+            throw new Error(response.statusText);
+          return response.blob();
+        })
+        .then((fileData) => {
+          uppyFileObj.data = fileData;
+          uppy.addFile(uppyFileObj);
+        })
+        .catch((error) => {
+          uppy.info({
+            message: "Error loading file.",
+            details: error.message,
+          }, "error", 7000);
+        });
+    }
+
+    const validEventSpecified =
+      startEvent?.event === "edit-file" ||
+      startEvent?.event === "upload-images-from-pdf" ||
+      startEvent?.event === "upload-file-without-edit";
     let fileSources = [];
     if (record.files?.enabled) {
       if (!record.files.entries) {
@@ -223,14 +299,26 @@ const UppyDashboardDialog = ({
             }, "error", 7000);
           })
           .finally(() => {
-            setUpOARepoFileSourcePlugin(fileSources);
+            if (validEventSpecified) {
+              startEvent?.event !== "upload-file-without-edit" && addUppyFileObj(fileSources);
+            } else {
+              setUpOARepoFileSourcePlugin(fileSources);
+            }
           });
       } else {
         fileSources = mapFilesToFileSources(record.files.entries);
-        setUpOARepoFileSourcePlugin(fileSources);
+        if (validEventSpecified) {
+          startEvent?.event !== "upload-file-without-edit" && addUppyFileObj(fileSources);
+        } else {
+          setUpOARepoFileSourcePlugin(fileSources);
+        }
       }
     } else {
-      setUpOARepoFileSourcePlugin(fileSources);
+      if (validEventSpecified) {
+        startEvent?.event !== "upload-file-without-edit" && addUppyFileObj(fileSources);
+      } else {
+        setUpOARepoFileSourcePlugin(fileSources);
+      }
     }
   }, [
     uppy,
@@ -321,6 +409,7 @@ const UppyDashboardDialog = ({
             : manualI18n("Select files to upload.")
         }
         disableLocalFiles={modifyExistingFiles}
+        showSelectedFiles={startEvent?.event === "upload-file-without-edit" ? false : true}
         // TODO: add custom metaFields renderers (for isUserInput=true metaFields) to prop settings of this component
         metaFields={(file) => {
           const fields = [];
@@ -363,6 +452,11 @@ UppyDashboardDialog.propTypes = {
     isUserInput: PropTypes.bool.isRequired,
   })),
   autoExtractImagesFromPDFs: PropTypes.bool,
+  extraUppyCoreSettings: PropTypes.object,
+  startEvent: PropTypes.shape({
+    event: PropTypes.oneOf(["edit-file", "upload-file-without-edit", "upload-images-from-pdf"]).isRequired,
+    data: PropTypes.object,
+  }),
   locale: PropTypes.oneOf["cs_CZ", "en_US"],
   extraUppyDashboardProps: PropTypes.object,
   debug: PropTypes.bool,

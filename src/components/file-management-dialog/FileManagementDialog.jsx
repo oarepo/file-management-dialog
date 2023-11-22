@@ -22,6 +22,8 @@ const FileManagementDialog = ({
   autoExtractImagesFromPDFs = true,
   locale = "en_US",
   extraUppyDashboardProps = {},
+  extraUppyCoreSettings = {},
+  startEvent = null,
   debug = false,
   TriggerComponent = ({ onClick, ...props }) => (
     <button onClick={onClick} {...props}>
@@ -50,7 +52,7 @@ const FileManagementDialog = ({
             }
           >
             {modalOpen && (
-              <UppyProvider>
+              <UppyProvider startEvent={startEvent}>
                 <UppyDashboardDialog
                   modalOpen={modalOpen}
                   setModalOpen={setModalOpen}
@@ -58,6 +60,8 @@ const FileManagementDialog = ({
                   allowedFileTypes={allowedFileTypes}
                   allowedMetaFields={allowedMetaFields}
                   autoExtractImagesFromPDFs={autoExtractImagesFromPDFs}
+                  extraUppyCoreSettings={extraUppyCoreSettings}
+                  startEvent={startEvent}
                   locale={locale}
                   extraUppyDashboardProps={extraUppyDashboardProps}
                   debug={debug}
@@ -83,6 +87,11 @@ FileManagementDialog.propTypes = {
   autoExtractImagesFromPDFs: PropTypes.bool,
   locale: PropTypes.oneOf(["cs_CZ", "en_US"]),
   extraUppyDashboardProps: PropTypes.object,
+  extraUppyCoreSettings: PropTypes.object,
+  startEvent: PropTypes.shape({
+    event: PropTypes.oneOf(["edit-file", "upload-file-without-edit", "upload-images-from-pdf"]).isRequired,
+    data: PropTypes.object,
+  }),
   debug: PropTypes.bool,
   TriggerComponent: PropTypes.elementType,
 };
