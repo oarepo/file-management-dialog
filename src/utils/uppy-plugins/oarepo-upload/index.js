@@ -10,7 +10,7 @@ import { filterNonFailedFiles, filterFilesToEmitUploadStarted } from '@uppy/util
 import packageJson from './package.json'
 import locale from './locale.js'
 
-function buildResponseError (xhr, err) {
+function buildResponseError(xhr, err) {
   let error = err
   // No error message
   if (!error) error = new Error('Upload error')
@@ -38,7 +38,7 @@ function buildResponseError (xhr, err) {
  * @param {object} file File object with `data`, `size` and `meta` properties
  * @returns {object} blob updated with the new `type` set from `file.meta.type`
  */
-function setTypeInBlob (file) {
+function setTypeInBlob(file) {
   const dataWithUpdatedType = file.data.slice(0, file.data.size, file.meta.type)
   return dataWithUpdatedType
 }
@@ -47,7 +47,7 @@ export default class OARepoUpload extends BasePlugin {
   // eslint-disable-next-line global-require
   static VERSION = packageJson.version
 
-  constructor (uppy, opts) {
+  constructor(uppy, opts) {
     super(uppy, opts)
     this.type = 'uploader'
     this.id = this.opts.id || 'OARepoUpload'
@@ -60,6 +60,7 @@ export default class OARepoUpload extends BasePlugin {
       // formData: true,
       // fieldName: opts.bundle ? 'files[]' : 'file',
       method: 'PUT',
+      deleteBeforeUpload: false,
       allowedMetaFields: null,
       responseUrlFieldName: 'links.self',
       // bundle: false,
@@ -73,7 +74,7 @@ export default class OARepoUpload extends BasePlugin {
       /**
        * @param {string} responseText the response body string
        */
-      getResponseData (responseText) {
+      getResponseData(responseText) {
         let parsedResponse = {}
         try {
           parsedResponse = JSON.parse(responseText)
@@ -88,7 +89,7 @@ export default class OARepoUpload extends BasePlugin {
        * @param {string} _ the response body string
        * @param {XMLHttpRequest | respObj} response the response object (XHR or similar)
        */
-      getResponseError (_, response) {
+      getResponseError(_, response) {
         let error = new Error('Upload error')
 
         if (isNetworkError(response)) {
@@ -102,7 +103,7 @@ export default class OARepoUpload extends BasePlugin {
        *
        * @param {number} status the response status code
        */
-      validateStatus (status) {
+      validateStatus(status) {
         return status >= 200 && status < 300
       },
     }
@@ -125,7 +126,7 @@ export default class OARepoUpload extends BasePlugin {
     // this.setQueueRequestSocketToken(this.requests.wrapPromiseFunction(this.#requestSocketToken, { priority: -1 }))
   }
 
-  getOptions (file) {
+  getOptions(file) {
     const overrides = this.uppy.getState().OARepoUpload
     const { headers } = this.opts
 
@@ -157,7 +158,7 @@ export default class OARepoUpload extends BasePlugin {
     return opts
   }
 
-  async #uploadFileMetadata (file, metadata, opts, uploadId) {
+  async #uploadFileMetadata(file, metadata, opts, uploadId) {
     return fetch(`${opts.endpoint}/${file.name}`, {
       method: "PUT",
       headers: {
@@ -187,7 +188,7 @@ export default class OARepoUpload extends BasePlugin {
       })
   }
 
-  async #completeFileUpload (file, opts, uploadId) {
+  async #completeFileUpload(file, opts, uploadId) {
     return fetch(`${opts.endpoint}/${file.name}/commit`, {
       method: "POST",
     })
@@ -201,7 +202,7 @@ export default class OARepoUpload extends BasePlugin {
       })
       .then(([response, data]) => {
         const body = data
-        const uploadURLFromResp = opts.responseUrlFieldName.split('.').reduce((o,i)=> o[i], body)
+        const uploadURLFromResp = opts.responseUrlFieldName.split('.').reduce((o, i) => o[i], body)
         const uploadURL = uploadURLFromResp ? uploadURLFromResp : body[opts.responseUrlFieldName]
 
         const uploadResp = {
@@ -219,10 +220,10 @@ export default class OARepoUpload extends BasePlugin {
       })
   }
 
-  async #upload (file, current, total) { // Application/octet-stream should be the Content-Type
+  async #upload(file, current, total) { // Application/octet-stream should be the Content-Type
     const opts = this.getOptions(file)
     const uploadId = nanoid()
-    
+
     const xhrContentPromise = new Promise((resolve, reject) => {
       const data = file.data
 
@@ -275,7 +276,7 @@ export default class OARepoUpload extends BasePlugin {
         }
 
         this.uppy.emit('upload-error', file, error, response)
-        
+
         return reject(error)
       })
 
@@ -348,10 +349,22 @@ export default class OARepoUpload extends BasePlugin {
     }
 
     // return file
-    return chainedRequests() 
+    return chainedRequests()
   }
 
-  async #startFilesUpload (files) {
+  async #deleteFile(file, opts) {
+    return fetch(`${opts.endpoint}/${file.name}`, {
+      method: "DELETE",
+    })
+      .then(async (response) => {
+        if (!this.opts.validateStatus(response.status)) {
+          throw buildResponseError(response, opts.getResponseError(await response.text(), response))
+        }
+        this.uppy.log(`[OARepoUpload] ${file.name} successfully deleted.`);
+      })
+  }
+
+  async #startFilesUpload(files) {
     return fetch(this.opts.endpoint, {
       method: "POST",
       headers: {
@@ -374,39 +387,28 @@ export default class OARepoUpload extends BasePlugin {
       })
   }
 
-  async #uploadFiles (files) {
+  async #uploadFiles(files) {
+    if (this.opts.deleteBeforeUpload) {
+      await Promise.all(files.map((file) =>
+        this.#deleteFile(file, this.opts))
+      )
+    }
     await this.#startFilesUpload(files)
     await Promise.allSettled(files.map((file, i) => {
       const current = parseInt(i, 10) + 1
       const total = files.length
 
-    //   if (file.isRemote) {
-    //     const controller = new AbortController()
-
-    //     const removedHandler = (removedFile) => {
-    //       if (removedFile.id === file.id) controller.abort()
-    //     }
-    //     this.uppy.on('file-removed', removedHandler)
-
-    //     const uploadPromise = this.uploadRemoteFile(file, { signal: controller.signal })
-
-    //     this.requests.wrapSyncFunction(() => {
-    //       this.uppy.off('file-removed', removedHandler)
-    //     }, { priority: -1 })()
-
-    //     return uploadPromise
-    //   }
       return this.#upload(file, current, total)
     }))
   }
 
-  onFileRemove (fileID, cb) {
+  onFileRemove(fileID, cb) {
     this.uploaderEvents[fileID].on('file-removed', (file) => {
       if (fileID === file.id) cb(file.id)
     })
   }
 
-  onRetry (fileID, cb) {
+  onRetry(fileID, cb) {
     this.uploaderEvents[fileID].on('upload-retry', (targetFileID) => {
       if (fileID === targetFileID) {
         cb()
@@ -414,14 +416,14 @@ export default class OARepoUpload extends BasePlugin {
     })
   }
 
-  onRetryAll (fileID, cb) {
+  onRetryAll(fileID, cb) {
     this.uploaderEvents[fileID].on('retry-all', () => {
       if (!this.uppy.getFile(fileID)) return
       cb()
     })
   }
 
-  onCancelAll (fileID, eventHandler) {
+  onCancelAll(fileID, eventHandler) {
     this.uploaderEvents[fileID].on('cancel-all', (...args) => {
       if (!this.uppy.getFile(fileID)) return
       eventHandler(...args)
@@ -453,11 +455,11 @@ export default class OARepoUpload extends BasePlugin {
     await this.#uploadFiles(filesFiltered)
   }
 
-  install () {
+  install() {
     this.uppy.addUploader(this.#handleUpload)
   }
 
-  uninstall () {
+  uninstall() {
     this.uppy.removeUploader(this.#handleUpload)
   }
 }

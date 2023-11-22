@@ -12,6 +12,7 @@ export interface OARepoUploadOptions extends PluginOptions {
     timeout?: number
     responseUrlFieldName?: string
     endpoint: string
+    deleteBeforeUpload?: boolean
     method?: 'GET' | 'POST' | 'PUT' | 'HEAD' | 'get' | 'post' | 'put' | 'head'
     locale?: Locale
     responseType?: string

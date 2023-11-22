@@ -176,7 +176,6 @@ const UppyDashboardDialog = ({
     });
     if (startEvent?.event == "edit-file") {
       uppy.on("dashboard:file-edit-complete", (file) => {
-        uppy.log(file);
         if (file) {
           uppy.upload();
         } else {
@@ -332,6 +331,7 @@ const UppyDashboardDialog = ({
     uppy.getPlugin("OARepoUpload")?.setOptions({
       endpoint: record.files?.enabled ? record.links.files : record.files.links.self,
       allowedMetaFields: allowedMetaFields.map((field) => field.id),
+      deleteBeforeUpload: (modifyExistingFiles || startEvent?.event === "edit-file") ? true : false,
       locale: locale?.startsWith("cs") ? czechLocale : {},
     });
   }, [
@@ -401,7 +401,6 @@ const UppyDashboardDialog = ({
           uppy.cancelAll();
           setModalOpen(false);
         }}
-        closeModalOnClickOutside
         showProgressDetails
         note={
           modifyExistingFiles
@@ -409,7 +408,11 @@ const UppyDashboardDialog = ({
             : manualI18n("Select files to upload.")
         }
         disableLocalFiles={modifyExistingFiles}
+        // TODO: Fix "Retry" button functionality
+        hideRetryButton
         showSelectedFiles={startEvent?.event === "upload-file-without-edit" ? false : true}
+        closeAfterFinish={startEvent?.event === "upload-file-without-edit" ? true : false}
+        hideCancelButton={startEvent?.event === "edit-file" ? true : false}
         // TODO: add custom metaFields renderers (for isUserInput=true metaFields) to prop settings of this component
         metaFields={(file) => {
           const fields = [];
@@ -426,7 +429,8 @@ const UppyDashboardDialog = ({
                 return h("input", {
                   type: "checkbox",
                   onChange: (ev) => onChange(ev.target.checked),
-                  defaultChecked: value === "on",
+                  checked: value,
+                  defaultChecked: value,
                   required,
                   form,
                 });

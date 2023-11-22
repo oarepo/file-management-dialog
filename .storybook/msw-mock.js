@@ -25,7 +25,7 @@ const handlers = [
             "status": "completed",
             "metadata": {
               "caption": "Figure 1",
-              "featureImage": true
+              "featured": true
             },
             "file_id": "2151fa94-6dc3-4965-8df9-ec73ceb91T5c",
             "version_id": "57ad8c66-b934-49c9-a46f-38bf5aa0374f",
@@ -224,6 +224,15 @@ const handlers = [
             commit: `/api/records/${query.id}/draft/files/${query.fileName}/commit`,
           },
         })
+      );
+    }
+  ),
+  rest.delete(
+    `${baseUrl}/api/records/:id/files/:fileName`,
+    (req, res, ctx) => {
+      return res(
+        ctx.status(204),
+        // ctx.status(400)
       );
     }
   ),

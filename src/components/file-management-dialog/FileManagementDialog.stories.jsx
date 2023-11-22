@@ -26,6 +26,7 @@ export default {
       { id: "featured", defaultValue: false, isUserInput: true },
       { id: "fileType", defaultValue: "", isUserInput: false },
     ],
+    modifyExistingFiles: false,
     locale: "en_US",
     startEvent: null,
     debug: true,
@@ -43,6 +44,13 @@ export const NewImageFilesUploader = {
   args: {
     modifyExistingFiles: false,
     autoExtractImagesFromPDFs: true,
+  },
+};
+
+export const FileMetadataModifier = {
+  args: {
+    modifyExistingFiles: true,
+    autoExtractImagesFromPDFs: false,
   },
 };
 
@@ -71,30 +79,6 @@ export const WithExtraUppyCoreSettings = {
   },
 };
 
-export const ExistingFileModifierEvent = {
-  args: {
-    autoExtractImagesFromPDFs: false,
-    startEvent: {
-      event: "edit-file",
-      data: {
-        file_key: "figure.png",
-      },
-    }
-  },
-};
-
-export const UploadImagesFromPDFEvent = {
-  args: {
-    autoExtractImagesFromPDFs: true,
-    startEvent: {
-      event: "upload-images-from-pdf",
-      data: {
-        file_key: "article.pdf",
-      },
-    }
-  },
-};
-
 export const UploadFileWithoutEditEvent = {
   args: {
     autoExtractImagesFromPDFs: false,
@@ -108,6 +92,62 @@ export const UploadFileWithoutEditEvent = {
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
+
+export const UploadImagesFromPDFEvent = {
+  args: {
+    autoExtractImagesFromPDFs: true,
+    startEvent: {
+      event: "upload-images-from-pdf",
+      data: {
+        file_key: "article.pdf",
+      },
+    }
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    await userEvent.click(canvas.getByRole("button", { name: /set images/i }));
+
+    // wait for the file to be processed
+    await canvas.findByText(/image extraction completed/i, {}, { timeout: 20000 });
+
+    const uploadButton = await canvas.findByLabelText(/Upload [0-9]+ files/i);
+    await userEvent.click(uploadButton);
+
+    // wait for the files to be uploaded
+    await waitFor(
+      () => {
+        expect(
+          canvas.getByRole("status", { name: /complete/i })
+        ).toBeInTheDocument();
+      },
+      { timeout: 20000 }
+    );
+  }
+};
+
+export const ExistingFileModifierEvent = {
+  args: {
+    autoExtractImagesFromPDFs: false,
+    startEvent: {
+      event: "edit-file",
+      data: {
+        file_key: "figure.png",
+      },
+    }
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    await userEvent.click(canvas.getByRole("button", { name: /set images/i }));
+
+    await sleep(1000);
+
+    await userEvent.click(canvas.getByRole("button", { name: /save changes/i }));
+
+    await canvas.findByRole("button", { name: /done/i });
+  }
+};
 
 export const UploadInvalidPdfFromDevice = {
   args: {
