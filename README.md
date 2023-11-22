@@ -71,28 +71,42 @@ const MyComponent = () => {
   return (
       {/* ... */}
       <FileManagementDialog
-        config = {
+        config = {{
           "record": {
             /* ... */
           },
-        },
-        modifyExistingFiles = false,
+        }}
+        modifyExistingFiles = {false}
+        allowedMetaFields = {
+          [
+            { id: "caption", defaultValue: "", isUserInput: true },
+            { id: "featured", defaultValue: false, isUserInput: true },
+            { id: "fileType", defaultValue: "", isUserInput: false },
+          ]
+        }
         allowedFileTypes = [
           "image/jpg",
           "image/jpeg",
           "image/png",
           "image/tiff",
           "application/pdf",
-        ],
-        autoExtractImagesFromPDFs = true,
-        locale = "cs_CZ",
-        extraUppyDashboardProps = {},
-        debug = false,
+        ]
+        autoExtractImagesFromPDFs = {true}
+        locale = "cs_CZ"
+        extraUppyDashboardProps = {}
+        extraUppyCoreSettings = {}
+        startEvent = {{
+          event: "edit-file",
+          data: {
+            file_key: "figure.png",
+          },
+        }}
+        debug = {false}
         TriggerComponent = ({ onClick, ...props }) => (
           <button onClick={onClick} {...props}>
-            Set images
+            {locale.startsWith("cs") ? "Vybrat Obrázky" : "Set Images"}
           </button>
-        ),
+        )
       />
       {/* ... */}
   )
@@ -136,17 +150,19 @@ const MyReactComponent = () => {
 
 ## Props
 
-| Name                        | Type               | Default                                                                                                                                                                                       | Description                                                                                                                                                                                                                           |
-|-----------------------------|--------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `config`                    | `object`           | *Required Prop*                                                                                                                                                                               | Record data (details below).                                                                                                                                                                                                          |
-| `modifyExistingFiles`       | `boolean`          | `false`                                                                                                                                                                                       | Whether to allow modification of existing files (to modify existing metadata).                                                                                                                                                        |
-| `allowedFileTypes`          | `string[]`         | `["image/jpg", "image/jpeg", "image/png", "image/tiff", "application/pdf"]`                                                                                                                   | Allowed file types (accepts * wildcards, e.g. "image/*").                                                                                                                                                                             |
+| Name                        | Type               | Default                                                                                                                                                   | Description                                                                                                                                                                                                                           |
+|-----------------------------|--------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `config`                    | `object`           | *Required Prop*                                                                                                                                           | Record data (details below).                                                                                                                                                                                                          |
+| `modifyExistingFiles`       | `boolean`          | `false`                                                                                                                                                   | Whether to allow modification of existing files (to modify existing metadata).                                                                                                                                                        |
+| `allowedFileTypes`          | `string[]`         | `["image/jpg", "image/jpeg", "image/png", "image/tiff", "application/pdf"]`                                                                               | Allowed file types (accepts * wildcards, e.g. "image/*").                                                                                                                                                                             |
 | `allowedMetaFields`         | `Object[]`         | `[{id:"caption",defaultValue:"",isUserInput:true},{id:"featured",defaultValue:false,isUserInput:true},{id:"fileType",defaultValue:"",isUserInput:false}]` | Array of allowed metadata field objects, containing:   `{ id: "name of the field / metadata key", defaultValue: "default metadata value for key", isUserInput: "boolean specifying if the given field has to be input by the user" }` |
-| `autoExtractImagesFromPDFs` | `boolean`          | `true`                                                                                                                                                                                        | Whether to automatically extract images from selected PDFs.                                                                                                                                                                           |
-| `locale`                    | `string`           | `"en_US"`                                                                                                                                                                                     | The language locale used for translations. Currently only "en_US" and "cs_CZ" are supported.                                                                                                                                          |
-| `extraUppyDashboardProps`   | `object`           | `{}`                                                                                                                                                                                          | Extra props to pass to Uppy Dashboard. (see [Uppy API](https://uppy.io/docs/dashboard/#api))                                                                                                                                          |
-| `debug`                     | `boolean`          | `false`                                                                                                                                                                                       | Whether to enable debug mode.                                                                                                                                                                                                         |
-| `TriggerComponent`          | `Preact Component` | `({onClick,...props}) => <button onClick={onClick} {...props}>{locale.startsWith("cs") ? "Vybrat Obrázky" : "Set Images" }</button>`                     | Triggers FileManagement modal.                                                                                                                                                                                                        |
+| `autoExtractImagesFromPDFs` | `boolean`          | `true`                                                                                                                                                    | Whether to automatically extract images from selected PDFs.                                                                                                                                                                           |
+| `locale`                    | `string`           | `"en_US"`                                                                                                                                                 | The language locale used for translations. Currently only "en_US" and "cs_CZ" are supported.                                                                                                                                          |
+| `extraUppyDashboardProps`   | `object`           | `{}`                                                                                                                                                      | Extra props to pass to Uppy Dashboard. (see [Uppy API](https://uppy.io/docs/dashboard/#api))                                                                                                                                          |
+| `extraUppyCoreSettings`     | `object`           | `{}`                                                                                                                                                      | Extra settings to pass to Uppy Core init (see [Uppy API](https://uppy.io/docs/uppy/#new-uppyoptions))                                                                                                                                 |
+| `startEvent`                | `object`           | `{startEvent:{event:"edit-file",data:{file_key:"figure.png"}}}`                                                                                           | Automatically start an predefined event: `["edit-file", "upload-file-without-edit", "upload-images-from-pdf"]`                                                                                                                        |
+| `debug`                     | `boolean`          | `false`                                                                                                                                                   | Whether to enable debug mode.                                                                                                                                                                                                         |
+| `TriggerComponent`          | `Preact Component` | `({onClick,...props}) => {locale.startsWith("cs") ? "Vybrat Obrázky" : "Set Images" }`                                                                    | Triggers FileManagement modal.                                                                                                                                                                                                        |
 
 ### `config` object
 
