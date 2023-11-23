@@ -29,6 +29,8 @@ export default {
     modifyExistingFiles: false,
     locale: "en_US",
     startEvent: null,
+    onSuccessfulUpload: (...args) => {},
+    onFailedUpload: (...args) => {},
     debug: true,
   },
 };
@@ -62,6 +64,18 @@ export const WithExtraUppyDashboardProps = {
       closeAfterFinish: true,
       // theme: "dark", -- TODO: fix styling for dark theme setting
     },
+  },
+};
+
+export const WithOnUploadCallbacksUploader = {
+  args: {
+    ...NewFilesUploader.args,
+    onSuccessfulUpload: (files) => {
+      console.log("Successful uploads", files);
+    },
+    onFailedUpload: (files) => {
+      console.log("Failed uploads", files);
+    }
   },
 };
 

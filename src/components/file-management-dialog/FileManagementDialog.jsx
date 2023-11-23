@@ -25,6 +25,8 @@ const FileManagementDialog = ({
   extraUppyCoreSettings = {},
   startEvent = null,
   debug = false,
+  onSuccessfulUpload = (...args) => {},
+  onFailedUpload = (...args) => {},
   TriggerComponent = ({ onClick, ...props }) => (
     <button onClick={onClick} {...props}>
       {locale.startsWith("cs") ? "Vybrat Obrázky" : "Set Images"}
@@ -65,6 +67,8 @@ const FileManagementDialog = ({
                   locale={locale}
                   extraUppyDashboardProps={extraUppyDashboardProps}
                   debug={debug}
+                  onSuccessfulUpload={onSuccessfulUpload}
+                  onFailedUpload={onFailedUpload}
                 />
               </UppyProvider>
             )}
@@ -93,6 +97,8 @@ FileManagementDialog.propTypes = {
     data: PropTypes.object,
   }),
   debug: PropTypes.bool,
+  onSuccessfulUpload: PropTypes.func,
+  onFailedUpload: PropTypes.func,
   TriggerComponent: PropTypes.elementType,
 };
 

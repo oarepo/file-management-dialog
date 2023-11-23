@@ -46,6 +46,8 @@ const UppyDashboardDialog = ({
   extraUppyCoreSettings,
   startEvent,
   debug,
+  onSuccessfulUpload,
+  onFailedUpload,
 }) => {
   const extractImageWorker = useWorker();
   const uppy = useUppyContext();
@@ -160,7 +162,6 @@ const UppyDashboardDialog = ({
         !modifyExistingFiles && autoExtractImagesFromPDFs
           ? // eslint-disable-next-line no-unused-vars
           (currentFile, _files) => {
-            console.log(currentFile, _files);
             if (currentFile.type === "application/pdf") {
               uppy.info(
                 uppy.i18n("PDF image extraction processing, please wait..."),
@@ -173,6 +174,10 @@ const UppyDashboardDialog = ({
             return true;
           }
           : () => true,
+    });
+    uppy.on('complete', (result) => {
+      result.successful && onSuccessfulUpload(result.successful);
+      result.failed && onFailedUpload(result.failed);
     });
     if (startEvent?.event == "edit-file") {
       uppy.on("dashboard:file-edit-complete", (file) => {
@@ -268,8 +273,12 @@ const UppyDashboardDialog = ({
           uppy.addFile(uppyFileObj);
         })
         .catch((error) => {
+          if (error instanceof Error && 
+            error?.message === "Cannot add the file because onBeforeFileAdded returned false." &&
+            error?.file?.type === "application/pdf") 
+            return;
           uppy.info({
-            message: "Error loading file.",
+            message: uppy.i18n("Error loading file with key") + ` ${startEvent?.data?.file_key}.`,
             details: error.message,
           }, "error", 7000);
         });
@@ -463,6 +472,8 @@ UppyDashboardDialog.propTypes = {
   }),
   locale: PropTypes.oneOf["cs_CZ", "en_US"],
   extraUppyDashboardProps: PropTypes.object,
+  onSuccessfulUpload: PropTypes.func,
+  onFailedUpload: PropTypes.func,
   debug: PropTypes.bool,
 };
 

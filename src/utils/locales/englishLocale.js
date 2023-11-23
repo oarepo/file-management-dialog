@@ -13,5 +13,6 @@ export default {
     "Set the Caption here": "Set the Caption here",
     "Caption": "Caption",
     "Feature Image": "Feature Image",
+    "Error loading file with key": "Error loading file with key",
   },
 };
