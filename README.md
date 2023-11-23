@@ -102,6 +102,8 @@ const MyComponent = () => {
           },
         }}
         debug = {false}
+        onSuccessfulUpload = {(files) => console.log("Successful uploads", files)}
+        onFailedUpload = {(files) => console.log("Failed uploads", files)}
         TriggerComponent = ({ onClick, ...props }) => (
           <button onClick={onClick} {...props}>
             {locale.startsWith("cs") ? "Vybrat Obrázky" : "Set Images"}
@@ -162,6 +164,8 @@ const MyReactComponent = () => {
 | `extraUppyCoreSettings`     | `object`           | `{}`                                                                                                                                                      | Extra settings to pass to Uppy Core init (see [Uppy API](https://uppy.io/docs/uppy/#new-uppyoptions))                                                                                                                                 |
 | `startEvent`                | `object`           | `{startEvent:{event:"edit-file",data:{file_key:"figure.png"}}}`                                                                                           | Automatically start an predefined event: `["edit-file", "upload-file-without-edit", "upload-images-from-pdf"]`                                                                                                                        |
 | `debug`                     | `boolean`          | `false`                                                                                                                                                   | Whether to enable debug mode.                                                                                                                                                                                                         |
+| `onSuccessfulUpload`        | `function`         | `(..args) => {}`                                                                                                                                          | Called after Upload is completed. Called as `onSuccessfulUpload(files)` where `files` are [Uppy File](https://uppy.io/docs/uppy/#working-with-uppy-files) objects, which were successfuly uploaded.                                   |
+| `onFailedUpload`            | `function`         | `(..args) => {}`                                                                                                                                          | Called after Upload is completed. Called as `onFailedUpload(files)` where `files` are [Uppy File](https://uppy.io/docs/uppy/#working-with-uppy-files) objects, for which the upload failed.                                               |
 | `TriggerComponent`          | `Preact Component` | `({onClick,...props}) => {locale.startsWith("cs") ? "Vybrat Obrázky" : "Set Images" }`                                                                    | Triggers FileManagement modal.                                                                                                                                                                                                        |
 
 ### `config` object
