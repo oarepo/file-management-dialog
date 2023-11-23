@@ -93,6 +93,7 @@ const UppyDashboardDialog = ({
             {
               pdfFileName: file.name,
               data: data,
+              debug: debug,
             },
             [data]
           );

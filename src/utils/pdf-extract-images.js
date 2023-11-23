@@ -8,7 +8,7 @@ import { PNG } from "pngjs/browser";
 import pako from "pako";
 import { PDFDocument, PDFName, PDFRawStream } from "pdf-lib";
 
-export default async function extractPdfImages(pdfFileName, pdfBytes) {
+export default async function extractPdfImages(pdfFileName, pdfBytes, debug = false) {
   const pdfDoc = await PDFDocument.load(pdfBytes);
   const enumeratedIndirectObjects = pdfDoc.context.enumerateIndirectObjects();
   const imagesInDoc = [];
@@ -45,7 +45,7 @@ export default async function extractPdfImages(pdfFileName, pdfBytes) {
     }
   });
 
-  console.log(`===== ${imagesInDoc.length} Images found in PDF =====`);
+  debug && console.log(`===== ${imagesInDoc.length} Images found in PDF =====`);
   imagesInDoc.forEach(async (image) => {
     // Find and mark SMasks as alpha layers
     if (image.type === "png" && image.smaskRef) {
@@ -55,7 +55,7 @@ export default async function extractPdfImages(pdfFileName, pdfBytes) {
     }
 
     // Log info about the images we found in the PDF
-    console.log(
+    debug && console.log(
       "Name:",
       image.name,
       "\n  Type:",
