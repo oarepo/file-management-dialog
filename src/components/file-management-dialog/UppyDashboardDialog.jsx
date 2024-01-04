@@ -67,6 +67,7 @@ const UppyDashboardDialog = ({
   //   metadata: {
   //     caption: "Figure 1",
   //     featured: true,
+  //     fileNote: "Reference image for the article.",
   //     fileType: "photo",
   //   },
   //   file_id: "2151fa94-6dc3-4965-8df9-ec73ceb9175c",
@@ -143,6 +144,10 @@ const UppyDashboardDialog = ({
         // TODO: add required metadata fields (for certain fileTypes) to prop settings of this component
         Object.keys(files).forEach((fileID) => {
           const file = files[fileID];
+          const fileNoteField = allowedMetaFields.find((field) => field.id === "fileNote");
+          if (fileNoteField) {
+            file.meta.fileNote = file.meta.fileNote ?? fileNoteField.defaultValue ?? "";
+          }
           updatedFiles[fileID] = file.type.startsWith("image/")
             ? {
               ...file,
@@ -421,11 +426,16 @@ const UppyDashboardDialog = ({
         // TODO: Fix "Retry" button functionality
         hideRetryButton
         showSelectedFiles={startEvent?.event === "upload-file-without-edit" ? false : true}
-        closeAfterFinish={startEvent?.event === "upload-file-without-edit" ? true : false}
+        // closeAfterFinish={startEvent?.event === "upload-file-without-edit" ? true : false}
         hideCancelButton={startEvent?.event === "edit-file" ? true : false}
         // TODO: add custom metaFields renderers (for isUserInput=true metaFields) to prop settings of this component
         metaFields={(file) => {
           const fields = [];
+          fields.push({
+            id: "fileNote",
+            name: manualI18n("File Note"),
+            placeholder: manualI18n("Set the file Note here"),
+          });
           if (file.type.startsWith("image/")) {
             fields.push({
               id: "caption",

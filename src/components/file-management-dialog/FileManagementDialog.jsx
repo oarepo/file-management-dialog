@@ -17,6 +17,7 @@ const FileManagementDialog = ({
   allowedMetaFields = [
     { id: "caption", defaultValue: "", isUserInput: true },
     { id: "featured", defaultValue: false, isUserInput: true },
+    { id: "fileNote", defaultValue: "", isUserInput: true },
     { id: "fileType", defaultValue: "", isUserInput: false },
   ],
   autoExtractImagesFromPDFs = true,
@@ -54,7 +55,7 @@ const FileManagementDialog = ({
             }
           >
             {modalOpen && (
-              <UppyProvider startEvent={startEvent}>
+              <UppyProvider>
                 <UppyDashboardDialog
                   modalOpen={modalOpen}
                   setModalOpen={setModalOpen}

@@ -24,6 +24,7 @@ export default {
     allowedMetaFields: [
       { id: "caption", defaultValue: "", isUserInput: true },
       { id: "featured", defaultValue: false, isUserInput: true },
+      { id: "fileNote", defaultValue: "", isUserInput: true },
       { id: "fileType", defaultValue: "", isUserInput: false },
     ],
     modifyExistingFiles: false,
@@ -228,54 +229,55 @@ export const UploadValidPdfFromDevice = {
   },
 };
 
-export const UploadFromOARepo = {
-  args: {
-    ...NewImageFilesUploader.args,
-  },
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
+// NOTE: Current version does not support uploading files from OA Repo in Uppy Dashboard 
+// export const UploadFromOARepo = {
+//   args: {
+//     ...NewImageFilesUploader.args,
+//   },
+//   play: async ({ canvasElement }) => {
+//     const canvas = within(canvasElement);
 
-    await userEvent.click(canvas.getByRole("button", { name: /set images/i }));
+//     await userEvent.click(canvas.getByRole("button", { name: /set images/i }));
 
-    await sleep(1000); // to wait for files being loaded from API
+//     await sleep(1000); // to wait for files being loaded from API
 
-    await userEvent.click(await canvas.findByRole("tab", { name: /oarepo/i }));
+//     await userEvent.click(await canvas.findByRole("tab", { name: /oarepo/i }));
 
-    await sleep(1000);
+//     await sleep(1000);
 
-    // Select 2 files
-    await userEvent.click(
-      canvas.getByRole("checkbox", { name: /article.pdf/i })
-    );
+//     // Select 2 files
+//     await userEvent.click(
+//       canvas.getByRole("checkbox", { name: /article.pdf/i })
+//     );
 
-    await sleep(1000);
+//     await sleep(1000);
 
-    await userEvent.click(
-      canvas.getByRole("checkbox", { name: /article2.pdf/i })
-    );
+//     await userEvent.click(
+//       canvas.getByRole("checkbox", { name: /article2.pdf/i })
+//     );
 
-    await sleep(1000);
+//     await sleep(1000);
 
-    await userEvent.click(canvas.getByRole("button", { name: /select 2/i }));
+//     await userEvent.click(canvas.getByRole("button", { name: /select 2/i }));
 
-    // wait for the 2 files to be downloaded and processed
-    await canvas.findByText(/article\.pdf.*image extraction completed/i, {}, { timeout: 10000 });
-    await waitForElementToBeRemoved(
-      () => canvas.queryByText(/article2\.pdf.*image extraction completed/i),
-      { timeout: 10000 }
-    );
+//     // wait for the 2 files to be downloaded and processed
+//     await canvas.findByText(/article\.pdf.*image extraction completed/i, {}, { timeout: 10000 });
+//     await waitForElementToBeRemoved(
+//       () => canvas.queryByText(/article2\.pdf.*image extraction completed/i),
+//       { timeout: 10000 }
+//     );
 
-    const uploadButton = await canvas.findByLabelText(/Upload [0-9]+ files/i);
-    await userEvent.click(uploadButton);
+//     const uploadButton = await canvas.findByLabelText(/Upload [0-9]+ files/i);
+//     await userEvent.click(uploadButton);
 
-    // wait for the files to be uploaded
-    await waitFor(
-      () => {
-        expect(
-          canvas.getByRole("status", { name: /complete/i })
-        ).toBeInTheDocument();
-      },
-      { timeout: 20000 }
-    );
-  },
-};
+//     // wait for the files to be uploaded
+//     await waitFor(
+//       () => {
+//         expect(
+//           canvas.getByRole("status", { name: /complete/i })
+//         ).toBeInTheDocument();
+//       },
+//       { timeout: 20000 }
+//     );
+//   },
+// };

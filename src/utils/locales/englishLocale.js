@@ -11,6 +11,8 @@ export default {
     "Select existing files to modify metadata.": "Select existing files to modify metadata.",
     "Select files to upload.": "Select files to upload.",
     "Set the Caption here": "Set the Caption here",
+    "Set the file Note here": "Set the file Note here",
+    "File Note": "File Note",
     "Caption": "Caption",
     "Feature Image": "Feature Image",
     "Error loading file with key": "Error loading file with key",

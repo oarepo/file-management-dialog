@@ -30,6 +30,7 @@ export default {
     allowedMetaFields: [
       { id: "caption", defaultValue: "", isUserInput: true },
       { id: "featured", defaultValue: false, isUserInput: true },
+      { id: "fileNote", defaultValue: "", isUserInput: true },
       { id: "fileType", defaultValue: "", isUserInput: false },
     ],
     locale: "en_US",
