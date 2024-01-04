@@ -15,9 +15,15 @@ const FileManagementDialog = ({
     "application/pdf",
   ],
   allowedMetaFields = [
-    { id: "caption", defaultValue: "", isUserInput: true },
-    { id: "featured", defaultValue: false, isUserInput: true },
-    { id: "fileNote", defaultValue: "", isUserInput: true },
+    { id: "caption",  defaultValue: "", isUserInput: true, forMimeTypes: ["image/*"] },
+    { id: "featured", defaultValue: false, isUserInput: true, forMimeTypes: ["image/*"] },
+    { 
+      id: "fileNote", 
+      defaultValue: "", 
+      isUserInput: true, 
+      name: "Poznámka", 
+      placeholder: "Zde nastavte Poznámku k souboru" 
+    },
     { id: "fileType", defaultValue: "", isUserInput: false },
   ],
   autoExtractImagesFromPDFs = true,
@@ -88,6 +94,9 @@ FileManagementDialog.propTypes = {
     id: PropTypes.string.isRequired,
     defaultValue: PropTypes.any.isRequired,
     isUserInput: PropTypes.bool.isRequired,
+    forMimeTypes: PropTypes.arrayOf(PropTypes.string),
+    name: PropTypes.string,
+    placeholder: PropTypes.string,
   })),
   autoExtractImagesFromPDFs: PropTypes.bool,
   locale: PropTypes.oneOf(["cs_CZ", "en_US"]),

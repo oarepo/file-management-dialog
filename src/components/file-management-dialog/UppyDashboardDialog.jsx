@@ -12,6 +12,7 @@ import { DashboardModal } from "@uppy/react";
 import en_US from "@uppy/locales/lib/en_US";
 import cs_CZ from "@uppy/locales/lib/cs_CZ";
 
+import globToRegExp from "glob-to-regexp";
 import PropTypes from "prop-types";
 
 function waitForElement(selector) {
@@ -144,23 +145,24 @@ const UppyDashboardDialog = ({
         // TODO: add required metadata fields (for certain fileTypes) to prop settings of this component
         Object.keys(files).forEach((fileID) => {
           const file = files[fileID];
-          const fileNoteField = allowedMetaFields.find((field) => field.id === "fileNote");
-          if (fileNoteField) {
-            file.meta.fileNote = file.meta.fileNote ?? fileNoteField.defaultValue ?? "";
+          let filteredMetaFields;
+          if (file.type.startsWith("image/")) {
+            filteredMetaFields = allowedMetaFields.filter((field) => field?.forMimeTypes?.some((mimeType) => globToRegExp(mimeType).test("image/")));
+          } else {
+            filteredMetaFields = allowedMetaFields.filter((field) => !field?.forMimeTypes || field.forMimeTypes.some((mimeType) => globToRegExp(mimeType).test(file.type)));
           }
-          updatedFiles[fileID] = file.type.startsWith("image/")
-            ? {
-              ...file,
-              meta: {
-                ...file.meta,
-                // Assign default values to input metaFields (if not already set)
-                // Also assign default values to other (not rendered) metaFields
-                ...Object.assign({}, ...allowedMetaFields.map((field) => ({
-                  [field.id]: file.meta?.[field.id] ?? field.defaultValue,
-                }))),
-              },
-            }
-            : file;
+          const assignedDefaultValues = allowedMetaFields.map((field) => ({
+            [field.id]: file.meta?.[field.id] ?? field.defaultValue,
+          }));
+          updatedFiles[fileID] = {
+            ...file,
+            meta: {
+              ...file.meta,
+              // Assign default values to input metaFields (if not already set)
+              // Also assign default values to other (not rendered) metaFields
+              ...Object.assign({}, ...assignedDefaultValues),
+            },
+          };
         });
         return updatedFiles;
       },
@@ -279,9 +281,9 @@ const UppyDashboardDialog = ({
           uppy.addFile(uppyFileObj);
         })
         .catch((error) => {
-          if (error instanceof Error && 
+          if (error instanceof Error &&
             error?.message === "Cannot add the file because onBeforeFileAdded returned false." &&
-            error?.file?.type === "application/pdf") 
+            error?.file?.type === "application/pdf")
             return;
           uppy.info({
             message: uppy.i18n("Error loading file with key") + ` ${startEvent?.data?.file_key}.`,
@@ -431,35 +433,73 @@ const UppyDashboardDialog = ({
         // TODO: add custom metaFields renderers (for isUserInput=true metaFields) to prop settings of this component
         metaFields={(file) => {
           const fields = [];
-          fields.push({
-            id: "fileNote",
-            name: manualI18n("File Note"),
-            placeholder: manualI18n("Set the file Note here"),
-          });
-          if (file.type.startsWith("image/")) {
-            fields.push({
-              id: "caption",
-              name: manualI18n("Caption"),
-              placeholder: manualI18n("Set the Caption here"),
-            });
-            fields.push({
-              id: "featured",
-              name: manualI18n("Feature Image"),
-              render: ({ value, onChange, required, form }, h) => {
-                return h("input", {
-                  type: "checkbox",
-                  onChange: (ev) => onChange(ev.target.checked),
-                  checked: value,
-                  defaultChecked: value,
-                  required,
-                  form,
+          for (const metaField of allowedMetaFields.filter((field) => field.isUserInput)) {
+            if (metaField?.forMimeTypes) {
+              metaField.forMimeTypes.forEach((fileType) => {
+                if (globToRegExp(fileType).test("image/")) {
+                  if (file.type.startsWith("image/")) {
+                    switch (metaField.id) {
+                      case "caption":
+                        fields.push({
+                          id: "caption",
+                          name: metaField.name ?? manualI18n("Caption"),
+                          placeholder: metaField.placeholder ?? manualI18n("Set the Caption here"),
+                        });
+                        break;
+                      case "featured":
+                        fields.push({
+                          id: "featured",
+                          name: metaField.name ?? manualI18n("Feature Image"),
+                          render: ({ value, onChange, required, form }, h) => {
+                            return h("input", {
+                              type: "checkbox",
+                              onChange: (ev) => onChange(ev.target.checked),
+                              checked: value,
+                              defaultChecked: value,
+                              required,
+                              form,
+                            });
+                          },
+                        });
+                        break;
+                      default:
+                        // NOTE: fileNote is not rendered for images
+                        // fields.push({
+                        //   id: metaField.id,
+                        //   name: metaField?.name ? metaField.name : metaField.id,
+                        //   placeholder: metaField?.placeholder ? metaField.placeholder : metaField.defaultValue,
+                        // });
+                        break;
+                    }
+                  }
+                } else {
+                  globToRegExp(fileType).test(file.type) &&
+                    fields.push({
+                      id: metaField.id,
+                      name: metaField.name ?? metaField.id,
+                      placeholder: metaField.placeholder ?? metaField.defaultValue,
+                    });
+                }
+              });
+            } else {
+              if (metaField.id === "fileNote") {
+                !file.type.startsWith("image/") && fields.push({
+                  id: "fileNote",
+                  name: metaField.name ?? manualI18n("File Note"),
+                  placeholder: metaField.placeholder ?? manualI18n("Set the File Note here"),
                 });
-              },
-            });
+              } else {
+                fields.push({
+                  id: metaField.id,
+                  name: metaField.name ?? metaField.id,
+                  placeholder: metaField.placeholder ?? metaField.defaultValue,
+                });
+              }
+            }
           }
           return fields;
         }}
-        plugins={["ImageEditor", "OARepoFileSource"]}
+        plugins={["ImageEditor"]}
       />
     </>
   );
@@ -474,6 +514,9 @@ UppyDashboardDialog.propTypes = {
     id: PropTypes.string.isRequired,
     defaultValue: PropTypes.any.isRequired,
     isUserInput: PropTypes.bool.isRequired,
+    forMimeTypes: PropTypes.arrayOf(PropTypes.string),
+    name: PropTypes.string,
+    placeholder: PropTypes.string,
   })),
   autoExtractImagesFromPDFs: PropTypes.bool,
   extraUppyCoreSettings: PropTypes.object,

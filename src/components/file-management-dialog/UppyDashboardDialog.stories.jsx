@@ -28,9 +28,15 @@ export default {
     setModalOpen: () => {},
     allowedFileTypes: ["image/*", "application/pdf"],
     allowedMetaFields: [
-      { id: "caption", defaultValue: "", isUserInput: true },
-      { id: "featured", defaultValue: false, isUserInput: true },
-      { id: "fileNote", defaultValue: "", isUserInput: true },
+      { id: "caption", defaultValue: "", isUserInput: true, forMimeTypes: ["image/*"] },
+      { id: "featured", defaultValue: false, isUserInput: true, forMimeTypes: ["image/*"] },
+      {
+        id: "fileNote",
+        defaultValue: "",
+        isUserInput: true,
+        name: "Poznámka",
+        placeholder: "Zde nastavte Poznámku k souboru"
+      },
       { id: "fileType", defaultValue: "", isUserInput: false },
     ],
     locale: "en_US",

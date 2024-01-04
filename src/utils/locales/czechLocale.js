@@ -16,7 +16,7 @@ export default {
     "Select files to upload.": "Vyberte soubory, které chcete nahrát.",
     "Set the Caption here": "Zde nastavte Titulek",
     "Set the file Note here": "Zde nastavte Poznámku k souboru",
-    "File Note": "Poznámka k souboru",
+    "File Note": "Poznámka",
     "Caption": "Titulek",
     "Feature Image": "Hlavní obrázek",
     "Error loading file with key": "Chyba při načítání souboru s klíčem",

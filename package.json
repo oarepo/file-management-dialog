@@ -39,6 +39,7 @@
     "@uppy/locales": "^3.4.0",
     "@uppy/progress-bar": "^3.0.4",
     "@uppy/react": "^3.2.1",
+    "glob-to-regexp": "^0.4.1",
     "pako": "^2.1.0",
     "pdf-lib": "^1.17.1",
     "pngjs": "^7.0.0"
