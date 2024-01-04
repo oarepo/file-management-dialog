@@ -431,18 +431,18 @@ const UppyDashboardDialog = ({
         // TODO: add custom metaFields renderers (for isUserInput=true metaFields) to prop settings of this component
         metaFields={(file) => {
           const fields = [];
-          fields.push({
+          allowedMetaFields.some((field) => field.id === "fileNote") && fields.push({
             id: "fileNote",
             name: manualI18n("File Note"),
             placeholder: manualI18n("Set the file Note here"),
           });
           if (file.type.startsWith("image/")) {
-            fields.push({
+            allowedMetaFields.some((field) => field.id === "caption") && fields.push({
               id: "caption",
               name: manualI18n("Caption"),
               placeholder: manualI18n("Set the Caption here"),
             });
-            fields.push({
+            allowedMetaFields.some((field) => field.id === "featured") && fields.push({
               id: "featured",
               name: manualI18n("Feature Image"),
               render: ({ value, onChange, required, form }, h) => {
