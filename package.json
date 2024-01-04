@@ -54,7 +54,7 @@
     "@storybook/jest": "^0.2.3",
     "@storybook/preact": "^7.5.3",
     "@storybook/preact-vite": "^7.5.3",
-    "@storybook/test-runner": "^0.14.0",
+    "@storybook/test-runner": "^0.16.0",
     "@storybook/testing-library": "^0.2.2",
     "chromatic": "^9.0.0",
     "eslint": "^8.53.0",
