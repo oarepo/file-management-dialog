@@ -1,5 +1,5 @@
 import { useState } from "preact/hooks";
-import { Suspense, lazy } from 'preact/compat';
+import { Suspense, lazy, createPortal } from 'preact/compat';
 import { WorkerProvider } from "../../contexts/WorkerContext";
 import { UppyProvider } from "../../contexts/UppyContext";
 import { AppContextProvider } from "../../contexts/AppContext";
@@ -26,8 +26,8 @@ const FileManagementDialog = ({
   extraUppyCoreSettings = {},
   startEvent = null,
   debug = false,
-  onSuccessfulUpload = (...args) => {},
-  onFailedUpload = (...args) => {},
+  onSuccessfulUpload = (...args) => { },
+  onFailedUpload = (...args) => { },
   TriggerComponent = ({ onClick, ...props }) => (
     <button onClick={onClick} {...props}>
       {locale.startsWith("cs") ? "Vybrat Obrázky" : "Set Images"}
@@ -56,21 +56,24 @@ const FileManagementDialog = ({
           >
             {modalOpen && (
               <UppyProvider>
-                <UppyDashboardDialog
-                  modalOpen={modalOpen}
-                  setModalOpen={setModalOpen}
-                  modifyExistingFiles={modifyExistingFiles}
-                  allowedFileTypes={allowedFileTypes}
-                  allowedMetaFields={allowedMetaFields}
-                  autoExtractImagesFromPDFs={autoExtractImagesFromPDFs}
-                  extraUppyCoreSettings={extraUppyCoreSettings}
-                  startEvent={startEvent}
-                  locale={locale}
-                  extraUppyDashboardProps={extraUppyDashboardProps}
-                  debug={debug}
-                  onSuccessfulUpload={onSuccessfulUpload}
-                  onFailedUpload={onFailedUpload}
-                />
+                {createPortal(
+                  <UppyDashboardDialog
+                    modalOpen={modalOpen}
+                    setModalOpen={setModalOpen}
+                    modifyExistingFiles={modifyExistingFiles}
+                    allowedFileTypes={allowedFileTypes}
+                    allowedMetaFields={allowedMetaFields}
+                    autoExtractImagesFromPDFs={autoExtractImagesFromPDFs}
+                    extraUppyCoreSettings={extraUppyCoreSettings}
+                    startEvent={startEvent}
+                    locale={locale}
+                    extraUppyDashboardProps={extraUppyDashboardProps}
+                    debug={debug}
+                    onSuccessfulUpload={onSuccessfulUpload}
+                    onFailedUpload={onFailedUpload}
+                  />,
+                  document.body
+                )}
               </UppyProvider>
             )}
           </Suspense>

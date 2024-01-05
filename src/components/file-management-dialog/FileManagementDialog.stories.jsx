@@ -119,7 +119,7 @@ export const UploadImagesFromPDFEvent = {
     }
   },
   play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
+    const canvas = within(document.body);
 
     await userEvent.click(canvas.getByRole("button", { name: /set images/i }));
 
@@ -152,7 +152,7 @@ export const ExistingFileModifierEvent = {
     }
   },
   play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
+    const canvas = within(document.body);
 
     await userEvent.click(canvas.getByRole("button", { name: /set images/i }));
 
@@ -169,7 +169,7 @@ export const UploadInvalidPdfFromDevice = {
     ...NewImageFilesUploader.args,
   },
   play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
+    const canvas = within(document.body);
 
     await userEvent.click(canvas.getByRole("button", { name: /set images/i }));
 
@@ -194,7 +194,7 @@ export const UploadValidPdfFromDevice = {
     ...NewImageFilesUploader.args,
   },
   play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
+    const canvas = within(document.body);
 
     await userEvent.click(canvas.getByRole("button", { name: /set images/i }));
 
