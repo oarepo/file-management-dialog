@@ -182,8 +182,8 @@ const UppyDashboardDialog = ({
           : () => true,
     });
     uppy.on('complete', (result) => {
-      result.successful && onSuccessfulUpload(result.successful);
-      result.failed && onFailedUpload(result.failed);
+      result.successful && result.successful.length > 0 && onSuccessfulUpload(result.successful);
+      result.failed && result.failed.length > 0 && onFailedUpload(result.failed);
     });
     if (startEvent?.event == "edit-file") {
       uppy.on("dashboard:file-edit-complete", (file) => {
