@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# This is a sample Bash script
+
+# Define a variable
+name="John"
+
+# Print a message
+echo "Hello, $name! Welcome to the world of Bash scripting."
+
+# Perform some calculations
+num1=10
+num2=5
+sum=$((num1 + num2))
+echo "The sum of $num1 and $num2 is: $sum"
+
+# Use conditional statements
+if [ $sum -gt 15 ]; then
+  echo "The sum is greater than 15."
+else
+  echo "The sum is not greater than 15."
+fi
+
+# Use a loop
+for i in {1..5}; do
+  echo "Loop iteration: $i"
+done
+
+# End of the script
