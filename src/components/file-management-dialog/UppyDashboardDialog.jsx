@@ -102,7 +102,8 @@ const UppyDashboardDialog = ({
         strings: Object.assign(cs_CZ.strings, czechLocale.strings)
       } : {
         strings: Object.assign(en_US.strings, englishLocale.strings)
-      }
+      };
+    
     uppy.setOptions({
       ...extraUppyCoreSettings,
       debug: debug,
@@ -162,10 +163,12 @@ const UppyDashboardDialog = ({
           }
           : () => true,
     });
+
     uppy.on('complete', (result) => {
       result.successful && result.successful.length > 0 && onSuccessfulUpload(result.successful);
       result.failed && result.failed.length > 0 && onFailedUpload(result.failed);
     });
+
     if (startEvent?.event == "edit-file") {
       uppy.on("dashboard:file-edit-complete", (file) => {
         if (file) {

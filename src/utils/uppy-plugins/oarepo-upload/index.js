@@ -9,6 +9,7 @@ import { filterNonFailedFiles, filterFilesToEmitUploadStarted } from '@uppy/util
 
 import packageJson from './package.json'
 import locale from './locale.js'
+import { isString } from '../../helpers'
 
 function buildResponseError(xhr, err) {
   let error = err
@@ -22,8 +23,9 @@ function buildResponseError(xhr, err) {
   }
 
   if (isNetworkError(xhr)) {
-    error = new NetworkError(error, xhr)
-    return error
+    const networkError = new NetworkError(error, xhr)
+    if (error?.message) networkError.message = error.message
+    return networkError
   }
 
   error.request = xhr
@@ -89,11 +91,25 @@ export default class OARepoUpload extends BasePlugin {
        * @param {string} _ the response body string
        * @param {XMLHttpRequest | respObj} response the response object (XHR or similar)
        */
-      getResponseError(_, response) {
-        let error = new Error('Upload error')
+      getResponseError(responseText, response) {
+        let error;
+        try {
+          const json = JSON.parse(responseText)
+          if ("message" in json) {
+            error = new Error(isString(json.message) ? json.message : JSON.stringify(json.message))
+          } 
+          // NOTE: Not displaying the server error message to the user
+          // else {
+          //   error = new Error(JSON.stringify(json))
+          // }
+        } catch (e) {
+          error = new Error((responseText && isString(responseText) && responseText !== "") ? responseText : 'Upload error')
+        }
 
         if (isNetworkError(response)) {
-          error = new NetworkError(error, response)
+          const networkError = new NetworkError(error, response)
+          if (error?.message) networkError.message = error.message
+          return networkError
         }
 
         return error
@@ -158,6 +174,33 @@ export default class OARepoUpload extends BasePlugin {
     return opts
   }
 
+  async #startFileUpload(file, opts, uploadId) {
+    return fetch(this.opts.endpoint, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify([{
+        key: file.name,
+      }]),
+    })
+      .then(async (response) => {
+        const responseText = await response.text()
+        const body = opts.getResponseData(responseText, response)
+        const uppyResponse = {
+          status: response.status,
+          body,
+        }
+        if (!opts.validateStatus(response.status)) {
+          const error = buildResponseError(response, opts.getResponseError(responseText, response))
+          this.uppy.emit('upload-error', file, error, uppyResponse)
+          throw error
+        }
+        file.response = uppyResponse
+        this.uppy.log(`[OARepoUpload] [UploadID: ${uploadId}] File ${file.name} upload started. Server response:\n${JSON.stringify(body, null, 2)}`);
+      })
+  }
+
   async #uploadFileMetadata(file, metadata, opts, uploadId) {
     return fetch(`${opts.endpoint}/${file.name}`, {
       method: "PUT",
@@ -178,15 +221,19 @@ export default class OARepoUpload extends BasePlugin {
       }),
     })
       .then(async (response) => {
-        if (!this.opts.validateStatus(response.status)) {
-          const error = buildResponseError(response, opts.getResponseError(await response.text(), response));
-          this.uppy.emit('upload-error', file, error);
-          throw error;
+        const responseText = await response.text()
+        const body = opts.getResponseData(responseText, response)
+        const uppyResponse = {
+          status: response.status,
+          body,
         }
-        return response.json();
-      })
-      .then((data) => {
-        this.uppy.log(`[OARepoUpload] ${uploadId} file metadata uploaded. Server response:\n${JSON.stringify(data, null, 2)}`);
+        if (!opts.validateStatus(response.status)) {
+          const error = buildResponseError(response, opts.getResponseError(responseText, response))
+          this.uppy.emit('upload-error', file, error, uppyResponse)
+          throw error
+        }
+        file.response = uppyResponse
+        this.uppy.log(`[OARepoUpload] [UploadID: ${uploadId}] File ${file.name} metadata uploaded. Server response:\n${JSON.stringify(body, null, 2)}`);
       })
   }
 
@@ -218,7 +265,7 @@ export default class OARepoUpload extends BasePlugin {
         if (uploadURL) {
           this.uppy.log(`Download ${file.name} from ${uploadURL}`)
         }
-        this.uppy.log(`[OARepoUpload] ${uploadId} file upload successful. Server response:\n${JSON.stringify(data, null, 2)}`);
+        this.uppy.log(`[OARepoUpload] [UploadID: ${uploadId}] File ${file.name} upload successful. Server response:\n${JSON.stringify(data, null, 2)}`);
       })
   }
 
@@ -341,6 +388,7 @@ export default class OARepoUpload extends BasePlugin {
 
     const chainedRequests = async () => {
       try {
+        await this.#startFileUpload(file, opts, uploadId)
         await this.#uploadFileMetadata(file, file.meta, opts, uploadId)
         await xhrContentPromise
         await this.#completeFileUpload(file, opts, uploadId)
@@ -360,32 +408,11 @@ export default class OARepoUpload extends BasePlugin {
     })
       .then(async (response) => {
         if (!this.opts.validateStatus(response.status)) {
-          throw buildResponseError(response, opts.getResponseError(await response.text(), response))
+          const error = buildResponseError(response, opts.getResponseError(await response.text(), response))
+          this.uppy.emit('upload-error', file, error)
+          throw error
         }
         this.uppy.log(`[OARepoUpload] ${file.name} successfully deleted.`);
-      })
-  }
-
-  async #startFilesUpload(files) {
-    return fetch(this.opts.endpoint, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(
-        files.map((file) => ({
-          key: file.name,
-        }))
-      ),
-    })
-      .then(async (response) => {
-        if (!this.opts.validateStatus(response.status)) {
-          throw buildResponseError(response, this.opts.getResponseError(await response.text(), response))
-        }
-        return response.json();
-      })
-      .then((data) => {
-        this.uppy.log(data);
       })
   }
 
@@ -395,7 +422,6 @@ export default class OARepoUpload extends BasePlugin {
         this.#deleteFile(file, this.opts))
       )
     }
-    await this.#startFilesUpload(files)
     await Promise.allSettled(files.map((file, i) => {
       const current = parseInt(i, 10) + 1
       const total = files.length
