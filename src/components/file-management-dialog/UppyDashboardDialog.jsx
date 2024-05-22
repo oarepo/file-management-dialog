@@ -6,6 +6,7 @@ import { useEffect, useRef, useCallback } from "preact/hooks";
 import { useUppyContext, useAppContext, useWorker } from "../../hooks";
 import czechLocale from "../../utils/locales/czechLocale";
 import englishLocale from "../../utils/locales/englishLocale";
+import { waitForElement } from "../../utils/helpers";
 
 import { debugLogger } from "@uppy/core";
 import { DashboardModal } from "@uppy/react";
@@ -13,26 +14,6 @@ import en_US from "@uppy/locales/lib/en_US";
 import cs_CZ from "@uppy/locales/lib/cs_CZ";
 
 import PropTypes from "prop-types";
-
-function waitForElement(selector) {
-  return new Promise(resolve => {
-    if (document.querySelector(selector)) {
-      return resolve(document.querySelector(selector));
-    }
-
-    const observer = new MutationObserver(mutations => {
-      if (document.querySelector(selector)) {
-        observer.disconnect();
-        resolve(document.querySelector(selector));
-      }
-    });
-
-    observer.observe(document.body, {
-      childList: true,
-      subtree: true
-    });
-  });
-}
 
 const UppyDashboardDialog = ({
   modalOpen,
