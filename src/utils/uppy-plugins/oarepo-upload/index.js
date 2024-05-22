@@ -273,133 +273,130 @@ export default class OARepoUpload extends BasePlugin {
     const opts = this.getOptions(file)
     const uploadId = nanoid()
 
-    const xhrContentPromise = new Promise((resolve, reject) => {
-      const data = file.data
+    try {
+      this.uppy.log(`Uploading ${current} of ${total}`)
 
-      const xhr = new XMLHttpRequest()
-      this.uploaderEvents[file.id] = new EventManager(this.uppy)
-      let queuedRequest
+      await this.#startFileUpload(file, opts, uploadId)
+      await this.#uploadFileMetadata(file, file.meta, opts, uploadId)
 
-      const timer = new ProgressTimeout(opts.timeout, () => {
-        const error = new Error(this.i18n('uploadStalled', { seconds: Math.ceil(opts.timeout / 1000) }))
-        this.uppy.emit('upload-stalled', error, [file])
-      })
+      await new Promise((resolve, reject) => {
+        const data = file.data
 
-      xhr.upload.addEventListener('loadstart', () => {
-        this.uppy.log(`[OARepoUpload] ${uploadId} content load started`)
-      })
+        const xhr = new XMLHttpRequest()
+        this.uploaderEvents[file.id] = new EventManager(this.uppy)
+        let queuedRequest
 
-      xhr.upload.addEventListener('progress', (ev) => {
-        this.uppy.log(`[OARepoUpload] ${uploadId} content load progress: ${ev.loaded} / ${ev.total}`)
-        // Begin checking for timeouts when progress starts, instead of loading,
-        // to avoid timing out requests on browser concurrency queue
-        timer.progress()
-
-        if (ev.lengthComputable) {
-          this.uppy.emit('upload-progress', file, {
-            uploader: this,
-            bytesUploaded: ev.loaded,
-            bytesTotal: ev.total,
-          })
-        }
-      })
-
-      xhr.addEventListener('load', () => {
-        this.uppy.log(`[OARepoUpload] ${uploadId} content load finished`)
-        timer.done()
-        queuedRequest.done()
-        if (this.uploaderEvents[file.id]) {
-          this.uploaderEvents[file.id].remove()
-          this.uploaderEvents[file.id] = null
-        }
-
-        if (opts.validateStatus(xhr.status, xhr.responseText, xhr)) {
-          return resolve(file)
-        }
-        const body = opts.getResponseData(xhr.responseText, xhr)
-        const error = buildResponseError(xhr, opts.getResponseError(xhr.responseText, xhr))
-
-        const response = {
-          status: xhr.status,
-          body,
-        }
-
-        this.uppy.emit('upload-error', file, error, response)
-
-        return reject(error)
-      })
-
-      xhr.addEventListener('error', () => {
-        this.uppy.log(`[OARepoUpload] ${uploadId} content load errored`)
-        timer.done()
-        queuedRequest.done()
-        if (this.uploaderEvents[file.id]) {
-          this.uploaderEvents[file.id].remove()
-          this.uploaderEvents[file.id] = null
-        }
-
-        const error = buildResponseError(xhr, opts.getResponseError(xhr.responseText, xhr))
-        this.uppy.emit('upload-error', file, error)
-        return reject(error)
-      })
-
-      const uppercasedMethod = opts.method?.toUpperCase()
-      xhr.open(uppercasedMethod ?? "PUT", `${opts.endpoint}/${file.name}/content`, true)
-      // IE10 does not allow setting `withCredentials` and `responseType`
-      // before `open()` is called.
-      xhr.withCredentials = opts.withCredentials
-      if (opts.responseType !== '') {
-        xhr.responseType = opts.responseType
-      }
-
-      queuedRequest = this.requests.run(() => {
-        // When using an authentication system like JWT, the bearer token goes as a header. This
-        // header needs to be fresh each time the token is refreshed so computing and setting the
-        // headers just before the upload starts enables this kind of authentication to work properly.
-        // Otherwise, half-way through the list of uploads the token could be stale and the upload would fail.
-        const currentOpts = this.getOptions(file)
-
-        Object.keys(currentOpts.headers).forEach((header) => {
-          xhr.setRequestHeader(header, currentOpts.headers[header])
+        const timer = new ProgressTimeout(opts.timeout, () => {
+          const error = new Error(this.i18n('uploadStalled', { seconds: Math.ceil(opts.timeout / 1000) }))
+          this.uppy.emit('upload-stalled', error, [file])
         })
 
-        xhr.send(data)
+        xhr.upload.addEventListener('loadstart', () => {
+          this.uppy.log(`[OARepoUpload] ${uploadId} content load started`)
+        })
 
-        return () => {
+        xhr.upload.addEventListener('progress', (ev) => {
+          this.uppy.log(`[OARepoUpload] ${uploadId} content load progress: ${ev.loaded} / ${ev.total}`)
+          // Begin checking for timeouts when progress starts, instead of loading,
+          // to avoid timing out requests on browser concurrency queue
+          timer.progress()
+
+          if (ev.lengthComputable) {
+            this.uppy.emit('upload-progress', file, {
+              uploader: this,
+              bytesUploaded: ev.loaded,
+              bytesTotal: ev.total,
+            })
+          }
+        })
+
+        xhr.addEventListener('load', () => {
+          this.uppy.log(`[OARepoUpload] ${uploadId} content load finished`)
           timer.done()
-          xhr.abort()
+          queuedRequest.done()
+          if (this.uploaderEvents[file.id]) {
+            this.uploaderEvents[file.id].remove()
+            this.uploaderEvents[file.id] = null
+          }
+
+          if (opts.validateStatus(xhr.status, xhr.responseText, xhr)) {
+            return resolve(file)
+          }
+          const body = opts.getResponseData(xhr.responseText, xhr)
+          const error = buildResponseError(xhr, opts.getResponseError(xhr.responseText, xhr))
+
+          const response = {
+            status: xhr.status,
+            body,
+          }
+
+          this.uppy.emit('upload-error', file, error, response)
+
+          return reject(error)
+        })
+
+        xhr.addEventListener('error', () => {
+          this.uppy.log(`[OARepoUpload] ${uploadId} content load errored`)
+          timer.done()
+          queuedRequest.done()
+          if (this.uploaderEvents[file.id]) {
+            this.uploaderEvents[file.id].remove()
+            this.uploaderEvents[file.id] = null
+          }
+
+          const error = buildResponseError(xhr, opts.getResponseError(xhr.responseText, xhr))
+          this.uppy.emit('upload-error', file, error)
+          return reject(error)
+        })
+
+        const uppercasedMethod = opts.method?.toUpperCase()
+        xhr.open(uppercasedMethod ?? "PUT", `${opts.endpoint}/${file.name}/content`, true)
+        // IE10 does not allow setting `withCredentials` and `responseType`
+        // before `open()` is called.
+        xhr.withCredentials = opts.withCredentials
+        if (opts.responseType !== '') {
+          xhr.responseType = opts.responseType
         }
-      })
 
-      this.onFileRemove(file.id, () => {
-        queuedRequest.abort()
-        reject(new Error('File removed'))
-      })
+        queuedRequest = this.requests.run(() => {
+          // When using an authentication system like JWT, the bearer token goes as a header. This
+          // header needs to be fresh each time the token is refreshed so computing and setting the
+          // headers just before the upload starts enables this kind of authentication to work properly.
+          // Otherwise, half-way through the list of uploads the token could be stale and the upload would fail.
+          const currentOpts = this.getOptions(file)
 
-      this.onCancelAll(file.id, ({ reason }) => {
-        if (reason === 'user') {
+          Object.keys(currentOpts.headers).forEach((header) => {
+            xhr.setRequestHeader(header, currentOpts.headers[header])
+          })
+
+          xhr.send(data)
+
+          return () => {
+            timer.done()
+            xhr.abort()
+          }
+        })
+
+        this.onFileRemove(file.id, () => {
           queuedRequest.abort()
-        }
-        reject(new Error('Upload cancelled'))
+          reject(new Error('File removed'))
+        })
+
+        this.onCancelAll(file.id, ({ reason }) => {
+          if (reason === 'user') {
+            queuedRequest.abort()
+          }
+          reject(new Error('Upload cancelled'))
+        })
       })
-    })
 
-    this.uppy.log(`uploading ${current} of ${total}`)
+      await this.#completeFileUpload(file, opts, uploadId)
 
-    const chainedRequests = async () => {
-      try {
-        await this.#startFileUpload(file, opts, uploadId)
-        await this.#uploadFileMetadata(file, file.meta, opts, uploadId)
-        await xhrContentPromise
-        await this.#completeFileUpload(file, opts, uploadId)
-        return file
-      } catch (error) {
-        return error;
-      }
+      // return file
+      return file
+    } catch (error) {
+      return error
     }
-
-    // return file
-    return chainedRequests()
   }
 
   async #deleteFile(file, opts) {
