@@ -132,6 +132,16 @@ const handlers = [
     const body = await req.json();
     const query = req.params;
 
+    // Invalid file name being a trigger for server error
+    if (body.some((obj) => obj.key.startsWith("invalid"))) {
+      return res(
+        ctx.status(400),
+        ctx.json({
+          "message": `File with key ${body[0].key} already exists.`
+        })
+      );
+    }
+
     const entries = body.map((obj) => ({
       key: obj.key,
       updated: "2020-11-27 11:17:11.002624",
@@ -163,6 +173,26 @@ const handlers = [
     async (req, res, ctx) => {
       const body = await req.json();
       const query = req.params;
+
+      // Invalid file name being a trigger for server error
+      // if (query.fileName.startsWith("invalid")) {
+      //   return res(
+      //     ctx.status(500),
+      //     ctx.json({
+      //       key: query.fileName,
+      //       updated: "2020-11-27 11:17:11.002624",
+      //       created: "2020-11-27 11:17:10.998919",
+      //       metadata: null,
+      //       status: "pending",
+      //       links: {
+      //         content: `/api/records/${query.id}/draft/files/invalid.sh/content`,
+      //         self: `/api/records/${query.id}/draft/files/invalid.sh`,
+      //         commit: `/api/records/${query.id}/draft/files/invalid.sh/commit`,
+      //       },
+      //     })
+      //   );
+      // }
+
       return res(
         ctx.json({
           key: query.fileName,

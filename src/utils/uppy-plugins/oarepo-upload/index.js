@@ -9,6 +9,7 @@ import { filterNonFailedFiles, filterFilesToEmitUploadStarted } from '@uppy/util
 
 import packageJson from './package.json'
 import locale from './locale.js'
+import { isString } from '../../helpers'
 
 function buildResponseError(xhr, err) {
   let error = err
@@ -22,8 +23,9 @@ function buildResponseError(xhr, err) {
   }
 
   if (isNetworkError(xhr)) {
-    error = new NetworkError(error, xhr)
-    return error
+    const networkError = new NetworkError(error, xhr)
+    if (error?.message) networkError.message = error.message
+    return networkError
   }
 
   error.request = xhr
@@ -89,11 +91,25 @@ export default class OARepoUpload extends BasePlugin {
        * @param {string} _ the response body string
        * @param {XMLHttpRequest | respObj} response the response object (XHR or similar)
        */
-      getResponseError(_, response) {
-        let error = new Error('Upload error')
+      getResponseError(responseText, response) {
+        let error;
+        try {
+          const json = JSON.parse(responseText)
+          if ("message" in json) {
+            error = new Error(isString(json.message) ? json.message : JSON.stringify(json.message))
+          } 
+          // NOTE: Not displaying the server error message to the user
+          // else {
+          //   error = new Error(JSON.stringify(json))
+          // }
+        } catch (e) {
+          error = new Error((responseText && isString(responseText) && responseText !== "") ? responseText : 'Upload error')
+        }
 
         if (isNetworkError(response)) {
-          error = new NetworkError(error, response)
+          const networkError = new NetworkError(error, response)
+          if (error?.message) networkError.message = error.message
+          return networkError
         }
 
         return error
@@ -158,6 +174,33 @@ export default class OARepoUpload extends BasePlugin {
     return opts
   }
 
+  async #startFileUpload(file, opts, uploadId) {
+    return fetch(this.opts.endpoint, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify([{
+        key: file.name,
+      }]),
+    })
+      .then(async (response) => {
+        const responseText = await response.text()
+        const body = opts.getResponseData(responseText, response)
+        const uppyResponse = {
+          status: response.status,
+          body,
+        }
+        if (!opts.validateStatus(response.status)) {
+          const error = buildResponseError(response, opts.getResponseError(responseText, response))
+          this.uppy.emit('upload-error', file, error, uppyResponse)
+          throw error
+        }
+        file.response = uppyResponse
+        this.uppy.log(`[OARepoUpload] [UploadID: ${uploadId}] File ${file.name} upload started. Server response:\n${JSON.stringify(body, null, 2)}`);
+      })
+  }
+
   async #uploadFileMetadata(file, metadata, opts, uploadId) {
     return fetch(`${opts.endpoint}/${file.name}`, {
       method: "PUT",
@@ -178,15 +221,19 @@ export default class OARepoUpload extends BasePlugin {
       }),
     })
       .then(async (response) => {
-        if (!this.opts.validateStatus(response.status)) {
-          const error = buildResponseError(response, opts.getResponseError(await response.text(), response));
-          this.uppy.emit('upload-error', file, error);
-          throw error;
+        const responseText = await response.text()
+        const body = opts.getResponseData(responseText, response)
+        const uppyResponse = {
+          status: response.status,
+          body,
         }
-        return response.json();
-      })
-      .then((data) => {
-        this.uppy.log(`[OARepoUpload] ${uploadId} file metadata uploaded. Server response:\n${JSON.stringify(data, null, 2)}`);
+        if (!opts.validateStatus(response.status)) {
+          const error = buildResponseError(response, opts.getResponseError(responseText, response))
+          this.uppy.emit('upload-error', file, error, uppyResponse)
+          throw error
+        }
+        file.response = uppyResponse
+        this.uppy.log(`[OARepoUpload] [UploadID: ${uploadId}] File ${file.name} metadata uploaded. Server response:\n${JSON.stringify(body, null, 2)}`);
       })
   }
 
@@ -218,7 +265,7 @@ export default class OARepoUpload extends BasePlugin {
         if (uploadURL) {
           this.uppy.log(`Download ${file.name} from ${uploadURL}`)
         }
-        this.uppy.log(`[OARepoUpload] ${uploadId} file upload successful. Server response:\n${JSON.stringify(data, null, 2)}`);
+        this.uppy.log(`[OARepoUpload] [UploadID: ${uploadId}] File ${file.name} upload successful. Server response:\n${JSON.stringify(data, null, 2)}`);
       })
   }
 
@@ -226,132 +273,130 @@ export default class OARepoUpload extends BasePlugin {
     const opts = this.getOptions(file)
     const uploadId = nanoid()
 
-    const xhrContentPromise = new Promise((resolve, reject) => {
-      const data = file.data
+    try {
+      this.uppy.log(`Uploading ${current} of ${total}`)
 
-      const xhr = new XMLHttpRequest()
-      this.uploaderEvents[file.id] = new EventManager(this.uppy)
-      let queuedRequest
+      await this.#startFileUpload(file, opts, uploadId)
+      await this.#uploadFileMetadata(file, file.meta, opts, uploadId)
 
-      const timer = new ProgressTimeout(opts.timeout, () => {
-        const error = new Error(this.i18n('uploadStalled', { seconds: Math.ceil(opts.timeout / 1000) }))
-        this.uppy.emit('upload-stalled', error, [file])
-      })
+      await new Promise((resolve, reject) => {
+        const data = file.data
 
-      xhr.upload.addEventListener('loadstart', () => {
-        this.uppy.log(`[OARepoUpload] ${uploadId} content load started`)
-      })
+        const xhr = new XMLHttpRequest()
+        this.uploaderEvents[file.id] = new EventManager(this.uppy)
+        let queuedRequest
 
-      xhr.upload.addEventListener('progress', (ev) => {
-        this.uppy.log(`[OARepoUpload] ${uploadId} content load progress: ${ev.loaded} / ${ev.total}`)
-        // Begin checking for timeouts when progress starts, instead of loading,
-        // to avoid timing out requests on browser concurrency queue
-        timer.progress()
-
-        if (ev.lengthComputable) {
-          this.uppy.emit('upload-progress', file, {
-            uploader: this,
-            bytesUploaded: ev.loaded,
-            bytesTotal: ev.total,
-          })
-        }
-      })
-
-      xhr.addEventListener('load', () => {
-        this.uppy.log(`[OARepoUpload] ${uploadId} content load finished`)
-        timer.done()
-        queuedRequest.done()
-        if (this.uploaderEvents[file.id]) {
-          this.uploaderEvents[file.id].remove()
-          this.uploaderEvents[file.id] = null
-        }
-
-        if (opts.validateStatus(xhr.status, xhr.responseText, xhr)) {
-          return resolve(file)
-        }
-        const body = opts.getResponseData(xhr.responseText, xhr)
-        const error = buildResponseError(xhr, opts.getResponseError(xhr.responseText, xhr))
-
-        const response = {
-          status: xhr.status,
-          body,
-        }
-
-        this.uppy.emit('upload-error', file, error, response)
-
-        return reject(error)
-      })
-
-      xhr.addEventListener('error', () => {
-        this.uppy.log(`[OARepoUpload] ${uploadId} content load errored`)
-        timer.done()
-        queuedRequest.done()
-        if (this.uploaderEvents[file.id]) {
-          this.uploaderEvents[file.id].remove()
-          this.uploaderEvents[file.id] = null
-        }
-
-        const error = buildResponseError(xhr, opts.getResponseError(xhr.responseText, xhr))
-        this.uppy.emit('upload-error', file, error)
-        return reject(error)
-      })
-
-      const uppercasedMethod = opts.method?.toUpperCase()
-      xhr.open(uppercasedMethod ?? "PUT", `${opts.endpoint}/${file.name}/content`, true)
-      // IE10 does not allow setting `withCredentials` and `responseType`
-      // before `open()` is called.
-      xhr.withCredentials = opts.withCredentials
-      if (opts.responseType !== '') {
-        xhr.responseType = opts.responseType
-      }
-
-      queuedRequest = this.requests.run(() => {
-        // When using an authentication system like JWT, the bearer token goes as a header. This
-        // header needs to be fresh each time the token is refreshed so computing and setting the
-        // headers just before the upload starts enables this kind of authentication to work properly.
-        // Otherwise, half-way through the list of uploads the token could be stale and the upload would fail.
-        const currentOpts = this.getOptions(file)
-
-        Object.keys(currentOpts.headers).forEach((header) => {
-          xhr.setRequestHeader(header, currentOpts.headers[header])
+        const timer = new ProgressTimeout(opts.timeout, () => {
+          const error = new Error(this.i18n('uploadStalled', { seconds: Math.ceil(opts.timeout / 1000) }))
+          this.uppy.emit('upload-stalled', error, [file])
         })
 
-        xhr.send(data)
+        xhr.upload.addEventListener('loadstart', () => {
+          this.uppy.log(`[OARepoUpload] ${uploadId} content load started`)
+        })
 
-        return () => {
+        xhr.upload.addEventListener('progress', (ev) => {
+          this.uppy.log(`[OARepoUpload] ${uploadId} content load progress: ${ev.loaded} / ${ev.total}`)
+          // Begin checking for timeouts when progress starts, instead of loading,
+          // to avoid timing out requests on browser concurrency queue
+          timer.progress()
+
+          if (ev.lengthComputable) {
+            this.uppy.emit('upload-progress', file, {
+              uploader: this,
+              bytesUploaded: ev.loaded,
+              bytesTotal: ev.total,
+            })
+          }
+        })
+
+        xhr.addEventListener('load', () => {
+          this.uppy.log(`[OARepoUpload] ${uploadId} content load finished`)
           timer.done()
-          xhr.abort()
+          queuedRequest.done()
+          if (this.uploaderEvents[file.id]) {
+            this.uploaderEvents[file.id].remove()
+            this.uploaderEvents[file.id] = null
+          }
+
+          if (opts.validateStatus(xhr.status, xhr.responseText, xhr)) {
+            return resolve(file)
+          }
+          const body = opts.getResponseData(xhr.responseText, xhr)
+          const error = buildResponseError(xhr, opts.getResponseError(xhr.responseText, xhr))
+
+          const response = {
+            status: xhr.status,
+            body,
+          }
+
+          this.uppy.emit('upload-error', file, error, response)
+
+          return reject(error)
+        })
+
+        xhr.addEventListener('error', () => {
+          this.uppy.log(`[OARepoUpload] ${uploadId} content load errored`)
+          timer.done()
+          queuedRequest.done()
+          if (this.uploaderEvents[file.id]) {
+            this.uploaderEvents[file.id].remove()
+            this.uploaderEvents[file.id] = null
+          }
+
+          const error = buildResponseError(xhr, opts.getResponseError(xhr.responseText, xhr))
+          this.uppy.emit('upload-error', file, error)
+          return reject(error)
+        })
+
+        const uppercasedMethod = opts.method?.toUpperCase()
+        xhr.open(uppercasedMethod ?? "PUT", `${opts.endpoint}/${file.name}/content`, true)
+        // IE10 does not allow setting `withCredentials` and `responseType`
+        // before `open()` is called.
+        xhr.withCredentials = opts.withCredentials
+        if (opts.responseType !== '') {
+          xhr.responseType = opts.responseType
         }
-      })
 
-      this.onFileRemove(file.id, () => {
-        queuedRequest.abort()
-        reject(new Error('File removed'))
-      })
+        queuedRequest = this.requests.run(() => {
+          // When using an authentication system like JWT, the bearer token goes as a header. This
+          // header needs to be fresh each time the token is refreshed so computing and setting the
+          // headers just before the upload starts enables this kind of authentication to work properly.
+          // Otherwise, half-way through the list of uploads the token could be stale and the upload would fail.
+          const currentOpts = this.getOptions(file)
 
-      this.onCancelAll(file.id, ({ reason }) => {
-        if (reason === 'user') {
+          Object.keys(currentOpts.headers).forEach((header) => {
+            xhr.setRequestHeader(header, currentOpts.headers[header])
+          })
+
+          xhr.send(data)
+
+          return () => {
+            timer.done()
+            xhr.abort()
+          }
+        })
+
+        this.onFileRemove(file.id, () => {
           queuedRequest.abort()
-        }
-        reject(new Error('Upload cancelled'))
+          reject(new Error('File removed'))
+        })
+
+        this.onCancelAll(file.id, ({ reason }) => {
+          if (reason === 'user') {
+            queuedRequest.abort()
+          }
+          reject(new Error('Upload cancelled'))
+        })
       })
-    })
 
-    this.uppy.log(`uploading ${current} of ${total}`)
+      await this.#completeFileUpload(file, opts, uploadId)
 
-    const chainedRequests = async () => {
-      try {
-        await this.#uploadFileMetadata(file, file.meta, opts, uploadId)
-        await xhrContentPromise
-        await this.#completeFileUpload(file, opts, uploadId)
-        return file
-      } catch (error) {
-        return error;
-      }
+      // return file
+      return file
+    } catch (error) {
+      return error
     }
-
-    // return file
-    return chainedRequests()
   }
 
   async #deleteFile(file, opts) {
@@ -360,32 +405,11 @@ export default class OARepoUpload extends BasePlugin {
     })
       .then(async (response) => {
         if (!this.opts.validateStatus(response.status)) {
-          throw buildResponseError(response, opts.getResponseError(await response.text(), response))
+          const error = buildResponseError(response, opts.getResponseError(await response.text(), response))
+          this.uppy.emit('upload-error', file, error)
+          throw error
         }
         this.uppy.log(`[OARepoUpload] ${file.name} successfully deleted.`);
-      })
-  }
-
-  async #startFilesUpload(files) {
-    return fetch(this.opts.endpoint, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(
-        files.map((file) => ({
-          key: file.name,
-        }))
-      ),
-    })
-      .then(async (response) => {
-        if (!this.opts.validateStatus(response.status)) {
-          throw buildResponseError(response, this.opts.getResponseError(await response.text(), response))
-        }
-        return response.json();
-      })
-      .then((data) => {
-        this.uppy.log(data);
       })
   }
 
@@ -395,7 +419,6 @@ export default class OARepoUpload extends BasePlugin {
         this.#deleteFile(file, this.opts))
       )
     }
-    await this.#startFilesUpload(files)
     await Promise.allSettled(files.map((file, i) => {
       const current = parseInt(i, 10) + 1
       const total = files.length

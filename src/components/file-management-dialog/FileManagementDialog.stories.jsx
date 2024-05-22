@@ -10,6 +10,7 @@ import FileManagementDialog from "./FileManagementDialog";
 
 import appConfig from "./__fixtures__/data-storybook";
 import articlePdf from "./__fixtures__/article.pdf";
+import invalidPdf from "./__fixtures__/invalid.pdf";
 
 export default {
   title: "file-management-dialog/FileManagementDialog",
@@ -30,8 +31,8 @@ export default {
     modifyExistingFiles: false,
     locale: "en_US",
     startEvent: null,
-    onSuccessfulUpload: (...args) => {},
-    onFailedUpload: (...args) => {},
+    onSuccessfulUpload: (...args) => { },
+    onFailedUpload: (...args) => { },
     debug: true,
   },
 };
@@ -226,6 +227,37 @@ export const UploadValidPdfFromDevice = {
     await sleep(1000);
 
     await userEvent.click(canvas.getByRole("button", { name: /done/i }));
+  },
+};
+
+export const FailedUpload = {
+  args: {
+    ...NewFilesUploader.args,
+    onSuccessfulUpload: (files) => {
+      console.log("Successful uploads", files);
+    },
+    onFailedUpload: (files) => {
+      console.error("Failed uploads", files);
+    },
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(document.body);
+
+    await userEvent.click(canvas.getByRole("button", { name: /set images/i }));
+
+    await sleep(3000);
+
+    const fileInput = document.querySelector("input[type=file]");
+    const fileData = await fetch(invalidPdf).then((r) => r.blob());
+    const file = new File([fileData], "invalid.pdf", {
+      type: "application/pdf",
+    });
+    await userEvent.upload(fileInput, file);
+
+    const uploadButton = await canvas.findByLabelText(/Upload 1 file/i);
+    await userEvent.click(uploadButton);
+
+    await canvas.findByTitle(/upload failed/i);
   },
 };
 
