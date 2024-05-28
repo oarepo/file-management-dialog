@@ -27,8 +27,7 @@ const UppyDashboardDialog = ({
   extraUppyCoreSettings,
   startEvent,
   debug,
-  onSuccessfulUpload,
-  onFailedUpload,
+  onCompletedUpload,
 }) => {
   const extractImageWorker = useWorker();
   const uppy = useUppyContext();
@@ -165,8 +164,7 @@ const UppyDashboardDialog = ({
     });
 
     uppy.on('complete', (result) => {
-      result.successful && result.successful.length > 0 && onSuccessfulUpload(result.successful);
-      result.failed && result.failed.length > 0 && onFailedUpload(result.failed);
+      onCompletedUpload && typeof onCompletedUpload === "function" && onCompletedUpload(result);
     });
 
     if (startEvent?.event == "edit-file") {
@@ -467,8 +465,7 @@ UppyDashboardDialog.propTypes = {
   }),
   locale: PropTypes.oneOf["cs_CZ", "en_US"],
   extraUppyDashboardProps: PropTypes.object,
-  onSuccessfulUpload: PropTypes.func,
-  onFailedUpload: PropTypes.func,
+  onCompletedUpload: PropTypes.func,
   debug: PropTypes.bool,
 };
 

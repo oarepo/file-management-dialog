@@ -31,8 +31,7 @@ export default {
     modifyExistingFiles: false,
     locale: "en_US",
     startEvent: null,
-    onSuccessfulUpload: (...args) => { },
-    onFailedUpload: (...args) => { },
+    onCompletedUpload: (...args) => { },
     debug: true,
   },
 };
@@ -72,11 +71,8 @@ export const WithExtraUppyDashboardProps = {
 export const WithOnUploadCallbacksUploader = {
   args: {
     ...NewFilesUploader.args,
-    onSuccessfulUpload: (files) => {
-      console.log("Successful uploads", files);
-    },
-    onFailedUpload: (files) => {
-      console.log("Failed uploads", files);
+    onCompletedUpload: (result) => {
+      console.log("Upload result:", result);
     }
   },
 };
@@ -233,11 +229,8 @@ export const UploadValidPdfFromDevice = {
 export const FailedUpload = {
   args: {
     ...NewFilesUploader.args,
-    onSuccessfulUpload: (files) => {
-      console.log("Successful uploads", files);
-    },
-    onFailedUpload: (files) => {
-      console.error("Failed uploads", files);
+    onCompletedUpload: (result) => {
+      console.log("Upload result:", result);
     },
   },
   play: async ({ canvasElement }) => {
