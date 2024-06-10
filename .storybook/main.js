@@ -7,17 +7,15 @@ const config = {
     "@storybook/addon-essentials",
     "@storybook/addon-interactions",
     '@storybook/addon-storysource',
+    "@chromatic-com/storybook"
   ],
   framework: {
     name: "@storybook/preact-vite",
     options: {},
   },
-  docs: {
-    autodocs: "tag",
-  },
+  docs: {},
   core: {
-    builder: "@storybook/builder-vite",
-    disableTelemetry: true,
+    disableTelemetry: true
   },
   async viteFinal (config, options) {
     return config;
