@@ -3,8 +3,8 @@ import {
   userEvent,
   within,
   waitForElementToBeRemoved,
-} from "@storybook/testing-library";
-import { expect } from "@storybook/jest";
+} from "@storybook/test";
+import { expect } from "@storybook/test";
 
 import FileManagementDialog from "./FileManagementDialog";
 
@@ -31,7 +31,7 @@ export default {
     modifyExistingFiles: false,
     locale: "en_US",
     startEvent: null,
-    onCompletedUpload: (...args) => { },
+    onCompletedUpload: (...args) => {},
     debug: true,
   },
 };
@@ -73,7 +73,7 @@ export const WithOnUploadCallbacksUploader = {
     ...NewFilesUploader.args,
     onCompletedUpload: (result) => {
       console.log("Upload result:", result);
-    }
+    },
   },
 };
 
@@ -96,7 +96,7 @@ export const UploadFileWithoutEditEvent = {
     autoExtractImagesFromPDFs: false,
     startEvent: {
       event: "upload-file-without-edit",
-    }
+    },
   },
 };
 
@@ -113,7 +113,7 @@ export const UploadImagesFromPDFEvent = {
       data: {
         file_key: "article.pdf",
       },
-    }
+    },
   },
   play: async ({ canvasElement }) => {
     const canvas = within(document.body);
@@ -121,7 +121,11 @@ export const UploadImagesFromPDFEvent = {
     await userEvent.click(canvas.getByRole("button", { name: /set images/i }));
 
     // wait for the file to be processed
-    await canvas.findByText(/image extraction completed/i, {}, { timeout: 20000 });
+    await canvas.findByText(
+      /image extraction completed/i,
+      {},
+      { timeout: 20000 },
+    );
 
     const uploadButton = await canvas.findByLabelText(/Upload [0-9]+ files/i);
     await userEvent.click(uploadButton);
@@ -130,12 +134,12 @@ export const UploadImagesFromPDFEvent = {
     await waitFor(
       () => {
         expect(
-          canvas.getByRole("status", { name: /complete/i })
+          canvas.getByRole("status", { name: /complete/i }),
         ).toBeInTheDocument();
       },
-      { timeout: 20000 }
+      { timeout: 20000 },
     );
-  }
+  },
 };
 
 export const ExistingFileModifierEvent = {
@@ -146,7 +150,7 @@ export const ExistingFileModifierEvent = {
       data: {
         file_key: "figure.png",
       },
-    }
+    },
   },
   play: async ({ canvasElement }) => {
     const canvas = within(document.body);
@@ -155,10 +159,12 @@ export const ExistingFileModifierEvent = {
 
     await sleep(1000);
 
-    await userEvent.click(canvas.getByRole("button", { name: /save changes/i }));
+    await userEvent.click(
+      canvas.getByRole("button", { name: /save changes/i }),
+    );
 
     await canvas.findByRole("button", { name: /done/i });
-  }
+  },
 };
 
 export const UploadInvalidPdfFromDevice = {
@@ -180,7 +186,7 @@ export const UploadInvalidPdfFromDevice = {
 
     await waitFor(() => {
       expect(
-        canvas.getByText(/error extracting images from article.pdf/i)
+        canvas.getByText(/error extracting images from article.pdf/i),
       ).toBeInTheDocument();
     });
   },
@@ -205,7 +211,11 @@ export const UploadValidPdfFromDevice = {
     await userEvent.upload(fileInput, file);
 
     // wait for the file to be processed
-    await canvas.findByText(/image extraction completed/i, {}, { timeout: 20000 });
+    await canvas.findByText(
+      /image extraction completed/i,
+      {},
+      { timeout: 20000 },
+    );
 
     const uploadButton = await canvas.findByLabelText(/Upload [0-9]+ files/i);
     await userEvent.click(uploadButton);
@@ -214,10 +224,10 @@ export const UploadValidPdfFromDevice = {
     await waitFor(
       () => {
         expect(
-          canvas.getByRole("status", { name: /complete/i })
+          canvas.getByRole("status", { name: /complete/i }),
         ).toBeInTheDocument();
       },
-      { timeout: 20000 }
+      { timeout: 20000 },
     );
 
     await sleep(1000);
@@ -254,7 +264,7 @@ export const FailedUpload = {
   },
 };
 
-// NOTE: Current version does not support uploading files from OA Repo in Uppy Dashboard 
+// NOTE: Current version does not support uploading files from OA Repo in Uppy Dashboard
 // export const UploadFromOARepo = {
 //   args: {
 //     ...NewImageFilesUploader.args,
