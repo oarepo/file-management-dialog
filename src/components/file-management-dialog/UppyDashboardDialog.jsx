@@ -29,8 +29,9 @@ const UppyDashboardDialog = ({
   debug,
   onCompletedUpload,
 }) => {
-  const extractImageWorker = useWorker();
+  /** @type {import("@uppy/core").Uppy} */
   const uppy = useUppyContext();
+  const extractImageWorker = useWorker();
   const { record } = useAppContext().current;
 
   const isProcessing = useRef(false);
@@ -168,16 +169,15 @@ const UppyDashboardDialog = ({
     });
 
     if (startEvent?.event == "edit-file") {
-      uppy.on("dashboard:file-edit-complete", (file) => {
-        if (file) {
+      uppy.on("dashboard:file-edit-start", async (file) => {
+        const saveChangesButton = await waitForElement(".uppy-Dashboard-FileCard-actions > button[type=submit]");
+        const uploadCallback = () => {
           uppy.upload();
-        } else {
-          setModalOpen(false);
-        }
-      });
-      uppy.on("file-added", async (file) => {
-        const element = await waitForElement(".uppy-Dashboard-Item-action--edit");
-        element.click();
+        };
+        saveChangesButton.addEventListener("click", uploadCallback);
+        uppy.on("complete", (result) => {
+          saveChangesButton.removeEventListener("click", uploadCallback);
+        });
       });
     }
   }, [
@@ -398,6 +398,7 @@ const UppyDashboardDialog = ({
           uppy.cancelAll();
           setModalOpen(false);
         }}
+        autoOpen={startEvent?.event === "edit-file" ? "metaEditor" : null}
         showProgressDetails
         note={
           modifyExistingFiles
@@ -441,7 +442,7 @@ const UppyDashboardDialog = ({
           }
           return fields;
         }}
-        plugins={["ImageEditor", "OARepoFileSource"]}
+        plugins={["ImageEditor"]}
       />
     </>
   );
