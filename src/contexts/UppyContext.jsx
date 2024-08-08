@@ -14,7 +14,7 @@ export const UppyProvider = ({ children }) => {
         .use(ImageEditor, {
           quality: 1.0,
         })
-      // NOTE: Future development
+      // NOTE: Future development - Requires Preact as peer dependency
       // startEvent ?? uppy.use(OARepoFileSource, {
       //   fileSources: [],
       // });
