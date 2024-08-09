@@ -1,5 +1,5 @@
-import "preact/debug";
-import { render } from "preact";
+import React from "react";
+import ReactDOM from "react-dom";
 import App from "./App.jsx";
 import "@uppy/core/dist/style.min.css";
 import "@uppy/dashboard/dist/style.min.css";
@@ -10,4 +10,4 @@ const rootElement = document.getElementById("root");
 
 const { ...config } = JSON.parse(rootElement.dataset[autoInitDataAttr]);
 
-render(<App config={config} />, rootElement);
+ReactDOM.render(<App config={config} />, rootElement);

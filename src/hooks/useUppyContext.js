@@ -1,4 +1,4 @@
-import { useContext } from "preact/hooks";
+import { useContext } from "react";
 import { UppyContext } from "../contexts/UppyContext";
 
 const useUppyContext = () => {

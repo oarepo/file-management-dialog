@@ -1,6 +1,6 @@
 import { resolve } from "path";
 import { defineConfig } from "vite";
-import preact from "@preact/preset-vite";
+import react from "@vitejs/plugin-react";
 import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js'
 import { name } from "./package.json";
 
@@ -8,13 +8,9 @@ import { name } from "./package.json";
 export default defineConfig(({ command, mode }) => {
   return {
     plugins: [
-      preact(),
+      react(),
       cssInjectedByJsPlugin(),
     ],
-    esbuild: {
-      jsxFactory: "h",
-      jsxFragment: "Fragment",
-    },
     build: {
       target: "es2019",
       copyPublicDir: false, // public/mockServiceWorker.js is only for storybook
@@ -25,10 +21,11 @@ export default defineConfig(({ command, mode }) => {
         fileName: (format) => `file-manager.${format}.js`,
       },
       rollupOptions: {
-        external: ["preact"],
+        external: ["react", "react-dom"],
         output: {
           globals: {
-            preact: "preact"
+            react: "React",
+            "react-dom": "ReactDOM",
           },
         },
       },

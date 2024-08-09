@@ -1,4 +1,4 @@
-import { useContext } from "preact/hooks";
+import { useContext } from "react";
 import { AppContext } from "../contexts/AppContext";
 
 const useAppContext = () => {

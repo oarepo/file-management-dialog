@@ -2,7 +2,7 @@ import "@uppy/core/dist/style.min.css";
 import "@uppy/dashboard/dist/style.min.css";
 import "@uppy/image-editor/dist/style.min.css";
 
-import { useEffect, useRef, useCallback } from "preact/hooks";
+import { useEffect, useRef, useCallback } from "react";
 import { useUppyContext, useAppContext, useWorker } from "../../hooks";
 import czechLocale from "../../utils/locales/czechLocale";
 import englishLocale from "../../utils/locales/englishLocale";
@@ -464,7 +464,7 @@ UppyDashboardDialog.propTypes = {
     event: PropTypes.oneOf(["edit-file", "upload-file-without-edit", "upload-images-from-pdf"]).isRequired,
     data: PropTypes.object,
   }),
-  locale: PropTypes.oneOf["cs_CZ", "en_US"],
+  locale: PropTypes.oneOf(["cs_CZ", "en_US"]),
   extraUppyDashboardProps: PropTypes.object,
   onCompletedUpload: PropTypes.func,
   debug: PropTypes.bool,
