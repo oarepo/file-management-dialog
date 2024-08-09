@@ -464,7 +464,7 @@ UppyDashboardDialog.propTypes = {
     event: PropTypes.oneOf(["edit-file", "upload-file-without-edit", "upload-images-from-pdf"]).isRequired,
     data: PropTypes.object,
   }),
-  locale: PropTypes.oneOf["cs_CZ", "en_US"],
+  locale: PropTypes.oneOf(["cs_CZ", "en_US"]),
   extraUppyDashboardProps: PropTypes.object,
   onCompletedUpload: PropTypes.func,
   debug: PropTypes.bool,
