@@ -11,7 +11,7 @@ It uses [Uppy](https://uppy.io/) package to render uploader Dashboard, import fi
 
 ## Installation
 
-1. Create a new [React](https://react.dev/)/[Preact](https://preactjs.com/) app using [Vite](https://vitejs.dev/) or [Create React App](https://create-react-app.dev/).
+1. Create a new [React](https://react.dev/) app using [Vite](https://vitejs.dev/) or [Create React App](https://create-react-app.dev/).
 2. Install the package:
 
    ```bash
@@ -22,7 +22,7 @@ It uses [Uppy](https://uppy.io/) package to render uploader Dashboard, import fi
    yarn add @oarepo/file-manager
    ```
 
-3. Since this package uses Uppy, which includes Preact as its internal dependency, you have to install compatible version of Preact explicitly and, if using React in your existing project, you also need to [set up a Wrapper](https://swizec.com/blog/seamlessly-render-a-preact-component-in-a-react-project/) to seamlessly render Preact components inside a `div` container:
+3. Before version 1.1.0, the package included Preact as its internal peer dependency. To make it work, a compatible version of Preact (tested with v10.5.13) had to be installed explicitly and, if using React in the existing project as well, you also needed to [set up a Wrapper](https://swizec.com/blog/seamlessly-render-a-preact-component-in-a-react-project/) to seamlessly render Preact components inside a `div` container:
 
    Install Preact:
 
@@ -59,7 +59,9 @@ It uses [Uppy](https://uppy.io/) package to render uploader Dashboard, import fi
 
 ## Usage
 
-### Basic usage with Preact
+Splits between having React-only project or React project with Preact subtrees (for versions < 1.1.0).
+
+### Basic usage wtih React
 
 ```jsx
 import FileManagementDialog from '@oarepo/file-manager';
@@ -112,13 +114,14 @@ const MyComponent = () => {
 }
 ```
 
-### With Wrapper Component
+### With Wrapper Component (React+Preact)
 
-Used in React projects with Automatic JSX Runtime enabled (see [React docs](https://legacy.reactjs.org/blog/2020/09/22/introducing-the-new-jsx-transform.html)).
+Used in React projects (before v1.1.0) with Automatic JSX Runtime enabled (see [React docs](https://legacy.reactjs.org/blog/2020/09/22/introducing-the-new-jsx-transform.html)).
 
 ```jsx
 import ReactWrapper from "./ReactWrapper";
 import { h, render } from "preact";
+import FileManagementDialog from '@oarepo/file-manager';
 
 const MyReactComponent = () => {
   /* ... */
@@ -153,15 +156,15 @@ const MyReactComponent = () => {
 | --------------------------- | ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `config`                    | `object`           | _Required Prop_                                                                                                                                                                                            | Record data (details below).                                                                                                                                                                                                                     |
 | `modifyExistingFiles`       | `boolean`          | `false`                                                                                                                                                                                                    | Whether to allow modification of existing files (to modify existing metadata).                                                                                                                                                                   |
-| `allowedFileTypes`          | `string[]`         | `["image/jpg", "image/jpeg", "image/png", "image/tiff", "application/pdf"]`                                                                                                                                | Allowed file types (accepts _ wildcards, e.g. "image/_").                                                                                                                                                                                        |
+| `allowedFileTypes`          | `string[]`         | `["image/jpg", "image/jpeg", "image/png", "image/tiff", "application/pdf"]`                                                                                                                                | Allowed file types (accepts _ wildcards, e.g. "image/*").                                                                                                                                                                                        |
 | `allowedMetaFields`         | `Object[]`         | `[{id:"caption",defaultValue:"",isUserInput:true},{id:"featured",defaultValue:false,isUserInput:true},{id:"fileNote",defaultValue:"",isUserInput:true},{id:"fileType",defaultValue:"",isUserInput:false}]` | Array of allowed metadata field objects, containing: `{ id: "name of the field / metadata key", defaultValue: "default metadata value for key", isUserInput: "boolean specifying if the given field has to be input by the user" }`              |
 | `autoExtractImagesFromPDFs` | `boolean`          | `true`                                                                                                                                                                                                     | Whether to automatically extract images from selected PDFs.                                                                                                                                                                                      |
 | `locale`                    | `string`           | `"en_US"`                                                                                                                                                                                                  | The language locale used for translations. Currently only "en_US" and "cs_CZ" are supported.                                                                                                                                                     |
 | `extraUppyDashboardProps`   | `object`           | `{}`                                                                                                                                                                                                       | Extra props to pass to Uppy Dashboard. (see [Uppy API](https://uppy.io/docs/dashboard/#api))                                                                                                                                                     |
 | `extraUppyCoreSettings`     | `object`           | `{}`                                                                                                                                                                                                       | Extra settings to pass to Uppy Core init (see [Uppy API](https://uppy.io/docs/uppy/#new-uppyoptions))                                                                                                                                            |
-| `startEvent`                | `object`           | `{startEvent:{event:"edit-file",data:{file_key:"figure.png"}}}`                                                                                                                                            | Automatically start an predefined event: `["edit-file", "upload-file-without-edit", "upload-images-from-pdf"]`                                                                                                                                   |
+| `startEvent`                | `object`           | `{startEvent:{event:"edit-file",data:{file_key:"figure.png"}}}`                                                                                                                                            | Automatically start a predefined event: `["edit-file", "upload-file-without-edit", "upload-images-from-pdf"]`                                                                                                                                   |
 | `debug`                     | `boolean`          | `false`                                                                                                                                                                                                    | Whether to enable debug mode.                                                                                                                                                                                                                    |
-| `onSuccessfulUpload`        | `function`         | `(..args) => {}`                                                                                                                                                                                           | Called after Upload is completed. Called as `onCompletedUpload(result)` where `result` is [Uppy Result](https://uppy.io/docs/uppy/#upload) object of `successful` and `failed` [Uppy Files](https://uppy.io/docs/uppy/#working-with-uppy-files). |
+| `onCompletedUpload`        | `function`         | `(..args) => {}`                                                                                                                                                                                           | Called after Upload is completed. Called as `onCompletedUpload(result)` where `result` is [Uppy Result](https://uppy.io/docs/uppy/#upload) object of `successful` and `failed` [Uppy Files](https://uppy.io/docs/uppy/#working-with-uppy-files). |
 | `TriggerComponent`          | `Preact Component` | `({onClick,...props}) => {locale.startsWith("cs") ? "Vybrat Obrázky" : "Set Images" }`                                                                                                                     | Triggers FileManagement modal.                                                                                                                                                                                                                   |
 
 ### `config` object

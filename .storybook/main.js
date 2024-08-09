@@ -1,4 +1,4 @@
-/** @type { import('@storybook/preact-vite').StorybookConfig } */
+/** @type { import('@storybook/react-vite').StorybookConfig } */
 const config = {
   stories: ["../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
   staticDirs: ['../public'],
@@ -10,7 +10,7 @@ const config = {
     "@chromatic-com/storybook"
   ],
   framework: {
-    name: "@storybook/preact-vite",
+    name: "@storybook/react-vite",
     options: {},
   },
   docs: {},

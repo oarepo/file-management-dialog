@@ -1,5 +1,4 @@
-import { useMemo } from "preact/hooks";
-import { createContext } from "preact";
+import { useMemo, createContext } from "react";
 import Uppy from "@uppy/core";
 import ImageEditor from "@uppy/image-editor";
 import OARepoUpload from "../utils/uppy-plugins/oarepo-upload";

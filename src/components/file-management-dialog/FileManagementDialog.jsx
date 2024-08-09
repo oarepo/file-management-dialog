@@ -1,5 +1,5 @@
-import { useState } from "preact/hooks";
-import { Suspense, lazy, createPortal } from 'preact/compat';
+import { useState, Suspense, lazy } from "react";
+import { createPortal } from "react-dom";
 import { WorkerProvider } from "../../contexts/WorkerContext";
 import { UppyProvider } from "../../contexts/UppyContext";
 import { AppContextProvider } from "../../contexts/AppContext";
