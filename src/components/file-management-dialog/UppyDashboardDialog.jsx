@@ -6,7 +6,7 @@ import { useEffect, useRef, useCallback } from "react";
 import { useUppyContext, useAppContext, useWorker } from "../../hooks";
 import czechLocale from "../../utils/locales/czechLocale";
 import englishLocale from "../../utils/locales/englishLocale";
-import { waitForElement } from "../../utils/helpers";
+import { waitForElement, delay } from "../../utils/helpers";
 
 import { debugLogger } from "@uppy/core";
 import { DashboardModal } from "@uppy/react";
@@ -120,6 +120,7 @@ const UppyDashboardDialog = ({
       allowMultipleUploadBatches: startEvent?.event === "edit-file" ? false : true,
       restrictions: {
         allowedFileTypes: allowedFileTypes,
+        maxNumberOfFiles: startEvent?.event === "edit-file" ? 1 : null,
       },
       onBeforeUpload: (files) => {
         const updatedFiles = {};
@@ -171,7 +172,8 @@ const UppyDashboardDialog = ({
     if (startEvent?.event == "edit-file") {
       uppy.on("dashboard:file-edit-start", async (file) => {
         const saveChangesButton = await waitForElement(".uppy-Dashboard-FileCard-actions > button[type=submit]");
-        const uploadCallback = () => {
+        const uploadCallback = async () => {
+          await delay(100); // Wait for the Uppy file.meta state to update
           uppy.upload();
         };
         saveChangesButton.addEventListener("click", uploadCallback);
@@ -399,6 +401,7 @@ const UppyDashboardDialog = ({
           setModalOpen(false);
         }}
         autoOpen={startEvent?.event === "edit-file" ? "metaEditor" : null}
+        hideUploadButton={startEvent?.event === "edit-file" ? true : false}
         showProgressDetails
         note={
           modifyExistingFiles

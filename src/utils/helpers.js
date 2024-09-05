@@ -21,3 +21,7 @@ export function waitForElement(selector) {
 export function isString(value) {
   return typeof value === 'string' || value instanceof String;
 }
+
+export function delay(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
