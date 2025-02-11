@@ -174,6 +174,7 @@ const UppyDashboardDialog = ({
               return true;
             }
           : (file, files) => {
+              if (startEvent?.event == "edit-file") return true;
               const hasDuplicateInCurrentSession = Object.hasOwn(
                 files,
                 file.id
