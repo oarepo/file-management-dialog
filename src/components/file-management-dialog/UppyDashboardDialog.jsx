@@ -121,8 +121,6 @@ const UppyDashboardDialog = ({
             },
           },
       locale: customLocale,
-      // allowMultipleUploadBatches:
-      //   startEvent?.event === "edit-file" ? false : true,
       restrictions: {
         allowedFileTypes: allowedFileTypes,
         maxNumberOfFiles: startEvent?.event === "edit-file" ? 1 : null,
