@@ -121,8 +121,6 @@ const UppyDashboardDialog = ({
             },
           },
       locale: customLocale,
-      allowMultipleUploadBatches:
-        startEvent?.event === "edit-file" ? false : true,
       restrictions: {
         allowedFileTypes: allowedFileTypes,
         maxNumberOfFiles: startEvent?.event === "edit-file" ? 1 : null,
@@ -174,6 +172,7 @@ const UppyDashboardDialog = ({
               return true;
             }
           : (file, files) => {
+              if (startEvent?.event == "edit-file") return true;
               const hasDuplicateInCurrentSession = Object.hasOwn(
                 files,
                 file.id
