@@ -61,8 +61,7 @@ export const WithExtraUppyDashboardProps = {
     ...NewFilesUploader.args,
     extraUppyDashboardProps: {
       hideRetryButton: true,
-      closeAfterFinish: true,
-      theme: "dark", // TODO: fix styling for dark theme setting
+      theme: "dark"
     },
   },
 };
