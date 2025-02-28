@@ -12,7 +12,7 @@ export default defineConfig(({ command, mode }) => {
       cssInjectedByJsPlugin(),
     ],
     build: {
-      target: "es2019",
+      target: "es2020",
       copyPublicDir: false, // public/mockServiceWorker.js is only for storybook
       lib: {
         entry: resolve(__dirname, "src/index.js"),

@@ -2,9 +2,8 @@ import {
   waitFor,
   userEvent,
   within,
-  waitForElementToBeRemoved,
+  expect
 } from "@storybook/test";
-import { expect } from "@storybook/test";
 
 import FileManagementDialog from "./FileManagementDialog";
 
@@ -62,8 +61,7 @@ export const WithExtraUppyDashboardProps = {
     ...NewFilesUploader.args,
     extraUppyDashboardProps: {
       hideRetryButton: true,
-      closeAfterFinish: true,
-      // theme: "dark", -- TODO: fix styling for dark theme setting
+      theme: "dark"
     },
   },
 };
@@ -261,6 +259,92 @@ export const FailedUpload = {
     await userEvent.click(uploadButton);
 
     await canvas.findByTitle(/upload failed/i);
+  },
+};
+
+export const RetryFailedUpload = {
+  args: {
+    ...NewFilesUploader.args,
+    onCompletedUpload: (result) => {
+      console.log("Upload result:", result);
+    },
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(document.body);
+
+    await userEvent.click(canvas.getByRole("button", { name: /set images/i }));
+
+    await sleep(3000);
+
+    const fileInput = document.querySelector("input[type=file]");
+    const fileData = await fetch(invalidPdf).then((r) => r.blob());
+    const file = new File([fileData], "invalid.pdf", {
+      type: "application/pdf",
+    });
+    await userEvent.upload(fileInput, file);
+
+    const uploadButton = await canvas.findByLabelText(/Upload 1 file/i);
+    await userEvent.click(uploadButton);
+
+    await canvas.findByTitle(/upload failed/i);
+
+    const statusBarActionsElem = document.querySelector("div.uppy-StatusBar-actions")
+    const retryButton = await within(statusBarActionsElem).findByRole("button", { name: /retry upload/i })
+    await userEvent.click(retryButton);
+
+    await canvas.findByTitle(/upload failed/i);
+  },
+};
+
+export const RetryWithNewFileAfterFailedUpload = {
+  args: {
+    ...NewFilesUploader.args,
+    onCompletedUpload: (result) => {
+      console.log("Upload result:", result);
+    },
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(document.body);
+
+    await userEvent.click(canvas.getByRole("button", { name: /set images/i }));
+
+    await sleep(3000);
+
+    let fileInput = document.querySelector("input[type=file]");
+    let fileData = await fetch(invalidPdf).then((r) => r.blob());
+    let file = new File([fileData], "invalid.pdf", {
+      type: "application/pdf",
+    });
+    await userEvent.upload(fileInput, file);
+
+    let uploadButton = await canvas.findByLabelText(/Upload 1 file/i);
+    await userEvent.click(uploadButton);
+
+    await canvas.findByTitle(/upload failed/i);
+
+    const addMoreFilesButton = canvas.getByRole("button", { name: /add more files/i });
+    await userEvent.click(addMoreFilesButton);
+
+    await sleep(1000);
+
+    fileInput = document.querySelector("input[type=file]");
+    fileData = await fetch(articlePdf).then((r) => r.blob());
+    file = new File([fileData], "valid.pdf", {
+      type: "application/pdf",
+    });
+    await userEvent.upload(fileInput, file);
+
+    const removeFailedFileButton = canvas.getAllByRole("button", { name: /remove file/i })[0];
+    await userEvent.click(removeFailedFileButton);
+
+    const statusBarActionsElem = document.querySelector("div.uppy-StatusBar-actions")
+    const retryButton = await within(statusBarActionsElem).findByRole("button", { name: /retry upload/i })
+    await userEvent.click(retryButton);
+
+    uploadButton = await canvas.findByLabelText(/Upload 1 file/i);
+    await userEvent.click(uploadButton);
+
+    await canvas.findByRole("button", { name: /done/i });
   },
 };
 

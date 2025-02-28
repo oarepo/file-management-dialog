@@ -165,23 +165,23 @@ const handlers = [
     async ({ request, params }) => {
       const body = await request.json();
       // Invalid file name being a trigger for server error
-      // if (query.fileName.startsWith("invalid")) {
-      //   return res(
-      //     ctx.status(500),
-      //     ctx.json({
-      //       key: query.fileName,
-      //       updated: "2020-11-27 11:17:11.002624",
-      //       created: "2020-11-27 11:17:10.998919",
-      //       metadata: null,
-      //       status: "pending",
-      //       links: {
-      //         content: `/api/records/${query.id}/draft/files/invalid.sh/content`,
-      //         self: `/api/records/${query.id}/draft/files/invalid.sh`,
-      //         commit: `/api/records/${query.id}/draft/files/invalid.sh/commit`,
-      //       },
-      //     })
-      //   );
-      // }
+      // return HttpResponse.json(
+      //   {
+      //     key: params.fileName,
+      //     updated: "2020-11-27 11:17:11.002624",
+      //     created: "2020-11-27 11:17:10.998919",
+      //     metadata: null,
+      //     status: "pending",
+      //     links: {
+      //       content: `/api/records/${params.id}/draft/files/invalid.sh/content`,
+      //       self: `/api/records/${params.id}/draft/files/invalid.sh`,
+      //       commit: `/api/records/${params.id}/draft/files/invalid.sh/commit`,
+      //     }
+      //   },
+      //   {
+      //     status: 500
+      //   }
+      // );
 
       return HttpResponse.json({
         key: params.fileName,
