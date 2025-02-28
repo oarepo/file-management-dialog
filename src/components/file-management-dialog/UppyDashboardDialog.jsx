@@ -467,8 +467,6 @@ const UppyDashboardDialog = ({
             : manualI18n("Select files to upload.")
         }
         disableLocalFiles={modifyExistingFiles}
-        // TODO: Fix "Retry" button functionality
-        hideRetryButton
         showSelectedFiles={
           startEvent?.event === "upload-file-without-edit" ? false : true
         }
