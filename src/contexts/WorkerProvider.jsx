@@ -1,9 +1,18 @@
-import { useMemo } from "react";
-import ExtractImagesWorker from "../workers/extract-images-worker?worker&inline";
+import * as React from 'react';
 import { WorkerContext } from "./WorkerContext";
 
 export const WorkerProvider = ({ children }) => {
-  const worker = useMemo(() => ExtractImagesWorker(), []);
+  const [worker, setWorker] = React.useState();
+
+  React.useEffect(() => {
+    const installWorker = async () => {
+        const worker = await import("../workers/extract-images-worker?worker&inline").default;
+        setWorker(worker);
+    }
+
+    installWorker();
+  }, [])
+
   return (
     <WorkerContext.Provider value={worker}>{children}</WorkerContext.Provider>
   );
