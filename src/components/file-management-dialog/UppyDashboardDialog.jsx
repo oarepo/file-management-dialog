@@ -63,6 +63,7 @@ const UppyDashboardDialog = ({
   // }
   const handleUploadClick = useCallback(
     async (file) => {
+      if (!autoExtractImagesFromPDFs) { return; }
       if (window.Worker) {
         if (isProcessing.current) {
           uppy.info(uppy.i18n("Still processing previous file."), "info", 3000);
@@ -94,7 +95,7 @@ const UppyDashboardDialog = ({
         uppy.info(uppy.i18n("Web Worker is not supported"), "info", 5000);
       }
     },
-    [uppy, extractImageWorker, isProcessing]
+    [uppy, extractImageWorker, autoExtractImagesFromPDFs, isProcessing]
   );
 
   useEffect(() => {
@@ -389,6 +390,8 @@ const UppyDashboardDialog = ({
 
   useEffect(() => {
     // after PDFImageExtractor Extract Images button is clicked, register onmessage callback
+    if (!autoExtractImagesFromPDFs) { return; }
+  
     if (window.Worker) {
       extractImageWorker.onmessage = (event) => {
         if (event.data?.type === "done") {
@@ -438,7 +441,7 @@ const UppyDashboardDialog = ({
     } else {
       uppy.info(uppy.i18n("Web Worker is not supported"), "error", 5000);
     }
-  }, [extractImageWorker, uppy, debug]);
+  }, [extractImageWorker, autoExtractImagesFromPDFs, uppy, debug]);
 
   const manualI18n = (key) => {
     const localeStrings = locale?.startsWith("cs")

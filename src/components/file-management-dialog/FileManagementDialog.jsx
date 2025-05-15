@@ -1,6 +1,6 @@
 import { useState, Suspense, lazy } from "react";
 import { createPortal } from "react-dom";
-import { WorkerProvider } from "../../contexts/WorkerContext";
+import { WorkerProvider } from "../../contexts/WorkerProvider";
 import { UppyProvider } from "../../contexts/UppyContext";
 import { AppContextProvider } from "../../contexts/AppContext";
 import PropTypes from "prop-types";
@@ -36,37 +36,46 @@ const FileManagementDialog = ({
 }) => {
   const [modalOpen, setModalOpen] = useState(false);
 
+  // TODO: this is a hacky approach to make pdf extraction worker toggleable
+  // a bigger refactor is needed
+  const uppyModal = (
+    <Suspense
+      fallback={suspenseFallbackComponent}
+    >
+      {modalOpen && (
+        <UppyProvider>
+          {createPortal(
+            <UppyDashboardDialog
+              modalOpen={modalOpen}
+              setModalOpen={setModalOpen}
+              modifyExistingFiles={modifyExistingFiles}
+              allowedFileTypes={allowedFileTypes}
+              allowedMetaFields={allowedMetaFields}
+              autoExtractImagesFromPDFs={autoExtractImagesFromPDFs}
+              extraUppyCoreSettings={extraUppyCoreSettings}
+              startEvent={startEvent}
+              locale={locale}
+              extraUppyDashboardProps={extraUppyDashboardProps}
+              debug={debug}
+              onCompletedUpload={onCompletedUpload}
+            />,
+            document.body
+          )}
+        </UppyProvider>
+      )}
+    </Suspense>
+  );
+
   return (
     <>
       <TriggerComponent onClick={() => setModalOpen(!modalOpen)} />
       <AppContextProvider value={config}>
-        <WorkerProvider>
-          <Suspense
-            fallback={suspenseFallbackComponent}
-          >
-            {modalOpen && (
-              <UppyProvider>
-                {createPortal(
-                  <UppyDashboardDialog
-                    modalOpen={modalOpen}
-                    setModalOpen={setModalOpen}
-                    modifyExistingFiles={modifyExistingFiles}
-                    allowedFileTypes={allowedFileTypes}
-                    allowedMetaFields={allowedMetaFields}
-                    autoExtractImagesFromPDFs={autoExtractImagesFromPDFs}
-                    extraUppyCoreSettings={extraUppyCoreSettings}
-                    startEvent={startEvent}
-                    locale={locale}
-                    extraUppyDashboardProps={extraUppyDashboardProps}
-                    debug={debug}
-                    onCompletedUpload={onCompletedUpload}
-                  />,
-                  document.body
-                )}
-              </UppyProvider>
-            )}
-          </Suspense>
-        </WorkerProvider>
+        {autoExtractImagesFromPDFs && (
+          <WorkerProvider>
+            {uppyModal}
+          </WorkerProvider>
+        ) || <>{uppyModal}</>
+        }
       </AppContextProvider>
     </>
   );
