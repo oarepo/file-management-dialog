@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { useState, Suspense, lazy } from "react";
 import { createPortal } from "react-dom";
 import { WorkerProvider } from "../../contexts/WorkerProvider";
@@ -38,44 +39,39 @@ const FileManagementDialog = ({
 
   // TODO: this is a hacky approach to make pdf extraction worker toggleable
   // a bigger refactor is needed
-  const uppyModal = (
-    <Suspense
-      fallback={suspenseFallbackComponent}
-    >
-      {modalOpen && (
-        <UppyProvider>
-          {createPortal(
-            <UppyDashboardDialog
-              modalOpen={modalOpen}
-              setModalOpen={setModalOpen}
-              modifyExistingFiles={modifyExistingFiles}
-              allowedFileTypes={allowedFileTypes}
-              allowedMetaFields={allowedMetaFields}
-              autoExtractImagesFromPDFs={autoExtractImagesFromPDFs}
-              extraUppyCoreSettings={extraUppyCoreSettings}
-              startEvent={startEvent}
-              locale={locale}
-              extraUppyDashboardProps={extraUppyDashboardProps}
-              debug={debug}
-              onCompletedUpload={onCompletedUpload}
-            />,
-            document.body
-          )}
-        </UppyProvider>
-      )}
-    </Suspense>
-  );
+  const UppyWrapper = autoExtractImagesFromPDFs ? WorkerProvider : React.Fragment;
 
   return (
     <>
       <TriggerComponent onClick={() => setModalOpen(!modalOpen)} />
       <AppContextProvider value={config}>
-        {autoExtractImagesFromPDFs && (
-          <WorkerProvider>
-            {uppyModal}
-          </WorkerProvider>
-        ) || <>{uppyModal}</>
-        }
+        <UppyWrapper>
+          <Suspense
+            fallback={suspenseFallbackComponent}
+          >
+            {modalOpen && (
+              <UppyProvider>
+                {createPortal(
+                  <UppyDashboardDialog
+                    modalOpen={modalOpen}
+                    setModalOpen={setModalOpen}
+                    modifyExistingFiles={modifyExistingFiles}
+                    allowedFileTypes={allowedFileTypes}
+                    allowedMetaFields={allowedMetaFields}
+                    autoExtractImagesFromPDFs={autoExtractImagesFromPDFs}
+                    extraUppyCoreSettings={extraUppyCoreSettings}
+                    startEvent={startEvent}
+                    locale={locale}
+                    extraUppyDashboardProps={extraUppyDashboardProps}
+                    debug={debug}
+                    onCompletedUpload={onCompletedUpload}
+                  />,
+                  document.body
+                )}
+              </UppyProvider>
+            )}
+          </Suspense>
+        </UppyWrapper>
       </AppContextProvider>
     </>
   );
