@@ -63,7 +63,7 @@ const UppyDashboardDialog = ({
   // }
   const handleUploadClick = useCallback(
     async (file) => {
-      if (!autoExtractImagesFromPDFs) { return; }
+      if (!autoExtractImagesFromPDFs || !extractImageWorker) { return; }
       if (window.Worker) {
         if (isProcessing.current) {
           uppy.info(uppy.i18n("Still processing previous file."), "info", 3000);
@@ -390,7 +390,7 @@ const UppyDashboardDialog = ({
 
   useEffect(() => {
     // after PDFImageExtractor Extract Images button is clicked, register onmessage callback
-    if (!autoExtractImagesFromPDFs) { return; }
+    if (!autoExtractImagesFromPDFs || !extractImageWorker) { return; }
   
     if (window.Worker) {
       extractImageWorker.onmessage = (event) => {

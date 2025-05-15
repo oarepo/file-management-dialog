@@ -6,8 +6,8 @@ export const WorkerProvider = ({ children }) => {
 
   React.useEffect(() => {
     const installWorker = async () => {
-        const worker = await import("../workers/extract-images-worker?worker&inline").default;
-        setWorker(worker);
+        const worker = await import("../workers/extract-images-worker?worker&inline");
+        setWorker(worker.default);
     }
 
     installWorker();
