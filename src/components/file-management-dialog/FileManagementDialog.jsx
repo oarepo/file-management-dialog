@@ -1,6 +1,7 @@
+import * as React from 'react';
 import { useState, Suspense, lazy } from "react";
 import { createPortal } from "react-dom";
-import { WorkerProvider } from "../../contexts/WorkerContext";
+import { WorkerProvider } from "../../contexts/WorkerProvider";
 import { UppyProvider } from "../../contexts/UppyContext";
 import { AppContextProvider } from "../../contexts/AppContext";
 import PropTypes from "prop-types";
@@ -36,11 +37,15 @@ const FileManagementDialog = ({
 }) => {
   const [modalOpen, setModalOpen] = useState(false);
 
+  // TODO: this is a hacky approach to make pdf extraction worker toggleable
+  // a bigger refactor is needed
+  const UppyWrapper = autoExtractImagesFromPDFs ? WorkerProvider : React.Fragment;
+
   return (
     <>
       <TriggerComponent onClick={() => setModalOpen(!modalOpen)} />
       <AppContextProvider value={config}>
-        <WorkerProvider>
+        <UppyWrapper>
           <Suspense
             fallback={suspenseFallbackComponent}
           >
@@ -66,7 +71,7 @@ const FileManagementDialog = ({
               </UppyProvider>
             )}
           </Suspense>
-        </WorkerProvider>
+        </UppyWrapper>
       </AppContextProvider>
     </>
   );

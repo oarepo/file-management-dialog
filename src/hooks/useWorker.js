@@ -3,9 +3,12 @@ import { WorkerContext } from "../contexts/WorkerContext";
 
 const useWorker = () => {
   const worker = useContext(WorkerContext);
-  if (worker === null) {
-    throw new Error("useWorker must be used within a WorkerProvider");
-  }
+  // TODO: Extraction worker context shouldn't be there when
+  // autoExtract feature is disabled
+  //
+  // if (worker === null) {
+  //   throw new Error("useWorker must be used within a WorkerProvider");
+  // }
   return worker;
 };
 

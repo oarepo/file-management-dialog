@@ -1,5 +1,5 @@
 import UppyDashboardDialog from "./UppyDashboardDialog";
-import { WorkerProvider } from "../../contexts/WorkerContext";
+import { WorkerProvider } from "../../contexts/WorkerProvider";
 import { UppyProvider } from "../../contexts/UppyContext";
 import { AppContextProvider } from "../../contexts/AppContext";
 
