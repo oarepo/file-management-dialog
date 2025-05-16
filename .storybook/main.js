@@ -17,10 +17,11 @@ const config = {
   core: {
     disableTelemetry: true
   },
-  previewHead: (head) => `
-    ${head}
-    <meta   http-equiv=\"Content-Security-Policy\" content=\"default-src 'self'; style-src 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; img-src 'self' blob:; media-src 'self'; connect-src 'self'\" />
-  `,
+  // Uncomment this to test in production-like CSP environment
+  // previewHead: (head) => `
+  //   ${head}
+  //   <meta   http-equiv=\"Content-Security-Policy\" content=\"default-src 'self'; style-src 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; img-src 'self' blob:; media-src 'self'; connect-src 'self'\" />
+  // `,
   async viteFinal (config, options) {
     return config;
   },
